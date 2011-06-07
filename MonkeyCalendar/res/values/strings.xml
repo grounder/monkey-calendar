@@ -22,4 +22,7 @@
     <string name="LastUpdate">Last Update :</string>
     <string name="Title">Title</string>
     <string name="Description">Description</string>
+    
+    <!-- Memo string -->
+    <string name="MemoList">Memo List</string>
 </resources>

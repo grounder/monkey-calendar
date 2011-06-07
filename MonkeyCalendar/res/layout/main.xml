@@ -11,4 +11,8 @@
     <Button android:text="Appointment" android:id="@+id/buttonAppointment" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="mOnClick"></Button>
     <Button android:text="Memo" android:id="@+id/buttonMemo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="mOnClick"></Button>
     <Button android:text="Exit" android:id="@+id/buttonExit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="mOnClick"></Button>
+    <LinearLayout android:id="@+id/linearLayoutMemos" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        
+    </LinearLayout>
+    
 </LinearLayout>

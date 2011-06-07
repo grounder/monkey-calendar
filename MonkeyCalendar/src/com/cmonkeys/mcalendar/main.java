@@ -14,14 +14,21 @@ public class main extends Activity {
     }
     
     public void mOnClick(View v) {
+    	Intent intent;
     	switch (v.getId()) {
     	case R.id.buttonMemo:
-    		startActivity(new Intent(main.this, Memo.class));
+    		intent = new Intent(main.this, memolist.class);
+    		startActivity(intent);
     		break;
     	case R.id.buttonExit:
     		finish();
     		System.exit(0);
     		break;
     	}
+    }
+    
+    public void loadMemos()
+    {
+    	
     }
 }
