@@ -1,4 +1,6 @@
-package com.cmonkeys.mcalendar;
+package com.cmonkeys.mcalendar.view;
+
+import com.cmonkeys.mcalendar.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +18,10 @@ public class main extends Activity {
     public void mOnClick(View v) {
     	Intent intent;
     	switch (v.getId()) {
+    	case R.id.buttonMonth:
+    		intent = new Intent(main.this, month.class);
+    		startActivity(intent);
+    		break;
     	case R.id.buttonMemo:
     		intent = new Intent(main.this, memolist.class);
     		startActivity(intent);

@@ -1,4 +1,4 @@
-package com.cmonkeys.mcalendar;
+package com.cmonkeys.mcalendar.view;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,10 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmonkeys.db.Article;
+import com.cmonkeys.mcalendar.R;
 
 public class memolist extends Activity {
 	private int noMemo;

@@ -6,16 +6,17 @@
     <uses-sdk android:minSdkVersion="7" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".main"
-                  android:label="@string/app_name">
+        <activity android:label="@string/app_name" android:name=".view.main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 		
-		<activity android:name=".memolist"
-				  android:label="Memo list">
+		<activity android:label="Memo list" android:name=".view.memolist">
+		</activity>
+		
+		<activity android:label="Month" android:name=".view.month">
 		</activity>
     </application>
 </manifest>

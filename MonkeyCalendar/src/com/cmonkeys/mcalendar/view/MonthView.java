@@ -1,4 +1,6 @@
-package com.cmonkeys.mcalendar;
+package com.cmonkeys.mcalendar.view;
+
+import com.cmonkeys.mcalendar.R;
 
 import android.app.Activity;
 import android.os.Bundle;
