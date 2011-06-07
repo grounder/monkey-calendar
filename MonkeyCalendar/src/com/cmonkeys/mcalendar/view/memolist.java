@@ -39,8 +39,8 @@ public class memolist extends Activity {
     
     private void loadMemoList()
     {
-    	// TODO Implement memo loading
-    	// 메모 읽어오기
+    	// TODO Implement memo load
+    	// 메모 읽어오기(DB에서)
     	memos = new ArrayList<Article>();
     	Article art; 
     	    	   
@@ -76,65 +76,65 @@ public class memolist extends Activity {
     	
     	/**/
     	art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(5);
+    	art.setTitle("Memo6");
+    	art.setDescription("Memo6 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(6);
+    	art.setTitle("Memo7");
+    	art.setDescription("Memo7 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(7);
+    	art.setTitle("Memo8");
+    	art.setDescription("Memo8 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(8);
+    	art.setTitle("Memo9");
+    	art.setDescription("Memo9 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(9);
+    	art.setTitle("Memo10");
+    	art.setDescription("Memo10 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(10);
+    	art.setTitle("Memo11");
+    	art.setDescription("Memo11 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(11);
+    	art.setTitle("Memo12");
+    	art.setDescription("Memo12 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(12);
+    	art.setTitle("Memo13");
+    	art.setDescription("Memo13 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(13);
+    	art.setTitle("Memo14");
+    	art.setDescription("Memo14 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(14);
+    	art.setTitle("Memo15");
+    	art.setDescription("Memo15 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(15);
+    	art.setTitle("Memo16");
+    	art.setDescription("Memo16 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(16);
+    	art.setTitle("Memo17");
+    	art.setDescription("Memo17 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(17);
+    	art.setTitle("Memo18");
+    	art.setDescription("Memo18 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(18);
+    	art.setTitle("Memo19");
+    	art.setDescription("Memo19 - Details \n test \n test");
     	memos.add(art);art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
+    	art.setIndex(19);
+    	art.setTitle("Memo20");
+    	art.setDescription("Memo20 - Details \n test \n test");
     	memos.add(art);
     	
     	noMemo = memos.size();
