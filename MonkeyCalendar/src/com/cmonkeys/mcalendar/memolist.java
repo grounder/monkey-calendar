@@ -161,7 +161,6 @@ public class memolist extends Activity {
     	clearList();
 
     	for(final Article art : memos){
-    		
     		TextView tvMemoTitle = new TextView(this);
     		tvMemoTitle.setPadding(10, 10, 10, 10);
     		tvMemoTitle.setText(art.getTitle());
@@ -174,7 +173,7 @@ public class memolist extends Activity {
 					showSelectedMemo(art.getIndex());
 				}
     		});
-    		
+    		tvMemoTitle.setTextSize(20);
     		layout.addView(tvMemoTitle);
     	}
     }
