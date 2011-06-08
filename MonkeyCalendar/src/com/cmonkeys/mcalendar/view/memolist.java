@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -140,12 +141,17 @@ public class memolist extends Activity {
     	noMemo = memos.size();
     }
     
-    private void saveMemo(int index, String title, String description)
+    private final void saveMemo(int index, String title, String description)
     {
     	// TODO Save selected memo
     	memos.get(index).setTitle(title);
     	memos.get(index).setDescription(description);
     	memos.get(index).setLastUpdate(new Date());		// Set the last update to now
+    }
+    
+    private final void removeMemo(int index)
+    {
+    	memos.remove(index);
     }
     
     private void clearList()
@@ -154,7 +160,7 @@ public class memolist extends Activity {
     	layout.removeAllViewsInLayout();
     }
     
-    private void updateMemoList()
+    private final void updateMemoList()
     {
     	LinearLayout layout = (LinearLayout)findViewById(R.id.layoutMemoList);
     	
@@ -194,8 +200,7 @@ public class memolist extends Activity {
     	bld.setNegativeButton("Close", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				// Nothing to do
+    			// Close
 			}});
     	bld.show();
     }
@@ -203,20 +208,29 @@ public class memolist extends Activity {
     private void showSelectedMemoEditor(int index)
     {
     	AlertDialog.Builder bld = new AlertDialog.Builder(memolist.this);
-
-    	bld.setTitle(memos.get(index).getTitle());
-    	bld.setMessage(memos.get(index).getDescription() + "\n\nLastUpdate :\n" + memos.get(index).getLastUpdate().toString());
-    	bld.setPositiveButton("Edit", new DialogInterface.OnClickListener(){ 
+    	final LinearLayout editLayout = (LinearLayout)View.inflate(memolist.this, R.layout.memoedit, null);
+    	final EditText editTextTitle = (EditText)editLayout.findViewById(R.id.editTextMemoEditTitle);
+    	final EditText editTextDescription = (EditText)editLayout.findViewById(R.id.editTextMemoEditDescription);
+    	final int currentIndex = index;
+    	
+    	bld.setTitle("Edit");
+    	editTextTitle.setText(memos.get(index).getTitle());
+    	editTextDescription.setText(memos.get(index).getDescription());
+    	bld.setView(editLayout);    	
+    	
+    	bld.setPositiveButton("Remove", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Show memo editor
-				// Nothing to do
+				// TODO Remove this memo
+    			removeMemo(currentIndex);
+    			updateMemoList();
 			}});
     	bld.setNegativeButton("Close", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				// Nothing to do
+				// TODO Save this memo
+				saveMemo(currentIndex, editTextTitle.getText().toString(), editTextDescription.getText().toString());
+				updateMemoList();
 			}});
     	bld.show();
     }
