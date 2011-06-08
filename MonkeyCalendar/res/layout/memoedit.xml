@@ -27,5 +27,5 @@
     	android:layout_width="fill_parent"
     	android:layout_height="150px"
     	android:textSize="20px"
-    	android:text="" android:singleLine="false" android:scrollHorizontally="true"></EditText>
+    	android:text="" android:singleLine="false" android:scrollHorizontally="true" android:isScrollContainer="true"></EditText>
 </LinearLayout>
