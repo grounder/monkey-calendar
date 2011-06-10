@@ -1,11 +1,15 @@
 package com.cmonkeys.mcalendar.view;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,11 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cmonkeys.db.Article;
+import com.cmonkeys.db.MemoDBHelper;
 import com.cmonkeys.mcalendar.R;
 
 public class memolist extends Activity {
 	private int noMemo;
-	ArrayList<Article> memos;
+	ArrayList<Article> m_arrayOfMemos;
+	MemoDBHelper m_memoHelper;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -26,6 +32,8 @@ public class memolist extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.memolist);
 
+        m_memoHelper = new MemoDBHelper(this);
+        
         loadMemoList();
         updateMemoList();
     }
@@ -35,123 +43,58 @@ public class memolist extends Activity {
     	case R.id.buttonExitMemoList:
     		finish();
     		break;
+    	case R.id.buttonNewMemo:
+    		showNewMemoEditor();
+    		break;
     	}
+    }
+    
+    private int getNoMemos()
+    {
+    	return noMemo;
     }
     
     private void loadMemoList()
     {
     	// TODO Implement memo load
     	// 메모 읽어오기(DB에서)
-    	memos = new ArrayList<Article>();
-    	Article art; 
-    	    	   
-    	art = new Article();
-    	art.setIndex(0);
-    	art.setTitle("Memo1");
-    	art.setDescription("Memo1 - Details \n test \n test");
-    	memos.add(art);
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Cursor cursor = m_memoHelper.getCursor();
     	
-    	art = new Article();
-    	art.setIndex(1);
-    	art.setTitle("Memo2");
-    	art.setDescription("Memo2 - Details \n test \n test");
-    	memos.add(art);
-    	    	
-    	art = new Article();
-    	art.setIndex(2);
-    	art.setTitle("Memo3");
-    	art.setDescription("Memo3 - Details \n test \n test");
-    	memos.add(art);
-    	    	
-    	art = new Article();
-    	art.setIndex(3);
-    	art.setTitle("Memo4");
-    	art.setDescription("Memo4 - Details \n test \n test");
-    	memos.add(art);
-    	    	
-    	art = new Article();
-    	art.setIndex(4);
-    	art.setTitle("Memo5");
-    	art.setDescription("Memo5 - Details \n test \n test");
-    	memos.add(art);
+    	m_arrayOfMemos = new ArrayList<Article>();
     	
-    	/**/
-    	art = new Article();
-    	art.setIndex(5);
-    	art.setTitle("Memo6");
-    	art.setDescription("Memo6 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(6);
-    	art.setTitle("Memo7");
-    	art.setDescription("Memo7 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(7);
-    	art.setTitle("Memo8");
-    	art.setDescription("Memo8 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(8);
-    	art.setTitle("Memo9");
-    	art.setDescription("Memo9 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(9);
-    	art.setTitle("Memo10");
-    	art.setDescription("Memo10 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(10);
-    	art.setTitle("Memo11");
-    	art.setDescription("Memo11 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(11);
-    	art.setTitle("Memo12");
-    	art.setDescription("Memo12 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(12);
-    	art.setTitle("Memo13");
-    	art.setDescription("Memo13 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(13);
-    	art.setTitle("Memo14");
-    	art.setDescription("Memo14 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(14);
-    	art.setTitle("Memo15");
-    	art.setDescription("Memo15 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(15);
-    	art.setTitle("Memo16");
-    	art.setDescription("Memo16 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(16);
-    	art.setTitle("Memo17");
-    	art.setDescription("Memo17 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(17);
-    	art.setTitle("Memo18");
-    	art.setDescription("Memo18 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(18);
-    	art.setTitle("Memo19");
-    	art.setDescription("Memo19 - Details \n test \n test");
-    	memos.add(art);art = new Article();
-    	art.setIndex(19);
-    	art.setTitle("Memo20");
-    	art.setDescription("Memo20 - Details \n test \n test");
-    	memos.add(art);
-    	
-    	noMemo = memos.size();
+    	while(cursor.moveToNext())
+    	{
+    		Article art = null;
+    		int index = cursor.getInt(0);
+    		String title = cursor.getString(1);
+    		String description = cursor.getString(2);
+    		String lastUpdate = cursor.getString(3);
+    		try{   		
+    			art = new Article(index, title, description, dateFormat.parse(lastUpdate), m_arrayOfMemos.size());
+    		}
+    		catch(Exception ex)
+    		{
+    			continue;
+    		}
+    		m_arrayOfMemos.add(art);
+    	}
+
+    	m_memoHelper.close();
+    	noMemo = m_arrayOfMemos.size();
     }
     
-    private final void saveMemo(int index, String title, String description)
+    private final void updateMemo(int index, String title, String description)
     {
     	// TODO Save selected memo
-    	memos.get(index).setTitle(title);
-    	memos.get(index).setDescription(description);
-    	memos.get(index).setLastUpdate(new Date());		// Set the last update to now
+    	m_arrayOfMemos.get(index).setTitle(title);
+    	m_arrayOfMemos.get(index).setDescription(description);
+    	m_arrayOfMemos.get(index).setLastUpdate(new Date());		// Set the last update to now
     }
     
     private final void removeMemo(int index)
     {
-    	memos.remove(index);
+    	m_arrayOfMemos.remove(index);
     }
     
     private void clearList()
@@ -165,8 +108,9 @@ public class memolist extends Activity {
     	LinearLayout layout = (LinearLayout)findViewById(R.id.layoutMemoList);
     	
     	clearList();
+    	loadMemoList();    	
 
-    	for(final Article art : memos){
+    	for(final Article art : m_arrayOfMemos){
     		TextView tvMemoTitle = new TextView(this);
     		tvMemoTitle.setPadding(10, 10, 10, 10);
     		tvMemoTitle.setText(art.getTitle());
@@ -175,8 +119,7 @@ public class memolist extends Activity {
     		tvMemoTitle.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					showSelectedMemo(art.getIndex());
+					showSelectedMemo(art.getIndexAtCurrent());
 				}
     		});
     		tvMemoTitle.setTextSize(20);
@@ -188,9 +131,9 @@ public class memolist extends Activity {
     {
     	AlertDialog.Builder bld = new AlertDialog.Builder(memolist.this);
     	final int curIndex = index;
-
-    	bld.setTitle(memos.get(index).getTitle());
-    	bld.setMessage(memos.get(index).getDescription() + "\n\nLastUpdate :\n" + memos.get(index).getLastUpdate().toString());
+		
+    	bld.setTitle(m_arrayOfMemos.get(index).getTitle());
+    	bld.setMessage(m_arrayOfMemos.get(index).getDescription() + "\n\nLastUpdate :\n" + m_arrayOfMemos.get(index).getLastUpdate().toString());
     	bld.setPositiveButton("Edit", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -212,25 +155,54 @@ public class memolist extends Activity {
     	final EditText editTextTitle = (EditText)editLayout.findViewById(R.id.editTextMemoEditTitle);
     	final EditText editTextDescription = (EditText)editLayout.findViewById(R.id.editTextMemoEditDescription);
     	final int currentIndex = index;
+    	final Article currentArticle = m_arrayOfMemos.get(currentIndex);
     	
     	bld.setTitle("Edit");
-    	editTextTitle.setText(memos.get(index).getTitle());
-    	editTextDescription.setText(memos.get(index).getDescription());
+    	editTextTitle.setText(m_arrayOfMemos.get(index).getTitle());
+    	editTextDescription.setText(m_arrayOfMemos.get(index).getDescription());
     	bld.setView(editLayout);    	
     	
     	bld.setPositiveButton("Remove", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Remove this memo
-    			removeMemo(currentIndex);
+    			m_memoHelper.deleteMemo(currentArticle.getIndex());
     			updateMemoList();
 			}});
     	bld.setNegativeButton("Close", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Save this memo
-				saveMemo(currentIndex, editTextTitle.getText().toString(), editTextDescription.getText().toString());
+				// TODO Save this memo to DB
+    			if( (currentArticle.getTitle() != editTextTitle.getText().toString()) ||
+    				 (currentArticle.getDescription()) != editTextDescription.getText().toString())
+    					updateMemo(currentArticle.getIndex(), editTextTitle.getText().toString(), editTextDescription.getText().toString());
 				updateMemoList();
+			}});
+    	bld.show();
+    }
+    
+    private void showNewMemoEditor()
+    {
+    	AlertDialog.Builder bld = new AlertDialog.Builder(memolist.this);
+    	final LinearLayout editLayout = (LinearLayout)View.inflate(memolist.this, R.layout.memoedit, null);
+    	final EditText editTextTitle = (EditText)editLayout.findViewById(R.id.editTextMemoEditTitle);
+    	final EditText editTextDescription = (EditText)editLayout.findViewById(R.id.editTextMemoEditDescription);
+    	
+    	bld.setTitle("New");
+    	editTextTitle.setText("");
+    	editTextDescription.setText("");
+    	bld.setView(editLayout);    	
+    	
+    	bld.setPositiveButton("Save", new DialogInterface.OnClickListener(){ 
+    		@Override
+			public void onClick(DialogInterface dialog, int which) {
+    			m_memoHelper.insertMemo(editTextTitle.getText().toString(), editTextDescription.getText().toString());
+    			updateMemoList();
+			}});
+    	bld.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){ 
+    		@Override
+			public void onClick(DialogInterface dialog, int which) {
+    			// do noting
 			}});
     	bld.show();
     }

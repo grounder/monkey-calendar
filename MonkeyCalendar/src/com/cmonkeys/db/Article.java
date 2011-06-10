@@ -5,6 +5,7 @@ import java.util.Date;
 public class Article {
 	// data
 	private int index;
+	private int m_indexAtCurrent;
 	private String title;
 	private String description;
 	private Date lastUpdate;
@@ -17,12 +18,13 @@ public class Article {
 		setLastUpdate(new Date());
 	}
 	
-	public Article(int newIndex, String newTitle, String newDescription, Date lastUpdate)
+	public Article(int newIndex, String newTitle, String newDescription, Date lastUpdate, int currentIndex)
 	{
 		setIndex(newIndex);
 		setTitle(newTitle);
 		setDescription(newDescription);
 		setLastUpdate(lastUpdate);
+		setIndexAtCurrent(currentIndex);
 	}
 	
 	// method
@@ -54,6 +56,14 @@ public class Article {
 
 	public int getIndex() {
 		return index;
+	}
+
+	public void setIndexAtCurrent(int m_indexAtCurrent) {
+		this.m_indexAtCurrent = m_indexAtCurrent;
+	}
+
+	public int getIndexAtCurrent() {
+		return m_indexAtCurrent;
 	}
 	
 	
