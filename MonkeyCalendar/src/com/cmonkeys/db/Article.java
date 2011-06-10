@@ -17,6 +17,14 @@ public class Article {
 		setLastUpdate(new Date());
 	}
 	
+	public Article(int newIndex, String newTitle, String newDescription, Date lastUpdate)
+	{
+		setIndex(newIndex);
+		setTitle(newTitle);
+		setDescription(newDescription);
+		setLastUpdate(lastUpdate);
+	}
+	
 	// method
 	public void setTitle(String title) {
 		this.title = title;
