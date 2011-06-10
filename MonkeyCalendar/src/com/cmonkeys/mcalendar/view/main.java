@@ -1,6 +1,7 @@
 package com.cmonkeys.mcalendar.view;
 
 import com.cmonkeys.mcalendar.R;
+import com.cmonkeys.mcalendar.view.mkCalendarType1;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,7 +20,7 @@ public class main extends Activity {
     	Intent intent;
     	switch (v.getId()) {
     	case R.id.buttonMonth:
-    		intent = new Intent(main.this, month.class);
+    		intent = new Intent(main.this, mkCalendarType1.class);
     		startActivity(intent);
     		break;
     	case R.id.buttonMemo:
