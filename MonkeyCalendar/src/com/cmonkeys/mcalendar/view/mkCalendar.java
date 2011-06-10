@@ -198,8 +198,7 @@ public class mkCalendar extends Activity
 		initCalendar( ) ;
 		
 	}
-	
-	
+		
 	//////////////////// 선택한 날짜칸에 변화를 주는 함수 //////////////////////////
 	/// 이녀석이 불러졌을때 상태는 날짜가 오늘로 선택되어있거나 뭔가 선택했을 것임
 	/// 그럼으로 m_cellLy[ 날짜 + m_startPos ].setTextColor( ) ;
