@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MemoDBHelper extends SQLiteOpenHelper {
 
-	static final String m_nameOfDB = "memo";
+	static final String m_nameOfTable = "memo";
 	static final String m_nameOfIndex = "_id";
 	static final String m_nameOfTitle = "title";
 	static final String m_nameOfDescription = "description";
@@ -26,16 +26,21 @@ public class MemoDBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE " + m_nameOfDB + "(" + m_nameOfIndex + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+		db.execSQL("CREATE TABLE " + m_nameOfTable + "(" + m_nameOfIndex + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ m_nameOfTitle + " TEXT, description TEXT, " + m_nameOfLastUpdate + " TEXT);");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + m_nameOfDB);
+		db.execSQL("DROP TABLE IF EXISTS " + m_nameOfTable);
 		onCreate(db);
 	}
 
+	public void insertMemo(Article art)
+	{
+		insertMemo(art.getTitle(), art.getDescription());
+	}
+	
 	public void insertMemo(String title, String description)
     {
     	// set the format to sql date time 
@@ -45,12 +50,13 @@ public class MemoDBHelper extends SQLiteOpenHelper {
     	Date now = new Date();
     	
     	db = getWritableDatabase();
+    	
     	row = new ContentValues();
     	row.put(m_nameOfTitle, title);
     	row.put(m_nameOfDescription, description);
     	row.put(m_nameOfLastUpdate, dateFormat.format(now));
     		     
-    	db.insert("memo", null, row);
+    	db.insert(m_nameOfTable, null, row);
     	
     	close();
     }
@@ -59,7 +65,7 @@ public class MemoDBHelper extends SQLiteOpenHelper {
 	{
 		SQLiteDatabase db;
 		db = getWritableDatabase();
-		db.delete(m_nameOfDB, m_nameOfIndex + "=" + index, null);
+		db.delete(m_nameOfTable, m_nameOfIndex + "=" + index, null);
 		close();
 	}
 	
@@ -73,7 +79,7 @@ public class MemoDBHelper extends SQLiteOpenHelper {
 		args.put(m_nameOfDescription, description);
 		
 		db = getWritableDatabase();
-		db.update(m_nameOfDB, args, m_nameOfIndex + "=" + index, null);
+		db.update(m_nameOfTable, args, m_nameOfIndex + "=" + index, null);
  
 		close();
 	}
@@ -84,7 +90,7 @@ public class MemoDBHelper extends SQLiteOpenHelper {
     	Cursor cursor = null;
 
     	db = getReadableDatabase();
-    		cursor = db.query(m_nameOfDB, 
+    		cursor = db.query(m_nameOfTable, 
     			new String[] {m_nameOfIndex, m_nameOfTitle, m_nameOfDescription, m_nameOfLastUpdate}, 
     			null, null, null, null, null);
     	    	
