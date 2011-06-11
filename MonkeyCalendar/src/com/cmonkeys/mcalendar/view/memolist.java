@@ -38,7 +38,7 @@ public class memolist extends Activity {
         updateMemoList();
     }
     
-    public void mOnClick(View v) {
+    public void onClick(View v) {
     	switch (v.getId()) {
     	case R.id.buttonExitMemoList:
     		finish();

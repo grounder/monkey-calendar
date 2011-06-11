@@ -23,8 +23,20 @@ public class main extends Activity {
     		intent = new Intent(main.this, mkCalendarType1.class);
     		startActivity(intent);
     		break;
+    	case R.id.buttonAppointment:
+    		intent = new Intent(main.this, appointmenttest.class);
+    		startActivity(intent);
+    		break;
+    	case R.id.buttonDay:
+    		intent = new Intent(main.this, daystest.class);
+    		startActivity(intent);
+    		break;
     	case R.id.buttonMemo:
     		intent = new Intent(main.this, memolist.class);
+    		startActivity(intent);
+    		break;
+    	case R.id.buttonFun:
+    		intent = new Intent(main.this, fun.class);
     		startActivity(intent);
     		break;
     	case R.id.buttonExit:
