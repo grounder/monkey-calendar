@@ -10,6 +10,7 @@
 		android:layout_height="fill_parent"
 		android:layout_weight="1"
 		>
+		
 		<LinearLayout
 		  android:id="@+id/layoutMemoList"
 		  android:layout_width="fill_parent"
@@ -28,7 +29,7 @@
 	  	android:id="@+id/buttonNewMemo"  
 		android:layout_width="fill_parent" 
 		android:layout_height="fill_parent" 
-		android:onClick="mOnClick"
+		android:onClick="onClick"
 		android:text="New"
 		android:layout_weight="1"
 	  	/>
@@ -36,7 +37,7 @@
 	  	android:id="@+id/buttonExitMemoList"  
 		android:layout_width="fill_parent" 
 		android:layout_height="fill_parent" 
-		android:onClick="mOnClick"
+		android:onClick="onClick"
 		android:text="Main"
 		android:layout_weight="1"
 	  	/>

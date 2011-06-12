@@ -84,14 +84,6 @@ public class memolist extends Activity {
     	noMemo = m_arrayOfMemos.size();
     }
     
-    private final void updateMemo(int index, String title, String description)
-    {
-    	// TODO Save selected memo
-    	m_arrayOfMemos.get(index).setTitle(title);
-    	m_arrayOfMemos.get(index).setDescription(description);
-    	m_arrayOfMemos.get(index).setLastUpdate(new Date());		// Set the last update to now
-    }
-    
     private final void removeMemo(int index)
     {
     	m_arrayOfMemos.remove(index);
@@ -173,9 +165,14 @@ public class memolist extends Activity {
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Save this memo to DB
-    			if( (currentArticle.getTitle() != editTextTitle.getText().toString()) ||
-    				 (currentArticle.getDescription()) != editTextDescription.getText().toString())
-    					updateMemo(currentArticle.getIndex(), editTextTitle.getText().toString(), editTextDescription.getText().toString());
+    			int indexToUpdate = currentArticle.getIndex();
+    			String oldTitle = currentArticle.getTitle();
+    			String oldDescription = currentArticle.getDescription();
+    			String newTitle = editTextTitle.getText().toString();
+    			String newDescription = editTextDescription.getText().toString();    			
+    			
+    			if( oldTitle.compareTo(newTitle) == 0 || oldDescription.compareTo(newDescription) == 0 )
+    				m_memoHelper.updateMemo(indexToUpdate, newTitle, newDescription);
 				updateMemoList();
 			}});
     	bld.show();
