@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+	>
+	<ScrollView 
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		>
+		<LinearLayout
+		  android:id="@+id/layoutMemoList"
+		  android:layout_width="fill_parent"
+		  android:layout_height="fill_parent"
+		  android:isScrollContainer="true" 
+		  android:orientation="vertical">
+		</LinearLayout>
+	</ScrollView>
+	<LinearLayout 
+		android:layout_width="fill_parent" 
+		android:layout_height="80px"
+		android:layout_weight="0"
+		android:orientation="horizontal"
+		>
+		<Button
+	  	android:id="@+id/buttonNewMemo"  
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent" 
+		android:onClick="mOnClick"
+		android:text="New"
+		android:layout_weight="1"
+	  	/>
+	  	<Button
+	  	android:id="@+id/buttonExitMemoList"  
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent" 
+		android:onClick="mOnClick"
+		android:text="Main"
+		android:layout_weight="1"
+	  	/>
+	</LinearLayout>
+</LinearLayout>
