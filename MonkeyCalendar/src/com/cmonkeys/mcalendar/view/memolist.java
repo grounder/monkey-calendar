@@ -56,8 +56,6 @@ public class memolist extends Activity {
     
     private void loadMemoList()
     {
-    	// TODO Implement memo load
-    	// 메모 읽어오기(DB에서)
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	Cursor cursor = m_memoHelper.getCursor();
     	

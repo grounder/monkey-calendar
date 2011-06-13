@@ -23,6 +23,8 @@
     <string name="Title">Title</string>
     <string name="Description">Description</string>
     
+    <string name="Add_memo">Add memo</string>
+    
     <!-- Memo string -->
     <string name="MemoList">Memo List</string>
 </resources>
