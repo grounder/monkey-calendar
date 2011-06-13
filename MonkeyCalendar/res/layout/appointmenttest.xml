@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_height="fill_parent" android:orientation="vertical">
+    <Button android:text="Add Appointment" android:id="@+id/button1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="top"></Button>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Delete Appointment" android:id="@+id/button2"></Button>
+    <Button android:text="Change Appointment" android:id="@+id/button3" android:layout_height="wrap_content" android:layout_width="wrap_content"></Button>
+    <Button android:layout_height="wrap_content" android:text="Main" android:id="@+id/button4" android:layout_gravity="top" android:layout_width="wrap_content"></Button>
     
 </LinearLayout>
