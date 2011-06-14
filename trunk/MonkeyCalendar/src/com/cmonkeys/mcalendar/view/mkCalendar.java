@@ -77,7 +77,7 @@ public class mkCalendar extends Activity
     Drawable m_todayCellBgImgId = null ; 	/// 선택 날짜의 배경 이미지
     
     /// 상단에 표시하는 요일 텍스트
-    String [] m_dayText ={ "일", "월", "화", "수", "목", "금", "토" } ; 
+    String [] m_dayText ={ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" } ; 
     
     ///////////////////////////////////////////
     
