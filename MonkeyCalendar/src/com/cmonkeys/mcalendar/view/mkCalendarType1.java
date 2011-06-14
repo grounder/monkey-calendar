@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 //import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,9 +81,12 @@ public class mkCalendarType1 extends Activity {
         // Drawable img = getResources( ).getDrawable( R.drawable.bg ) ;
         // 배경 이미지 셋~
         //cal.setBackground( img ) ;
-                               
+                            
         /// 달력을 띄울 크기 지정
-        cal.setCalendarSize(480, 500) ;
+        int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 320.0f, getResources().getDisplayMetrics());
+        int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300.0f, getResources().getDisplayMetrics());
+        
+        cal.setCalendarSize(width, height) ;
         
         /// 최상단은 높이를 35로 준다(전체높이중 한 셀의 높이 600/7한 값에서 35로 변경되니 달력의 총 높이가 줄어든다.)
         cal.setTopCellSize( 35 ) ;
