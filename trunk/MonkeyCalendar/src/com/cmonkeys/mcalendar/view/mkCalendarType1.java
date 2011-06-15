@@ -25,11 +25,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class mkCalendarType1 extends Activity {
-	TextView tvs[] ;
-	Button btns[] ;
-
-	ArrayList<Article> m_arrayOfMemos;
-	MemoDBHelper m_memoHelper;
+	// Buttons to change the current date
+	TextView tvs[];
+	Button btns[];
 
     @Override
     public void onCreate(Bundle savedInstanceState) 
@@ -100,6 +98,17 @@ public class mkCalendarType1 extends Activity {
         cal.initCalendar( ) ;
     }
     
+    ///////////////////////////////////////////////////////////////////////////
+    // Memo functions
+    
+    // Memo(=Article) array to store current memos from DB
+    // Just for displaying
+    ArrayList<Article> m_arrayOfMemos;
+    
+    // Memo DB helper to handle memo DB
+	MemoDBHelper m_memoHelper;
+	
+	// Load memos from DB, save all latest memos to m_arrayOfMemos
     private void loadMemoList()
     {
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -126,18 +135,20 @@ public class mkCalendarType1 extends Activity {
 
     	m_memoHelper.close();
     }
-        
-    private void clearList()
+
+    // Clear memo list, it doesn't mean clear DB 
+    private void clearMemoList()
     {
     	LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayoutMemoBottom);
     	layout.removeAllViewsInLayout();
     }
     
+    // Update memo list from m_arrayOfMemos
     private final void updateMemoList()
     {
     	LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayoutMemoBottom);
     	
-    	clearList();
+    	clearMemoList();
     	loadMemoList();
     	
     	for(final Article art : m_arrayOfMemos){
@@ -173,6 +184,7 @@ public class mkCalendarType1 extends Activity {
 		layout.addView(tvNewMemo);
     }
     
+    // Show selected memo 
     private void showSelectedMemo(int index)
     {
     	AlertDialog.Builder bld = new AlertDialog.Builder(this);
