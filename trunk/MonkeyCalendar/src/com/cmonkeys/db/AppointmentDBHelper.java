@@ -79,8 +79,8 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		db = getWritableDatabase();
 		db.delete(m_nameOfTable, m_nameOfIndex + "=" + index, null);
 		close();
-	}
-	
+	}	
+
 	public void updateAppointment(int index, String title, String description, String participant, String location,
 			SimpleDateFormat starttime, SimpleDateFormat finishtime)
 	{
@@ -111,10 +111,9 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     		cursor = db.query(m_nameOfTable, 
     			new String[] {m_nameOfIndex, m_nameOfTitle, m_nameOfDescription, m_nameOfLastUpdate,
     				m_nameOfParticipant, m_nameOfLocation, m_nameOfStarttime, m_nameOfFinishtime}, 
-    			null, null, null, null, null);
+    				null, null, null, null, null);
     	    	
-    	return cursor;
-    	
+    	return cursor;    	
 	}
 
 
