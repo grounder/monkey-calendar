@@ -4,5 +4,22 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:orientation="vertical">
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/buttonMakeDB" android:text="Make DB from CSV"></Button>
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Bring Holidays" android:id="@+id/buttonBringHolidays"></Button>
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/buttonStoL" android:text="Solar to Lunar"></Button>
+        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="fill_parent" android:text="Start: yyyymmdd     End: yyyymmdd"></TextView>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="wrap_content">
+        <EditText android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:id="@+id/editTextStartDate"></EditText>
+        <EditText android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:id="@+id/editTextEndDate">
+            <requestFocus></requestFocus>
+        </EditText>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView2" android:text="Solar date: yyyymmdd"></TextView>
+        <EditText android:inputType="number" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/editTextStoL"></EditText>
+    </LinearLayout>
+    <EditText android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/editTextResult"></EditText>
     
 </LinearLayout>
