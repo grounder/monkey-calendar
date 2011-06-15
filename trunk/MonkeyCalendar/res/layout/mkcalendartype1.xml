@@ -9,7 +9,7 @@
 	<LinearLayout android:id="@+id/relativeLayoutControl" 
 		android:orientation="horizontal"
 		android:gravity="center"
-		android:layout_width="320dip" android:layout_height="30dip">
+		android:layout_width="320dip" android:layout_height="40dip">
 		
 		<Button android:id="@+id/buttonPrevMonth" android:background="#00000000" 
 			android:textColor="#ffffffff" android:layout_height="fill_parent" 
@@ -42,7 +42,7 @@
 	</LinearLayout>
 	
 	<ScrollView 
-		android:layout_height="155dip" android:layout_width="fill_parent">
+		android:layout_height="145dip" android:layout_width="fill_parent">
 		<LinearLayout
 			android:id="@+id/linearLayoutMemoBottom" 
 			android:orientation="vertical" android:layout_height="fill_parent" android:layout_width="fill_parent"
