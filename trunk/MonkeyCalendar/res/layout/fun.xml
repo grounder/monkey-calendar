@@ -1,12 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/editText1" android:inputType="date">
-        <requestFocus></requestFocus>
-    </EditText>
-    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/editText2" android:inputType="date"></EditText>
-    
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:textSize="25pt"
+        android:layout_gravity="center"
+        android:textColor="#ff0000"
+        android:text="생년월일을 입력하세요"/>
+<LinearLayout 
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity = "center">
+<EditText
+        android:id="@+id/year"
+        android:layout_width="100px"
+        android:layout_height="wrap_content"
+        android:text="1989" />
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:textSize="8pt"
+        android:text="년" />
+<EditText
+        android:id="@+id/month"
+        android:layout_width="80px"
+        android:layout_height="wrap_content"
+        android:text="02" />
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:textSize="8pt"
+        android:text="월" />
+<EditText
+        android:id="@+id/date"
+        android:layout_width="80px"
+        android:layout_height="wrap_content"
+        android:text="17" />
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:textSize="8pt"
+        android:text="일" />
 </LinearLayout>
+<Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/Weather"
+       android:textSize="16pt"
+       android:layout_gravity="center_horizontal"
+       android:onClick="mOnClick"
+       android:text="Weather"/>
+<Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/Myfortune"
+       android:textSize="16pt"
+       android:layout_gravity="center_horizontal"
+       android:onClick="mOnClick"
+       android:text="Myfortune"/>
+<Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/Biorhythm"
+       android:textSize="16pt"
+       android:layout_gravity="center_horizontal"
+       android:onClick="mOnClick"
+       android:text="Biorhythm"/>
+<WebView
+	android:id="@+id/webView"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"/>
+</LinearLayout>
+
