@@ -1,10 +1,22 @@
 package com.cmonkeys.db;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.ContentValues;
+import android.content.res.AssetManager;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,7 +32,7 @@ public class DaysDBHelper extends SQLiteOpenHelper {
 	static final String m_nameOfNameOfHoliday = "nameOfHoliday";
 	static final String m_nameOfIsHoliday = "isHoliday";
 	static final String m_nameOfLastUpdate = "lastUpdate";
-		
+
 	public DaysDBHelper(Context context) 
 	{
 		super(context,"Days.db", null, 1);
@@ -108,6 +120,39 @@ public class DaysDBHelper extends SQLiteOpenHelper {
     	return cursor;    	
 	}
 	
-	
-
+	public void importFixedData(Context context)
+	{
+		
+        // Load days database
+        // Holidays and lunar's dates are included in the database
+        try{
+	        AssetManager assetManager = context.getResources().getAssets();
+	        InputStream is = assetManager.open("MKCalDays..db",AssetManager.ACCESS_BUFFER);
+    		long filesize = is.available();
+    		/*
+    		// 패키지 폴더에 설치된 DB파일이 포함된 DB파일 보다 크기가 작을 경우 DB파일을 덮어 쓴다.
+    		if(outfile.length() < filesize){
+    		 byte[] tempdata = new byte[(int) filesize];
+    		 is.read(tempdata);
+    		 is.close();
+    		 outfile.createNewFile();
+    		 FileOutputStream fo = new FileOutputStream(outfile);
+    		 fo.write(tempdata);
+    		 fo.close();
+    		}
+    		*/
+        }
+        catch(Exception ex)
+        {
+        	// Show error message
+        	AlertDialog.Builder bld = new AlertDialog.Builder(context);
+        	bld.setTitle("Warnning");
+        	bld.setMessage("Loading a fixed database is failed");
+        	bld.setPositiveButton("Dismiss", new DialogInterface.OnClickListener(){ 
+        		@Override
+    			public void onClick(DialogInterface dialog, int which) {
+    			}});
+        	bld.show();
+        }
+	}
 }
