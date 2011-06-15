@@ -1,10 +1,17 @@
 package com.cmonkeys.mcalendar.view;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
 import com.cmonkeys.mcalendar.R;
 import com.cmonkeys.mcalendar.view.mkCalendarType1;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,7 +23,7 @@ public class main extends Activity {
         setContentView(R.layout.main);
     }
     
-    public void mOnClick(View v) {
+    public void onClick(View v) {
     	Intent intent;
     	switch (v.getId()) {
     	case R.id.buttonMonth:
@@ -44,10 +51,5 @@ public class main extends Activity {
     		System.exit(0);
     		break;
     	}
-    }
-    
-    public void loadMemos()
-    {
-    	
     }
 }
