@@ -18,6 +18,23 @@
     <string name="Nov">November</string>
     <string name="Dec">December</string>
     
+    <!-- Week 
+    <string name="Sun_">Sun</string>
+    <string name="Mon_">Mon</string>
+    <string name="Tue_">Tue</string>
+    <string name="Wed_">Wed</string>
+    <string name="Thu_">Thu</string>
+    <string name="Fri_">Fri</string>
+    <string name="Sat_">Sat</string>
+    -->
+    <string name="Sun">Sun</string>
+    <string name="Mon">Mon</string>
+    <string name="Tue">Tue</string>
+    <string name="Wed">Wed</string>
+    <string name="Thu">Thu</string>
+    <string name="Fri">Fri</string>
+    <string name="Sat">Sat</string>
+    
     <!-- Memo & Appointment common string -->
     <string name="LastUpdate">Last Update :</string>
     <string name="Title">Title</string>
