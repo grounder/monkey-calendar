@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class mkCalendar extends Activity 
+public class mkCalendar extends Activity
 {
 	Context m_context ;				/// context 
 	

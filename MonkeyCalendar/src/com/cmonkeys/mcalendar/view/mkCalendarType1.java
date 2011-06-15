@@ -84,7 +84,7 @@ public class mkCalendarType1 extends Activity {
                             
         /// 달력을 띄울 크기 지정
         int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 320.0f, getResources().getDisplayMetrics());
-        int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300.0f, getResources().getDisplayMetrics());
+        int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 324.0f, getResources().getDisplayMetrics());
         
         cal.setCalendarSize(width, height) ;
         
