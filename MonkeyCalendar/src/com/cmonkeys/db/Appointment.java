@@ -3,14 +3,32 @@ package com.cmonkeys.db;
 import java.util.Date;
 
 public class Appointment extends Article {
-	private String m_location;
+	
 	private String m_parts;
+	private String m_location;
 	private Date m_start;
 	private Date m_end;
 	
+	//constructor
 	public Appointment()
 	{
 		
+	}
+	
+	public Appointment(int newIndex, String newTitle, String newDescription, Date lastUpdate, 
+			String newParticipant, String newLocation, Date newStarttime, Date newFinishtime, int currentIndex)
+	{
+		setIndex(newIndex);
+		setTitle(newTitle);
+		setDescription(newDescription);
+		setLastUpdate(lastUpdate);
+		
+		setM_parts(newParticipant);
+		setM_location(newLocation);
+		setM_start(newStarttime);
+		setM_end(newFinishtime);
+		
+		setIndexAtCurrent(currentIndex);
 	}
 	
 	public void setM_location(String m_location) {
