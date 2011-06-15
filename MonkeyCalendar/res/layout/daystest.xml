@@ -20,6 +20,8 @@
         <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Solar date: yyyymmdd" android:id="@+id/textViewDaysTest2"></TextView>
         <EditText android:inputType="number" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/editTextDaysTestStoL"></EditText>
     </LinearLayout>
-    <EditText android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/editTextDaysTestResult"></EditText>
+    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/scrollViewDaysTest">
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical" android:id="@+id/linearLayoutDaysTestResult"></LinearLayout>
+    </ScrollView>
     
 </LinearLayout>

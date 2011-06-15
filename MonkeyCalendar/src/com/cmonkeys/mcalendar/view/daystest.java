@@ -4,8 +4,12 @@ import com.cmonkeys.db.DaysDBHelper;
 import com.cmonkeys.mcalendar.R;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.content.res.AssetManager;
+
+import java.io.File;
 
 
 public class daystest extends Activity {
@@ -24,6 +28,7 @@ public class daystest extends Activity {
     public void onClick(View v) {
     	switch (v.getId()) {
     	case R.id.buttonDaysTestMakeDB:
+    		makeDBfromCSV();
     		break;
     	case R.id.buttonDaysTestBringHolidays:  
     		break;
@@ -31,5 +36,12 @@ public class daystest extends Activity {
     		break;	
     	}
     }
+    
+    public void makeDBfromCSV()
+    {
+    	
+    }
+    
 }
+
 
