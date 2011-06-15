@@ -1,6 +1,5 @@
 package com.cmonkeys.mcalendar.view;
 
-import com.cmonkeys.db.AppointmentDBHelper;
 import com.cmonkeys.db.DaysDBHelper;
 import com.cmonkeys.mcalendar.R;
 
@@ -22,12 +21,15 @@ public class daystest extends Activity {
         m_DaysHelper = new DaysDBHelper(this);
     }
     
-    public void mOnClick(View v) {
+    public void onClick(View v) {
     	switch (v.getId()) {
-    	//case R.id.buttonExitMemoList:
-    		//break;
-    	//case R.id.buttonNewMemo:    		
-    		//break;
+    	case R.id.buttonDaysTestMakeDB:
+    		break;
+    	case R.id.buttonDaysTestBringHolidays:  
+    		break;
+    	case R.id.buttonDaysTestStoL: 
+    		break;	
     	}
     }
 }
+
