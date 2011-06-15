@@ -5,21 +5,21 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:orientation="vertical">
-        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/buttonMakeDB" android:text="Make DB from CSV"></Button>
-        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Bring Holidays" android:id="@+id/buttonBringHolidays"></Button>
-        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/buttonStoL" android:text="Solar to Lunar"></Button>
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="fill_parent" android:text="Start: yyyymmdd     End: yyyymmdd"></TextView>
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Make DB from CSV" android:id="@+id/buttonDaysTestMakeDB"></Button>
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Bring Holidays" android:id="@+id/buttonDaysTestBringHolidays"></Button>
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Solar to Lunar" android:id="@+id/buttonDaysTestStoL"></Button>
+        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Start: yyyymmdd     End: yyyymmdd" android:id="@+id/textViewDaysTest1"></TextView>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="wrap_content">
-        <EditText android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:id="@+id/editTextStartDate"></EditText>
-        <EditText android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:id="@+id/editTextEndDate">
+        <EditText android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:id="@+id/editTextDaysTestStartDate"></EditText>
+        <EditText android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:id="@+id/editTextDaysTestEndDate">
             <requestFocus></requestFocus>
         </EditText>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:orientation="vertical">
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView2" android:text="Solar date: yyyymmdd"></TextView>
-        <EditText android:inputType="number" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/editTextStoL"></EditText>
+        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Solar date: yyyymmdd" android:id="@+id/textViewDaysTest2"></TextView>
+        <EditText android:inputType="number" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/editTextDaysTestStoL"></EditText>
     </LinearLayout>
-    <EditText android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/editTextResult"></EditText>
+    <EditText android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/editTextDaysTestResult"></EditText>
     
 </LinearLayout>
