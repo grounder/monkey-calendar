@@ -132,7 +132,7 @@ public class appointmenttest extends Activity {
     					editTextDescription.getText().toString(),
     					editTextParticipant.getText().toString(),
     					editTextLocation.getText().toString(),
-    					StartTime, FinishTime);
+    					StartTime, FinishTime, 0);
     			
     			updateAppointmentList();
 			}});
@@ -197,6 +197,7 @@ public class appointmenttest extends Activity {
     					location,
     					dateFormat.parse(starttime),
     					dateFormat.parse(finishtime),
+    					0,
     					m_arrayOfAppointment.size());
     		}
     		catch(Exception ex)
