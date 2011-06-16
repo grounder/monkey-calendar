@@ -168,7 +168,8 @@ public class memolist extends Activity {
     			String oldDescription = currentArticle.getDescription();
     			String newTitle = editTextTitle.getText().toString();
     			String newDescription = editTextDescription.getText().toString();    			
-    			
+
+    			// Compare old memo with new memo
     			if( oldTitle.compareTo(newTitle) == 0 || oldDescription.compareTo(newDescription) == 0 )
     				m_memoHelper.updateMemo(indexToUpdate, newTitle, newDescription);
 				updateMemoList();
