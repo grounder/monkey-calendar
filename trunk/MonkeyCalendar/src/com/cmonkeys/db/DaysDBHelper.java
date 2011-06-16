@@ -35,7 +35,7 @@ public class DaysDBHelper extends SQLiteOpenHelper {
 
 	public DaysDBHelper(Context context) 
 	{
-		super(context,"Days.db", null, 1);
+		super(context,"MKCal.db", null, 1);
 	}
 
 	@Override
@@ -120,27 +120,33 @@ public class DaysDBHelper extends SQLiteOpenHelper {
     	return cursor;    	
 	}
 	
-	public void importFixedData(Context context)
+	public void importEmbededData(Context context)
 	{
 		
         // Load days database
         // Holidays and lunar's dates are included in the database
         try{
-	        AssetManager assetManager = context.getResources().getAssets();
-	        InputStream is = assetManager.open("MKCalDays..db",AssetManager.ACCESS_BUFFER);
-    		long filesize = is.available();
-    		/*
-    		// 패키지 폴더에 설치된 DB파일이 포함된 DB파일 보다 크기가 작을 경우 DB파일을 덮어 쓴다.
-    		if(outfile.length() < filesize){
-    		 byte[] tempdata = new byte[(int) filesize];
-    		 is.read(tempdata);
-    		 is.close();
-    		 outfile.createNewFile();
-    		 FileOutputStream fo = new FileOutputStream(outfile);
-    		 fo.write(tempdata);
-    		 fo.close();
-    		}
-    		*/
+        	// DB파일 패키지 설치 폴더에 복사
+        	File outfile = new File(
+        	  "/data/data/com.cmonkeys.mcalendar/databases/MKCalDays.db");
+
+        	AssetManager assetManager = context.getResources().getAssets();
+        	InputStream is = assetManager.open("MKCalDays.db",
+        										AssetManager.ACCESS_BUFFER);
+        	long filesize = is.available();
+
+        	// 패키지 폴더에 설치된 DB파일이 포함된 DB파일 보다 크기가 작을 경우 DB파일을 덮어 쓴다.
+        	if(outfile.length() < filesize){
+	        	 byte[] tempdata = new byte[(int) filesize];
+	        	 is.read(tempdata);
+	        	 is.close();
+	        	 outfile.createNewFile();
+	        	 FileOutputStream fo = new FileOutputStream(outfile);
+	        	 fo.write(tempdata);
+	        	 fo.close();
+        	}
+        	
+        	
         }
         catch(Exception ex)
         {
@@ -154,5 +160,20 @@ public class DaysDBHelper extends SQLiteOpenHelper {
     			}});
         	bld.show();
         }
+	}
+	
+	public void showSampleData()
+	{
+		SQLiteDatabase db;
+    	Cursor cursor = null;
+
+    	db = getReadableDatabase();
+    		cursor = db.query(m_nameOfTable, 
+    			new String[] {m_nameOfIndex, m_nameOfSolarDate, 
+    				m_nameOfLunarDate, m_nameOfNameOfHoliday,
+    				m_nameOfIsHoliday, m_nameOfLastUpdate}, 
+    				null, null, null, null, null);
+    	
+    	close();
 	}
 }
