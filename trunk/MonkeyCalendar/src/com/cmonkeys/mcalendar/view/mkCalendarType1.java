@@ -12,8 +12,11 @@ import com.cmonkeys.mcalendar.view.mkCalendar.mkCalendarColorParam;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 //import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -168,9 +171,18 @@ public class mkCalendarType1 extends Activity {
     		
     	}
     	
-    	TextView tvNewMemo = new TextView(this);
+    	addNewMemoButton(layout);
+		addWeatherButton(layout);
+		addBiorythmButton(layout);
+		addFortuneButton(layout);
+		
+    }
+
+    private void addNewMemoButton(LinearLayout layout) {
+		TextView tvNewMemo = new TextView(this);
     	tvNewMemo.setPadding(10, 10, 10, 10);
     	tvNewMemo.setText(getResources().getString(R.string.Add_memo));
+    	
     	tvNewMemo.setClickable(true);
     	tvNewMemo.setOnClickListener(new OnClickListener(){
 			@Override
@@ -179,11 +191,89 @@ public class mkCalendarType1 extends Activity {
 			}
 		});
     	tvNewMemo.setTextSize(22);
-    	tvNewMemo.setTextColor(0xff0000ff);
+    	tvNewMemo.setTextColor(0xff00ffff);
     	tvNewMemo.setGravity(Gravity.CENTER);
 		layout.addView(tvNewMemo);
-    }
+	}
     
+	private void addBiorythmButton(LinearLayout layout) {
+		TextView tvNewMemo = new TextView(this);
+    	tvNewMemo.setPadding(10, 10, 10, 10);
+    	tvNewMemo.setText(getResources().getString(R.string.MsgBio));
+    	
+    	tvNewMemo.setClickable(true);
+    	tvNewMemo.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// Forward to biorythm web page
+				SharedPreferences pref = getSharedPreferences("fun",0);
+                
+	            int Year = pref.getInt("Year",1983);
+	            int Month = pref.getInt("Month",4);
+	            int Day = pref.getInt("Day",19);
+
+				Uri uri = Uri.parse(getResources().getString(R.string.UriBio1) + Year +
+									getResources().getString(R.string.UriBio2) + Month + 
+									getResources().getString(R.string.UriBio3) + Day);
+				 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				 startActivity(intent);
+			}
+		});
+    	tvNewMemo.setTextSize(22);
+    	tvNewMemo.setTextColor(0xffffff00);
+    	tvNewMemo.setGravity(Gravity.CENTER);
+		layout.addView(tvNewMemo);
+	}
+
+	private void addWeatherButton(LinearLayout layout) {
+		TextView tvNewMemo = new TextView(this);
+    	
+    	tvNewMemo.setPadding(10, 10, 10, 10);
+    	tvNewMemo.setText(getResources().getString(R.string.MsgWeather));
+    	
+    	tvNewMemo.setClickable(true);
+    	tvNewMemo.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// Forward to weather web page
+				Uri uri = Uri.parse(getResources().getString(R.string.UriWeather));
+				 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				 startActivity(intent);
+			}
+		});
+    	tvNewMemo.setTextSize(22);
+    	tvNewMemo.setTextColor(0xffffff00);
+    	tvNewMemo.setGravity(Gravity.CENTER);
+		layout.addView(tvNewMemo);
+	}
+    
+	private void addFortuneButton(LinearLayout layout) {
+		TextView tvFortuneButton = new TextView(this);
+		    	
+    	tvFortuneButton.setPadding(10, 10, 10, 10);
+    	tvFortuneButton.setText(getResources().getString(R.string.MsgFortune));
+    	
+    	tvFortuneButton.setClickable(true);
+    	tvFortuneButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				SharedPreferences pref = getSharedPreferences("fun",0);
+				int iAnimal = pref.getInt("Year",1983)%12;
+				
+				String sAnimal = getResources().getStringArray(R.array.Ddi)[iAnimal - 1];
+				
+				// Forward to weather web page
+				Uri uri = Uri.parse(getResources().getString(R.string.UriFor) + sAnimal);
+				 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				 startActivity(intent);
+			}
+		});
+    	tvFortuneButton.setTextSize(22);
+    	tvFortuneButton.setTextColor(0xffffff00);
+    	tvFortuneButton.setGravity(Gravity.CENTER);
+		layout.addView(tvFortuneButton);
+	}
+	
     // Show selected memo 
     private void showSelectedMemo(int index)
     {
