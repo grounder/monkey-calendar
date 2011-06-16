@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    <TextView android:text="@string/PrevWeek" android:id="@+id/textViewWeekPrev" android:layout_width="fill_parent" android:layout_height="30dip" android:layout_weight="0" android:textSize="20sp" android:gravity="center"></TextView>
+    <LinearLayout android:id="@+id/linearLayoutWeekSun" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    	<LinearLayout android:id="@+id/linearLayoutWeekSunTop" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
+    		<TextView android:text="@string/" />
+    	</LinearLayout>
+    	<LinearLayout android:id="@+id/linearLayoutWeekSunBottom" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    	</LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayoutWeekMon" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayoutWeekTue" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayoutWeekWed" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayoutWeekThu" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayoutWeekFri" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayoutWeekSat" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    </LinearLayout>
+    <TextView android:text="@string/NextWeek" android:id="@+id/textViewWeekNext" android:layout_width="fill_parent" android:layout_height="30dip" android:layout_weight="0" android:textSize="20sp" android:gravity="center"></TextView>    
+</LinearLayout>
