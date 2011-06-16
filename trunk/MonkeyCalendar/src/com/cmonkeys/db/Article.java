@@ -65,6 +65,4 @@ public class Article {
 	public int getIndexAtCurrent() {
 		return m_indexAtCurrent;
 	}
-	
-	
 }

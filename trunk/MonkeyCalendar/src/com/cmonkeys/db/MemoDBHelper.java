@@ -1,6 +1,7 @@
 package com.cmonkeys.db;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.cmonkeys.mcalendar.view.memolist;
@@ -95,6 +96,41 @@ public class MemoDBHelper extends SQLiteOpenHelper {
     			null, null, null, null, null);
     	    	
     	return cursor;
-    	
+	}
+	
+	public ArrayList<Article> getAllMemos()
+	{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		ArrayList<Article> arrayOfMemos = new ArrayList<Article>();
+
+		SQLiteDatabase db;
+    	Cursor cursor = null;
+
+    	db = getReadableDatabase();
+		cursor = db.query(m_nameOfTable, 
+			new String[] {m_nameOfIndex, m_nameOfTitle, m_nameOfDescription, m_nameOfLastUpdate}, 
+			null, null, null, null, null);
+		
+		while(cursor.moveToNext())
+    	{
+    		Article art = null;
+    		int index = cursor.getInt(0);
+    		String title = cursor.getString(1);
+    		String description = cursor.getString(2);
+    		String lastUpdate = cursor.getString(3);
+    		try{   		
+    			art = new Article(index, title, description, dateFormat.parse(lastUpdate), arrayOfMemos.size());
+    			arrayOfMemos.add(art);
+    		}
+    		catch(Exception ex)
+    		{
+    			// ignore occurred exception
+    			continue;
+    		}
+    	}
+		
+		db.close();
+		
+		return arrayOfMemos;
 	}
 }

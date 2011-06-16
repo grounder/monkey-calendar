@@ -162,7 +162,7 @@ public class memolist extends Activity {
     	bld.setNegativeButton("Close", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Save this memo to DB
+				// Save this memo to DB
     			int indexToUpdate = currentArticle.getIndex();
     			String oldTitle = currentArticle.getTitle();
     			String oldDescription = currentArticle.getDescription();

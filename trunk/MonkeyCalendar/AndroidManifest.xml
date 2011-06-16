@@ -28,6 +28,6 @@
 		<activity android:name=".view.week" android:label="Week"></activity>
 		<activity android:name=".view.day" android:label="Day"></activity>
 		<activity android:name=".view.appointment" android:label="Appointment"></activity>
-		<activity android:name=".view.logo"></activity>
+		<activity android:name=".view.logo" android:theme="@android:style/Theme.NoTitleBar" android:screenOrientation="portrait" ></activity>
     </application>
 </manifest>

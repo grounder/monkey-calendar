@@ -29,13 +29,14 @@ public class main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        startActivity(new Intent(this, logo.class));
     }
     
     public void onClick(View v) {
     	Intent intent;
     	switch (v.getId()) {
     	case R.id.buttonMonth:
-    		intent = new Intent(main.this, month.class);
+    		intent = new Intent(main.this, mkCalendarType1.class);
     		startActivity(intent);
     		break;    		
     	case R.id.buttonWeek:
