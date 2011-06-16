@@ -5,24 +5,96 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
     <TextView android:text="@string/PrevWeek" android:id="@+id/textViewWeekPrev" android:layout_width="fill_parent" android:layout_height="30dip" android:layout_weight="0" android:textSize="20sp" android:gravity="center"></TextView>
-    <LinearLayout android:id="@+id/linearLayoutWeekSun" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
-    	<LinearLayout android:id="@+id/linearLayoutWeekSunTop" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
-    		<TextView android:text="@string/" />
+    <LinearLayout android:id="@+id/linearLayoutWeek1" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    	<LinearLayout android:layout_width="fill_parent" android:layout_height="1px" android:background="#99999999" android:layout_weight="0" />
+    	<LinearLayout android:id="@+id/linearLayoutWeek1Top" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek1" android:textSize="15sp" android:text="@string/W1" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffff0000"/>
+    		<TextView android:id="@+id/textViewWeek1Date" android:textSize="15sp" android:text="Jan.1" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffff0000" android:layout_marginLeft="5dip"/>
+    		<TextView android:id="@+id/textViewWeek1DateTitle" android:textSize="15sp" android:text="New year day" android:layout_height="25dip" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_weight="1"/>
+    		<TextView android:id="@+id/textViewWeek1DateAppointments" android:textSize="15sp" android:text="(0)" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffff00" android:layout_marginLeft="10dip" />
     	</LinearLayout>
     	<LinearLayout android:id="@+id/linearLayoutWeekSunBottom" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek1DateAppointmentTitles" android:textSize="15sp" android:text="No appointement" android:layout_height="25dip" android:layout_width="wrap_content" android:layout_marginLeft="10dip" />
     	</LinearLayout>
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayoutWeekMon" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+	<!-- Mon -->
+	<LinearLayout android:id="@+id/linearLayoutWeek2" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+		<LinearLayout android:layout_width="fill_parent" android:layout_height="1px" android:background="#99999999" android:layout_weight="0" />
+    	<LinearLayout android:id="@+id/linearLayoutWeek2Top" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek2" android:textSize="15sp" android:text="@string/W2" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff"/>
+    		<TextView android:id="@+id/textViewWeek2Date" android:textSize="15sp" android:text="Jan.2" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff" android:layout_marginLeft="5dip"/>
+    		<TextView android:id="@+id/textViewWeek2DateTitle" android:textSize="15sp" android:text="" android:layout_height="25dip" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_weight="1" />
+    		<TextView android:id="@+id/textViewWeek2DateAppointments" android:textSize="15sp" android:text="(0)" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffff00" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
+    	<LinearLayout android:id="@+id/linearLayoutWeekSunBottom" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek2DateAppointmentTitles" android:textSize="15sp" android:text="No appointement" android:layout_height="25dip" android:layout_width="wrap_content" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayoutWeekTue" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    <!-- Tue -->
+    <LinearLayout android:id="@+id/linearLayoutWeek3" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    	<LinearLayout android:layout_width="fill_parent" android:layout_height="1px" android:background="#99999999" android:layout_weight="0" />
+    	<LinearLayout android:id="@+id/linearLayoutWeek3Top" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek3" android:textSize="15sp" android:text="@string/W3" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff"/>
+    		<TextView android:id="@+id/textViewWeek3Date" android:textSize="15sp" android:text="Jan.3" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff" android:layout_marginLeft="5dip"/>
+    		<TextView android:id="@+id/textViewWeek3DateTitle" android:textSize="15sp" android:text="" android:layout_height="25dip" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_weight="1" />
+    		<TextView android:id="@+id/textViewWeek3DateAppointments" android:textSize="15sp" android:text="(0)" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffff00" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
+    	<LinearLayout android:id="@+id/linearLayoutWeekSunBottom" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek3DateAppointmentTitles" android:textSize="15sp" android:text="No appointement" android:layout_height="25dip" android:layout_width="wrap_content" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayoutWeekWed" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    <!-- Wed -->
+    <LinearLayout android:id="@+id/linearLayoutWeek4" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    	<LinearLayout android:layout_width="fill_parent" android:layout_height="1px" android:background="#99999999" android:layout_weight="0" />
+    	<LinearLayout android:id="@+id/linearLayoutWeek4Top" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek4" android:textSize="15sp" android:text="@string/W4" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff"/>
+    		<TextView android:id="@+id/textViewWeek4Date" android:textSize="15sp" android:text="Jan.4" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff" android:layout_marginLeft="5dip"/>
+    		<TextView android:id="@+id/textViewWeek4DateTitle" android:textSize="15sp" android:text="" android:layout_height="25dip" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_weight="1" />
+    		<TextView android:id="@+id/textViewWeek4DateAppointments" android:textSize="15sp" android:text="(0)" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffff00" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
+    	<LinearLayout android:id="@+id/linearLayoutWeekSunBottom" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek4DateAppointmentTitles" android:textSize="15sp" android:text="No appointement" android:layout_height="25dip" android:layout_width="wrap_content" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayoutWeekThu" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    <!-- Thu -->
+    <LinearLayout android:id="@+id/linearLayoutWeek5" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    	<LinearLayout android:layout_width="fill_parent" android:layout_height="1px" android:background="#99999999" android:layout_weight="0" />
+    	<LinearLayout android:id="@+id/linearLayoutWeek5Top" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek5" android:textSize="15sp" android:text="@string/W5" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff"/>
+    		<TextView android:id="@+id/textViewWeek5Date" android:textSize="15sp" android:text="Jan.5" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff" android:layout_marginLeft="5dip"/>
+    		<TextView android:id="@+id/textViewWeek5DateTitle" android:textSize="15sp" android:text="" android:layout_height="25dip" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_weight="1" />
+    		<TextView android:id="@+id/textViewWeek5DateAppointments" android:textSize="15sp" android:text="(0)" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffff00" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
+    	<LinearLayout android:id="@+id/linearLayoutWeekSunBottom" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek5DateAppointmentTitles" android:textSize="15sp" android:text="No appointement" android:layout_height="25dip" android:layout_width="wrap_content" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayoutWeekFri" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    <!-- Fri -->
+    <LinearLayout android:id="@+id/linearLayoutWeek6" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    	<LinearLayout android:layout_width="fill_parent" android:layout_height="1px" android:background="#99999999" android:layout_weight="0" />
+    	<LinearLayout android:id="@+id/linearLayoutWeek6Top" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek6" android:textSize="15sp" android:text="@string/W6" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff"/>
+    		<TextView android:id="@+id/textViewWeek6Date" android:textSize="15sp" android:text="Jan.6" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff" android:layout_marginLeft="5dip"/>
+    		<TextView android:id="@+id/textViewWeek6DateTitle" android:textSize="15sp" android:text="" android:layout_height="25dip" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_weight="1" />
+    		<TextView android:id="@+id/textViewWeek6DateAppointments" android:textSize="15sp" android:text="(0)" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffff00" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
+    	<LinearLayout android:id="@+id/linearLayoutWeekSunBottom" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek6DateAppointmentTitles" android:textSize="15sp" android:text="No appointement" android:layout_height="25dip" android:layout_width="wrap_content" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayoutWeekSat" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    <!-- Sat -->
+    <LinearLayout android:id="@+id/linearLayoutWeek7" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    	<LinearLayout android:layout_width="fill_parent" android:layout_height="1px" android:background="#99999999" android:layout_weight="0" />
+    	<LinearLayout android:id="@+id/linearLayoutWeek7Top" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek7" android:textSize="15sp" android:text="@string/W7" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ff0000ff"/>
+    		<TextView android:id="@+id/textViewWeek7Date" android:textSize="15sp" android:text="Jan.7" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffffff" android:layout_marginLeft="5dip"/>
+    		<TextView android:id="@+id/textViewWeek7DateTitle" android:textSize="15sp" android:text="" android:layout_height="25dip" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_weight="1" />
+    		<TextView android:id="@+id/textViewWeek7DateAppointments" android:textSize="15sp" android:text="(0)" android:layout_height="25dip" android:layout_width="wrap_content" android:textColor="#ffffff00" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
+    	<LinearLayout android:id="@+id/linearLayoutWeekSunBottom" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1">
+    		<TextView android:id="@+id/textViewWeek7DateAppointmentTitles" android:textSize="15sp" android:text="No appointement" android:layout_height="25dip" android:layout_width="wrap_content" android:layout_marginLeft="10dip" />
+    	</LinearLayout>
     </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="1px" android:background="#99999999" android:layout_weight="0" />
     <TextView android:text="@string/NextWeek" android:id="@+id/textViewWeekNext" android:layout_width="fill_parent" android:layout_height="30dip" android:layout_weight="0" android:textSize="20sp" android:gravity="center"></TextView>    
 </LinearLayout>

@@ -3,7 +3,9 @@ package com.cmonkeys.mcalendar.view;
 import com.cmonkeys.mcalendar.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,31 +13,26 @@ import android.webkit.WebView;
 
 public class fun extends Activity {
 	/** Called when the activity is first created. */
-	
     TextView textYear;
     TextView textMonth;
-    TextView textDate;
-    
+    TextView textDate;    
     
     public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fun);
-
 
             textYear = (TextView)findViewById(R.id.year);
             textMonth = (TextView)findViewById(R.id.month);
             textDate = (TextView)findViewById(R.id.date);
 
             SharedPreferences pref = getSharedPreferences("fun",0);
-
-            
+                        
             int Year = pref.getInt("Year",2011);
             textYear.setText("" + Year);
             int Month = pref.getInt("Month",06);
             textMonth.setText("" + Month);
             int Date = pref.getInt("Date",15);
             textDate.setText("" + Date);
-            
     }
 
     public void onPause() {
@@ -43,7 +40,6 @@ public class fun extends Activity {
 
             SharedPreferences pref = getSharedPreferences("fun",0);
             SharedPreferences.Editor edit = pref.edit();
-
 
             int Year = 0;
             int Month = 0;
@@ -84,10 +80,15 @@ public class fun extends Activity {
     }
 	
 	public void showWeather(){
-		WebView webView;
-		
+		/*
+		WebView webView = new WebView();
+		webView.loadUrl("http://m.weather.naver.com/m/crntWetr.nhn");
 		webView = (WebView)findViewById(R.id.webView);
-		webView.loadUrl("http://www.kma.go.kr/weather/main.jsp");
+		webView.loadUrl("http://m.weather.naver.com/m/crntWetr.nhn");*/
+		 Uri uri = Uri.parse("http://m.weather.naver.com/m/crntWetr.nhn");
+		 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		 startActivity(intent);
+
 	}
 	public void showMyfortune(){
 		WebView webView;
@@ -125,8 +126,7 @@ public class fun extends Activity {
 	}
 	public void showBiorhythm(){
 		WebView webView;
-		
-		
+				
 		int Year = Integer.parseInt(textYear.getText().toString());
 		int Month = Integer.parseInt(textMonth.getText().toString());
 		int Date = Integer.parseInt(textDate.getText().toString());

@@ -41,4 +41,38 @@
 	    <item>Friday</item>
 	    <item>Saturday</item>
     </string-array>
+    
+    <string name="W1">Sunday</string>
+    <string name="W2">Monday</string>
+    <string name="W3">Tuesday</string>
+    <string name="W4">Wednesday</string>
+    <string name="W5">Thursday</string>
+    <string name="W6">Friday</string>
+    <string name="W7">Saturday</string>
+    
+    <string name="MsgWeather">Weather of today</string>
+    <string name="UriWeather">http://m.weather.naver.com/m/crntWetr.nhn</string>
+    
+    <string name="MsgBio">My biorhythm</string>
+    <string name="UriBio1">http://www.60gabja.com/bio/013_modujobio.php3?birth_year=</string>
+    <string name="UriBio2">&amp;birth_month=</string>
+    <string name="UriBio3">&amp;birth_day=</string>
+    
+    <string name="MsgFortune">My fortune</string>
+    <string name="UriFor">http://www.unselove.net/saju/unsetoday.php#</string>
+    <string-array name="Ddi">
+		<item>원숭이</item>
+		<item>닭</item>
+		<item>개</item>
+		<item>돼지</item>
+		<item>쥐</item>
+		<item>소</item>
+		<item>호랑이</item>
+		<item>토끼</item>
+		<item>용</item>
+		<item>뱀</item>
+		<item>말</item>
+		<item>양</item>
+    </string-array>
+    
 </resources>

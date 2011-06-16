@@ -25,5 +25,8 @@
 		<activity android:name=".view.fun" android:label="Fun"></activity>
 		<activity android:name=".view.appointmenttest" android:label="Appointment Test"></activity>
 		<activity android:name=".view.daystest" android:label="Days test"></activity>
+		<activity android:name=".view.week" android:label="Week"></activity>
+		<activity android:name=".view.day" android:label="Day"></activity>
+		<activity android:name=".view.appointment" android:label="Appointment"></activity>
     </application>
 </manifest>
