@@ -40,7 +40,6 @@ public class fun extends Activity {
 
             SharedPreferences pref = getSharedPreferences("fun",0);
             SharedPreferences.Editor edit = pref.edit();
-
             int Year = 0;
             int Month = 0;
             int Date = 0;

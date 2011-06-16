@@ -8,13 +8,10 @@ public class Appointment extends Article {
 	private String m_location;
 	private Date m_start;
 	private Date m_end;
+	private boolean m_repeatWeekly;
+	private boolean m_repeatMonthly;
 	
 	//constructor
-	public Appointment()
-	{
-		
-	}
-	
 	public Appointment(int newIndex, String newTitle, String newDescription, Date lastUpdate, 
 			String newParticipant, String newLocation, Date newStarttime, Date newFinishtime, int currentIndex)
 	{

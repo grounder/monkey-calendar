@@ -3,6 +3,8 @@ package com.cmonkeys.mcalendar.view;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.cmonkeys.db.Article;
 import com.cmonkeys.db.DaysDBHelper;
@@ -19,6 +21,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 public class main extends Activity {
 	/** Called when the activity is first created. */
@@ -32,9 +35,9 @@ public class main extends Activity {
     	Intent intent;
     	switch (v.getId()) {
     	case R.id.buttonMonth:
-    		intent = new Intent(main.this, mkCalendarType1.class);
+    		intent = new Intent(main.this, month.class);
     		startActivity(intent);
-    		break;
+    		break;    		
     	case R.id.buttonWeek:
     		intent = new Intent(main.this, week.class);
     		startActivity(intent);
@@ -59,21 +62,7 @@ public class main extends Activity {
     		//DaysDBHelper db = new DaysDBHelper(this);
     		//db.importEmbededData(this);
     		DaysImportDBHelper db = new DaysImportDBHelper(this);
-    		Cursor cursor = db.getCursor();
-    		EditText ed = (EditText)findViewById(R.id.editTextMainLog);
-    		
-    		while(cursor.moveToNext())
-        	{
-        		int index = cursor.getInt(0);
-        		int year = cursor.getInt(1);
-        		
-        		String line = "" + index + " : " + year;
-        		
-        		ed.setText(ed.getText().toString() + line + "\n");
-        	}
-    		
     		db.close();
-    		break;
     	case R.id.buttonExit:
     		finish();
     		System.exit(0);
