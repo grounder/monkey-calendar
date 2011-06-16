@@ -35,6 +35,10 @@ public class main extends Activity {
     		intent = new Intent(main.this, mkCalendarType1.class);
     		startActivity(intent);
     		break;
+    	case R.id.buttonWeek:
+    		intent = new Intent(main.this, week.class);
+    		startActivity(intent);
+    		break;
     	case R.id.buttonAppointment:
     		intent = new Intent(main.this, appointmenttest.class);
     		startActivity(intent);
