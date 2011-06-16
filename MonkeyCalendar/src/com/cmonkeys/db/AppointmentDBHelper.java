@@ -2,6 +2,7 @@ package com.cmonkeys.db;
 
 import android.content.Context;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.ContentValues;
@@ -22,6 +23,9 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 	static final String m_nameOfLocation = "location";
 	static final String m_nameOfStarttime = "starttime";
 	static final String m_nameOfFinishtime = "finishtime";
+	static final String m_nameOfRepeatWeekly = "repeatweekly";
+	static final String m_nameOfRepeatMonthly = "repeatmonthly";
+	static final String m_nameOfRepeatYearly = "repeatyearly";
 		
 	public AppointmentDBHelper(Context context) 
 	{
@@ -33,7 +37,9 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE " + m_nameOfTable + "(" + m_nameOfIndex + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ m_nameOfTitle + " TEXT, " + m_nameOfDescription+ " TEXT, " + m_nameOfLastUpdate + " TEXT, " 
 				+ m_nameOfParticipant + " TEXT, " + m_nameOfLocation + " TEXT, " 
-				+ m_nameOfStarttime + " TEXT, " + m_nameOfFinishtime + " TEXT);");
+				+ m_nameOfStarttime + " TEXT, " + m_nameOfFinishtime + " TEXT,"
+				+ m_nameOfRepeatYearly + " INTEGER, " + m_nameOfRepeatMonthly + "INTEGER,"
+				+ m_nameOfRepeatWeekly + " INTEGER );");
 	}
 
 	@Override
@@ -116,5 +122,19 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     	return cursor;    	
 	}
 
+	public ArrayList<Appointment> getAppointment(int year, int month , int day)
+	{
+		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
+		
+		SQLiteDatabase db;
+    	Cursor cursor = null;
 
+    	db = getReadableDatabase();
+    		cursor = db.query(m_nameOfTable, 
+    			new String[] {m_nameOfIndex, m_nameOfTitle, m_nameOfDescription, m_nameOfLastUpdate,
+    				m_nameOfParticipant, m_nameOfLocation, m_nameOfStarttime, m_nameOfFinishtime}, 
+    				null, null, null, null, null);
+				
+		return arrayOfAppointment;
+	}
 }

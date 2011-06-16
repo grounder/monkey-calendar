@@ -2,7 +2,10 @@ package com.cmonkeys.mcalendar.view;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import com.cmonkeys.db.Appointment;
+import com.cmonkeys.db.AppointmentDBHelper;
 import com.cmonkeys.db.Article;
 import com.cmonkeys.db.MemoDBHelper;
 import com.cmonkeys.mcalendar.R;
@@ -30,14 +33,22 @@ import android.widget.TextView;
 
 public class mkCalendarType1 extends Activity {
 	// Buttons to change the current date
-	TextView tvs[];
-	Button btns[];
+	private TextView m_arrayOfTextViews[];
+	private Button m_arrayOfButtons[];
+	
+	private Date m_currentDate;
+	private Date m_selectedDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.mkcalendartype1);
+        
+        // Appointment initialize
+        m_appointementHelper = new AppointmentDBHelper(this);
+        
+        loadAppointmentList();
         
         // Memo initialize
         m_memoHelper = new MemoDBHelper(this);
@@ -49,17 +60,17 @@ public class mkCalendarType1 extends Activity {
         LinearLayout lv = (LinearLayout)findViewById( R.id.linearLayoutCalendar ) ;
         
         /// 년 월 일 표시할 텍스트뷰
-        tvs = new TextView[3] ;
-        tvs[0] = (TextView)findViewById( R.id.textViewYear ) ;
-        tvs[1] = (TextView)findViewById( R.id.textViewMonth ) ;
-        tvs[2] = null ; /// 일은 표시하지 않음
+        m_arrayOfTextViews = new TextView[3] ;
+        m_arrayOfTextViews[0] = (TextView)findViewById( R.id.textViewYear ) ;
+        m_arrayOfTextViews[1] = (TextView)findViewById( R.id.textViewMonth ) ;
+        m_arrayOfTextViews[2] = null ; /// 일은 표시하지 않음
         
         /// 누르면 년 월 일 조절할 버튼
-        btns = new Button[4] ;
-        btns[0] = null ; // 년도는 조절하지 않음
-        btns[1] = null ; // 위와 동일
-        btns[2] = (Button)findViewById( R.id.buttonPrevMonth ) ;
-        btns[3] = (Button)findViewById( R.id.buttonNextMonth ) ;
+        m_arrayOfButtons = new Button[4] ;
+        m_arrayOfButtons[0] = null ; // 년도는 조절하지 않음
+        m_arrayOfButtons[1] = null ; // 위와 동일
+        m_arrayOfButtons[2] = (Button)findViewById( R.id.buttonPrevMonth ) ;
+        m_arrayOfButtons[3] = (Button)findViewById( R.id.buttonNextMonth ) ;
         
         /// 달력객체 생성
         mkCalendar cal = new mkCalendar( this, lv ) ;
@@ -94,12 +105,22 @@ public class mkCalendarType1 extends Activity {
         cal.setTopCellSize( 35 ) ;
         
         // Set the buttons to change month
-        cal.setControl( btns ) ;
+        cal.setControl( m_arrayOfButtons ) ;
         
         // set the textView to show year, month, and day
-        cal.setViewTarget( tvs ) ;
+        cal.setViewTarget( m_arrayOfTextViews ) ;
         
         cal.initCalendar( ) ;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Appointment functions
+    ArrayList<Appointment> m_arrayOfAppointments;
+    AppointmentDBHelper m_appointementHelper;
+    
+    private void loadAppointmentList()
+    {
+		
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -115,29 +136,7 @@ public class mkCalendarType1 extends Activity {
 	// Load memos from DB, save all latest memos to m_arrayOfMemos
     private void loadMemoList()
     {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	Cursor cursor = m_memoHelper.getCursor();
-    	
-    	m_arrayOfMemos = new ArrayList<Article>();
-    	
-    	while(cursor.moveToNext())
-    	{
-    		Article art = null;
-    		int index = cursor.getInt(0);
-    		String title = cursor.getString(1);
-    		String description = cursor.getString(2);
-    		String lastUpdate = cursor.getString(3);
-    		try{   		
-    			art = new Article(index, title, description, dateFormat.parse(lastUpdate), m_arrayOfMemos.size());
-    		}
-    		catch(Exception ex)
-    		{
-    			continue;
-    		}
-    		m_arrayOfMemos.add(art);
-    	}
-
-    	m_memoHelper.close();
+    	m_arrayOfMemos = m_memoHelper.getAllMemos();
     }
 
     // Clear memo list, it doesn't mean clear DB 
@@ -145,6 +144,7 @@ public class mkCalendarType1 extends Activity {
     {
     	LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayoutMemoBottom);
     	layout.removeAllViewsInLayout();
+    	m_arrayOfMemos.clear();
     }
     
     // Update memo list from m_arrayOfMemos
