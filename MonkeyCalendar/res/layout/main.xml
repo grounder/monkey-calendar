@@ -14,7 +14,4 @@
 	    <Button android:text="Fun" android:id="@+id/buttonFun" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="onClick" />
 	    <Button android:text="Import embeded DB" android:id="@+id/buttonImportDB" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="onClick" />
 	    <Button android:text="Exit" android:id="@+id/buttonExit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="onClick" />
-	    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/editTextMainLog">
-	        <requestFocus></requestFocus>
-	    </EditText>
 </LinearLayout>

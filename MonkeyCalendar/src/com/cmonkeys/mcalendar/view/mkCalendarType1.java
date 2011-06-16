@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 //import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,23 +80,23 @@ public class mkCalendarType1 extends Activity {
         cal.setColorParam( cParam ) ;
         
         /// 배경으로 사용할 이미지 얻기
-        // Drawable img = getResources( ).getDrawable( R.drawable.bg ) ;
+        //Drawable img = getResources( ).getDrawable( R.drawable.logo ) ;
         // 배경 이미지 셋~
         //cal.setBackground( img ) ;
                             
-        /// 달력을 띄울 크기 지정
+        // Set the size of the calendar
         int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 320.0f, getResources().getDisplayMetrics());
         int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 324.0f, getResources().getDisplayMetrics());
         
         cal.setCalendarSize(width, height) ;
         
-        /// 최상단은 높이를 35로 준다(전체높이중 한 셀의 높이 600/7한 값에서 35로 변경되니 달력의 총 높이가 줄어든다.)
+        // Set the top cells' height to 35
         cal.setTopCellSize( 35 ) ;
         
-        /// 누르면 반응할 버튼들 셋팅
+        // Set the buttons to change month
         cal.setControl( btns ) ;
         
-        /// 년 월 일을 띄울 텍스트뷰 셋팅
+        // set the textView to show year, month, and day
         cal.setViewTarget( tvs ) ;
         
         cal.initCalendar( ) ;
