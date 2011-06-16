@@ -9,24 +9,22 @@ import android.content.ContentValues;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-//import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class AppointmentDBHelper extends SQLiteOpenHelper {
 
-	static final String m_nameOfTable = "appointment";
-	static final String m_nameOfIndex = "_id";
-	static final String m_nameOfTitle = "title";
-	static final String m_nameOfDescription = "description";
-	static final String m_nameOfLastUpdate = "lastUpdate";
-	static final String m_nameOfParticipant = "participant";
-	static final String m_nameOfLocation = "location";
-	static final String m_nameOfStarttime = "starttime";
-	static final String m_nameOfFinishtime = "finishtime";
-	static final String m_nameOfRepeatWeekly = "repeatweekly";
-	static final String m_nameOfRepeatMonthly = "repeatmonthly";
-	static final String m_nameOfRepeatYearly = "repeatyearly";
+	public static final String TABLE_NAME = "appointment";
+	public static final String INDEX = "_id";
+	public static final String TITLE = "title";
+	public static final String DESCRIPTION = "description";
+	public static final String LAST_UPDATE = "lastUpdate";
+	public static final String PARTICIPANT = "participant";
+	public static final String LOCATION = "location";
+	public static final String START_TIME = "starttime";
+	public static final String END_TIME = "finishtime";
+	public static final String REPEAT = "repeat";
 		
+
 	public AppointmentDBHelper(Context context) 
 	{
 		super(context,"MKCal.db", null, 1);
@@ -34,28 +32,29 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE " + m_nameOfTable + "(" + m_nameOfIndex + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ m_nameOfTitle + " TEXT, " + m_nameOfDescription+ " TEXT, " + m_nameOfLastUpdate + " TEXT, " 
-				+ m_nameOfParticipant + " TEXT, " + m_nameOfLocation + " TEXT, " 
-				+ m_nameOfStarttime + " TEXT, " + m_nameOfFinishtime + " TEXT,"
-				+ m_nameOfRepeatYearly + " INTEGER, " + m_nameOfRepeatMonthly + "INTEGER,"
-				+ m_nameOfRepeatWeekly + " INTEGER );");
+		db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + INDEX + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ TITLE + " TEXT, " + DESCRIPTION+ " TEXT, " + LAST_UPDATE + " TEXT, " 
+				+ PARTICIPANT + " TEXT, " + LOCATION + " TEXT, " 
+				+ START_TIME + " TEXT, " + END_TIME + " TEXT,"
+				+ REPEAT + " INTEGER );");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + m_nameOfTable);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 		onCreate(db);
 	}
 	
 	public void insertAppointment(Appointment app)
 	{
-		insertAppointment(app.getTitle(), app.getDescription(), app.getM_parts(), app.getM_location(), 
-				app.getM_start(), app.getM_end());
+		insertAppointment(app.getTitle(), app.getDescription(), 
+				app.getParticipants(), app.getLocation(), 
+				app.getStart(), app.getEnd(), app.getRepeat());
 	}
 
-	public void insertAppointment(String title, String description, String participant, String location,
-			Date starttime, Date finishtime)
+	public void insertAppointment(
+			String title, String description, String participant, String location,
+			Date startTime, Date endTime, int repeat)
     {
     	// set the format to sql date time 
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -66,15 +65,16 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     	db = getWritableDatabase();
     	
     	row = new ContentValues();
-    	row.put(m_nameOfTitle, title);
-    	row.put(m_nameOfDescription, description);
-    	row.put(m_nameOfLastUpdate, dateFormat.format(now));
-    	row.put(m_nameOfParticipant, participant);
-    	row.put(m_nameOfLocation, location);
-    	row.put(m_nameOfStarttime, dateFormat.format(starttime));
-    	row.put(m_nameOfFinishtime, dateFormat.format(finishtime));
+    	row.put(TITLE, title);
+    	row.put(DESCRIPTION, description);
+    	row.put(LAST_UPDATE, dateFormat.format(now));
+    	row.put(PARTICIPANT, participant);
+    	row.put(LOCATION, location);
+    	row.put(START_TIME, dateFormat.format(startTime));
+    	row.put(END_TIME, dateFormat.format(endTime));
+    	row.put(REPEAT, repeat);
     		     
-    	db.insert(m_nameOfTable, null, row);
+    	db.insert(TABLE_NAME, null, row);
     	
     	close();
     }	
@@ -83,27 +83,28 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 	{
 		SQLiteDatabase db;
 		db = getWritableDatabase();
-		db.delete(m_nameOfTable, m_nameOfIndex + "=" + index, null);
+		db.delete(TABLE_NAME, INDEX + "=" + index, null);
 		close();
 	}	
 
 	public void updateAppointment(int index, String title, String description, String participant, String location,
-			SimpleDateFormat starttime, SimpleDateFormat finishtime)
+			Date starttime, Date finishtime, int repeat)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		SQLiteDatabase db;
 		ContentValues args = new ContentValues();
 				
-		args.put(m_nameOfTitle, title);
-		args.put(m_nameOfDescription, description);
-		args.put(m_nameOfParticipant, participant);
-		args.put(m_nameOfLocation, location);
-		args.put(m_nameOfStarttime, dateFormat.format(starttime));
-		args.put(m_nameOfFinishtime, dateFormat.format(finishtime));
+		args.put(TITLE, title);
+		args.put(DESCRIPTION, description);
+		args.put(PARTICIPANT, participant);
+		args.put(LOCATION, location);
+		args.put(START_TIME, dateFormat.format(starttime));
+		args.put(END_TIME, dateFormat.format(finishtime));
+		args.put(REPEAT, repeat);
 		
 		db = getWritableDatabase();
-		db.update(m_nameOfTable, args, m_nameOfIndex + "=" + index, null);
+		db.update(TABLE_NAME, args, INDEX + "=" + index, null);
  
 		close();
 	}
@@ -114,26 +115,107 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     	Cursor cursor = null;
 
     	db = getReadableDatabase();
-    		cursor = db.query(m_nameOfTable, 
-    			new String[] {m_nameOfIndex, m_nameOfTitle, m_nameOfDescription, m_nameOfLastUpdate,
-    				m_nameOfParticipant, m_nameOfLocation, m_nameOfStarttime, m_nameOfFinishtime}, 
-    				null, null, null, null, null);
-    	    	
+		cursor = db.query(TABLE_NAME, 
+			new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE,
+				PARTICIPANT, LOCATION, START_TIME, END_TIME, REPEAT}, 
+				null, null, null, null, null);
+
     	return cursor;    	
 	}
 
-	public ArrayList<Appointment> getAppointment(int year, int month , int day)
+	public ArrayList<Appointment> getAllAppointments()
 	{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
 		
 		SQLiteDatabase db;
     	Cursor cursor = null;
 
     	db = getReadableDatabase();
-    		cursor = db.query(m_nameOfTable, 
-    			new String[] {m_nameOfIndex, m_nameOfTitle, m_nameOfDescription, m_nameOfLastUpdate,
-    				m_nameOfParticipant, m_nameOfLocation, m_nameOfStarttime, m_nameOfFinishtime}, 
-    				null, null, null, null, null);
+		cursor = db.query(TABLE_NAME, 
+			new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE,
+				PARTICIPANT, LOCATION, START_TIME, END_TIME, REPEAT}, 
+				null, null, null, null, null);
+
+		while(cursor.moveToNext())
+    	{
+    		Appointment app = null;
+    		int index = cursor.getInt(0);
+    		String title = cursor.getString(1);
+    		String description = cursor.getString(2);
+    		String lastUpdate = cursor.getString(3);
+    		String participant = cursor.getString(4);
+    		String location = cursor.getString(5);
+    		String start = cursor.getString(6);
+    		String end = cursor.getString(7);
+    		int repeat = cursor.getInt(8);
+    		
+    		try{   		
+    			app = 
+    			new Appointment(index, title, description, dateFormat.parse(lastUpdate)
+    							, participant, location, dateFormat.parse(start), dateFormat.parse(end)
+    							, repeat, arrayOfAppointment.size());
+    			
+    			arrayOfAppointment.add(app);
+    		}
+    		catch(Exception ex)
+    		{
+    			// ignore occurred exception
+    			continue;
+    		}
+    	}
+		
+		db.close();
+				
+		return arrayOfAppointment;
+	}
+	
+	public ArrayList<Appointment> getAppointments(Date startDate, Date endDate)
+	{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
+		
+		SQLiteDatabase db;
+    	Cursor cursor = null;
+    	
+    	String startString = dateFormat.format(startDate);
+    	String endString = dateFormat.format(endDate);
+
+    	db = getReadableDatabase();
+		cursor = db.query(TABLE_NAME, 
+			new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE,
+				PARTICIPANT, LOCATION, START_TIME, END_TIME, REPEAT}, 
+				START_TIME + " BETWEEN " + startString + " AND " + endString  + startString, null, null, null, null);
+
+		while(cursor.moveToNext())
+    	{
+    		Appointment app = null;
+    		int index = cursor.getInt(0);
+    		String title = cursor.getString(1);
+    		String description = cursor.getString(2);
+    		String lastUpdate = cursor.getString(3);
+    		String participant = cursor.getString(4);
+    		String location = cursor.getString(5);
+    		String start = cursor.getString(6);
+    		String end = cursor.getString(7);
+    		int repeat = cursor.getInt(8);
+    		
+    		try{   		
+    			app = 
+    			new Appointment(index, title, description, dateFormat.parse(lastUpdate)
+    							, participant, location, dateFormat.parse(start), dateFormat.parse(end)
+    							, repeat, arrayOfAppointment.size());
+    			
+    			arrayOfAppointment.add(app);
+    		}
+    		catch(Exception ex)
+    		{
+    			// ignore occurred exception
+    			continue;
+    		}
+    	}
+		
+		db.close();
 				
 		return arrayOfAppointment;
 	}
