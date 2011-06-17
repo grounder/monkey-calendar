@@ -22,8 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class appointmenttest extends Activity {
-	
-	private int noAppointment;   //index of Appointment
 	ArrayList<Appointment> m_arrayOfAppointment;  
 	AppointmentDBHelper m_AppointmentHelper;
 	
@@ -49,12 +47,7 @@ public class appointmenttest extends Activity {
     		break;
     	}
     }    
-    
-    private int getNoAppointments()
-    {
-    	return noAppointment;
-    }
-    
+
     //delete appointment 
     private final void removeAppointment(int index)
     {
@@ -65,6 +58,7 @@ public class appointmenttest extends Activity {
     {
     	LinearLayout layout = (LinearLayout)findViewById(R.id.layoutAppointmentList);
     	layout.removeAllViewsInLayout();
+    	m_arrayOfAppointment.clear();
     }         
     
     private void showNewAppointmentEditor()
@@ -170,60 +164,6 @@ public class appointmenttest extends Activity {
     
     private void loadAppointmentList()
     {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	
-    	Cursor cursor = m_AppointmentHelper.getCursor();
-    	
-    	m_arrayOfAppointment = new ArrayList<Appointment>();
-    	
-    	while(cursor.moveToNext())
-    	{    		
-    		Appointment app = null;
-    		int index = cursor.getInt(0);
-    		String title = cursor.getString(1);
-    		String description = cursor.getString(2);
-    		String lastUpdate = cursor.getString(3);
-    		String participant = cursor.getString(4);
-    		String location = cursor.getString(5);
-    		String starttime = cursor.getString(6);
-    		String finishtime = cursor.getString(7);
-    	    		
-    		try{   		
-    			app = new Appointment(index, 
-    					title, 
-    					description, 
-    					dateFormat.parse(lastUpdate), 
-    					participant,
-    					location,
-    					dateFormat.parse(starttime),
-    					dateFormat.parse(finishtime),
-    					0,
-    					m_arrayOfAppointment.size());
-    		}
-    		catch(Exception ex)
-    		{
-    			continue;
-    		}
-    		m_arrayOfAppointment.add(app);
-    	}
-
-    	m_AppointmentHelper.close();
-    	noAppointment = m_arrayOfAppointment.size();
+    	m_arrayOfAppointment = m_AppointmentHelper.getAllAppointments();
     }
-        
-
-
-	/**
-	 * @param noAppointment the noAppointment to set
-	 */
-	public void setNoAppointment(int noAppointment) {
-		this.noAppointment = noAppointment;
-	}
-
-	/**
-	 * @return the noAppointment
-	 */
-	public int getNoAppointment() {
-		return noAppointment;
-	}
 }

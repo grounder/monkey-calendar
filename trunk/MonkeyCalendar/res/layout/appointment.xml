@@ -4,5 +4,131 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-    
+  	<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1">
+  		<LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical">
+  		<!--Title Edit box-->
+	    <TextView 
+	    	android:id="@+id/textViewAppointmentEditTitle"
+			android:layout_width="fill_parent" 
+			android:text="@string/Title"
+			android:layout_weight="1" android:layout_height="fill_parent"></TextView>
+	    <EditText 
+	    	android:id="@+id/editTextAppointmentEditTitle"
+	    	android:layout_width="fill_parent" 
+	    	android:text="" 
+	    	android:textSize="20px"
+	    	android:singleLine="true" android:layout_weight="1" android:layout_height="fill_parent"></EditText>
+	    
+	    <!--Description Edit box-->
+	    <TextView 
+	    	android:id="@+id/textViewAppointmentEditDescription" 
+	    	android:layout_width="fill_parent" 
+	    	android:text="@string/Description"
+	    	android:layout_weight="4" android:layout_height="fill_parent"></TextView>
+	    <EditText 
+	    	android:id="@+id/editTextAppointmentEditDescription"
+	    	android:layout_width="fill_parent"
+	    	android:textSize="20px"
+	    	android:text="" 
+	    	android:singleLine="false" 
+	    	android:scrollHorizontally="true" 
+	    	android:isScrollContainer="true" 
+	    	android:layout_weight="1" android:layout_height="fill_parent">
+	    </EditText>
+	    
+	    <!--Participant and Location Edit box-->
+	    <LinearLayout android:id="@+id/layoutAppointmentPartLoca" android:orientation="vertical" android:layout_gravity="center_vertical" android:baselineAligned="false" android:isScrollContainer="true" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="fill_parent">
+	        <!--Participant Edit box-->
+	        <TextView 
+	        	android:layout_weight="1" 
+	        	android:layout_gravity="center_vertical" 
+	        	android:id="@+id/textViewAppointmentEditParticipant" 
+	        	android:text="Participant" 
+	        	android:layout_width="fill_parent" 
+	        	android:layout_height="fill_parent"></TextView>
+	        <EditText android:singleLine="true" android:textSize="20px" android:layout_weight="1" android:id="@+id/editTextAppointmentEditParticipant" android:layout_width="fill_parent" android:layout_gravity="top" android:layout_height="fill_parent"></EditText>
+	        
+	        <!--Location Edit box-->
+	        <TextView 
+	        	android:layout_weight="1" 
+	        	android:layout_gravity="center_vertical" 
+	        	android:id="@+id/textViewAppointmentEditLocation" 
+	        	android:text="Location" 
+	        	android:layout_width="fill_parent" 
+	        	android:layout_height="fill_parent"></TextView>
+	        <EditText android:singleLine="true" android:textSize="20px" android:layout_weight="1" android:id="@+id/editTextAppointmentEditLocation" android:layout_width="fill_parent" android:layout_height="fill_parent"></EditText>
+	    </LinearLayout>  
+	    	    	
+	
+		<!--Starttime and Finishtime Edit box-->
+		<!--Starttime Edit box
+			<yyyy mm dd hh mm> -->
+	    <TextView 
+	    	android:id="@+id/textViewAppointmentEditStarttime"
+			android:text="Starttime(yyyy-MM-dd HH:mm)"
+			android:layout_width="fill_parent" 
+			android:layout_weight="1" android:layout_height="fill_parent"></TextView>
+		<LinearLayout 
+			android:id="@+id/layoutAppointmentStart" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1" 
+			android:orientation="horizontal" android:layout_height="fill_parent">
+			
+			<!--StartYear Edit box-->
+		    <EditText 
+		    	android:id="@+id/editTextAppointmentEditStartYear" 
+		    	android:layout_width="wrap_content" android:layout_weight="2" android:layout_height="fill_parent"></EditText>
+		  
+		  	<!--StartMonth Edit box-->
+		    <EditText 
+		    	android:id="@+id/editTextAppointmentEditStartMonth" 
+		    	android:layout_width="wrap_content" android:layout_weight="1" android:layout_height="fill_parent"></EditText>
+		   
+		    <!--StartDay Edit box-->
+		    <EditText 
+		    	android:id="@+id/editTextAppointmentEditStartDay" 
+		    	android:layout_width="wrap_content" android:layout_weight="1" android:layout_height="fill_parent"></EditText>
+		    
+		    <!--StartHour Edit box-->
+		    <EditText 
+		    	android:id="@+id/editTextAppointmentEditStartHour" 
+		    	android:layout_width="wrap_content" android:layout_weight="1" android:layout_height="fill_parent"></EditText>
+		    
+		    <!--StartMinute Edit box-->
+		    <EditText 
+		    	android:id="@+id/editTextAppointmentEditStartMinute" 
+		    	android:layout_width="wrap_content" android:layout_weight="1" android:layout_height="fill_parent"></EditText>
+	  
+	    </LinearLayout>
+	    
+	    <!-- Finishtime Edit box yyyy mm dd hh mm -->
+	    <TextView 
+	    	android:id="@+id/textViewAppointmentEditFinishtime"
+			android:layout_width="fill_parent" 
+			android:text="End time"
+			android:layout_weight="1" android:layout_height="fill_parent"></TextView>
+		
+		<LinearLayout 
+			android:id="@+id/layoutAppointmentFinish" 
+			android:orientation="horizontal" 
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" 
+			android:layout_weight="1" >
+			
+			<DatePicker android:id="@+id/datePickerEnd" 
+				android:layout_width="160dip"
+				android:layout_height="fill_parent"
+				android:layout_weight="1" />
+			<TimePicker android:id="@+id/timePickerEnd" 
+				android:layout_width="160dip"
+				android:layout_height="fill_parent"
+				android:layout_weight="1" />
+			
+		</LinearLayout>
+  		</LinearLayout>
+  	</ScrollView>
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="50dip" android:layout_weight="0">
+        <Button android:text="Save" android:id="@+id/buttonSaveAppointment" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1"></Button>
+        <Button android:text="Cancel" android:id="@+id/buttonCancelAppointment" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1"></Button>
+    </LinearLayout>
 </LinearLayout>
