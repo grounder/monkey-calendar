@@ -12,6 +12,7 @@
     <string name="Description">Description</string>
     
     <string name="Add_memo">Add memo</string>
+    <string name="Add_appo">Add appointment</string>
     
     <!-- Memo string -->
     <string name="MemoList">Memo List</string>
@@ -50,15 +51,15 @@
     <string name="W6">Friday</string>
     <string name="W7">Saturday</string>
     
-    <string name="MsgWeather">Weather of today</string>
+    <string name="MsgWeather">Weather</string>
     <string name="UriWeather">http://m.weather.naver.com/m/crntWetr.nhn</string>
     
-    <string name="MsgBio">My biorhythm</string>
+    <string name="MsgBio">Biorhythm</string>
     <string name="UriBio1">http://www.60gabja.com/bio/013_modujobio.php3?birth_year=</string>
     <string name="UriBio2">&amp;birth_month=</string>
     <string name="UriBio3">&amp;birth_day=</string>
     
-    <string name="MsgFortune">My fortune</string>
+    <string name="MsgFortune">Fortune</string>
     <string name="UriFor">http://www.unselove.net/saju/unsetoday.php#</string>
     <string-array name="Ddi">
 		<item>원숭이</item>
