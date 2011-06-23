@@ -1,8 +1,8 @@
 package com.cmonkeys.mcalendar.view;
 
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+//import java.util.Date;
 
 import com.cmonkeys.db.Appointment;
 import com.cmonkeys.db.AppointmentDBHelper;
@@ -17,8 +17,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.drawable.Drawable;
+//import android.database.Cursor;
+//import android.graphics.drawable.Drawable;
 //import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,8 +36,8 @@ public class mkCalendarType1 extends Activity {
 	private TextView m_arrayOfTextViews[];
 	private Button m_arrayOfButtons[];
 	
-	private Date m_currentDate;
-	private Date m_selectedDate;
+	//private Date m_currentDate;
+	//private Date m_selectedDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) 

@@ -2,6 +2,7 @@ package com.cmonkeys.mcalendar.view;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.cmonkeys.db.Appointment;
@@ -9,15 +10,16 @@ import com.cmonkeys.db.AppointmentDBHelper;
 import com.cmonkeys.mcalendar.R;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
+
+import android.app.DatePickerDialog;
+
 
 public class appointmenteditor extends Activity {
 	private EditText m_editTextTitle;
@@ -39,16 +41,14 @@ public class appointmenteditor extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.appointmenteditor);
+
+        m_editTextTitle = (EditText)findViewById(R.id.editTextAppointmentEditTitle);
+        m_editTextDescription = (EditText)findViewById(R.id.editTextAppointmentEditDescription);
+        m_editTextParticipant = (EditText)findViewById(R.id.editTextAppointmentEditParticipant);
+        m_editTextLocation = (EditText)findViewById(R.id.editTextAppointmentEditLocation);
         
         m_buttonStartDateTime = (Button)findViewById(R.id.buttonStartDateTime_);
-        m_buttonStartDateTime.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	showDialog(START_DATE_DIALOG_ID);
-            }
-        });
-
         m_buttonEndDateTime = (Button)findViewById(R.id.buttonEndDateTime_);
-        
         
         Date after = new Date(0,0,0,0,30);
         m_startDate = new Date();
@@ -80,6 +80,7 @@ public class appointmenteditor extends Activity {
     	switch (v.getId()) {
     	case R.id.buttonSaveAppointment:
     		saveAppointment();
+    		finish();
     		break;
     	case R.id.buttonCancelAndCloseAppointment:  
     		finish();
@@ -87,30 +88,23 @@ public class appointmenteditor extends Activity {
     	}
     }
     
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-        case START_DATE_DIALOG_ID:
-            return new DatePickerDialog(this,
-            		m_startDateSetListener,
-            		m_startDate.getYear(), m_startDate.getMonth(), m_startDate.getDate());
-        }
-        return null;
-    }
-    
-    public void showStartDateInput()
+    public void onStartClick(View v)
     {
-    	DatePickerDialog dateDlg;
-    	dateDlg = new DatePickerDialog(this, m_startDateSetListener, m_startDate.getYear(), m_startDate.getMonth(), m_startDate.getDate());
-		dateDlg.show();
+    	DatePickerDialog dateDlg = new DatePickerDialog(this, m_startDateSetListener, m_startDate.getYear() + 1900, m_startDate.getMonth(), m_startDate.getDate() );
+    	dateDlg.show();
     }
-    
+
+    public void onEndClick(View v)
+    {
+    	DatePickerDialog dateDlg = new DatePickerDialog(this, m_endDateSetListener, m_startDate.getYear() + 1900, m_startDate.getMonth(), m_startDate.getDate() );
+    	dateDlg.show();
+    }
     // the callback received when the user "sets" the date in the dialog
     private DatePickerDialog.OnDateSetListener m_startDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker view, int year, 
                                       int monthOfYear, int dayOfMonth) {
-                    m_startDate.setYear(year);
+                    m_startDate.setYear(year - 1900);
                     m_startDate.setMonth(monthOfYear);
                     m_startDate.setDate(dayOfMonth);
                     m_buttonStartDateTime.setText(m_dateTimeFormat.format(m_startDate));
@@ -121,7 +115,7 @@ public class appointmenteditor extends Activity {
         new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, 
                                   int monthOfYear, int dayOfMonth) {
-            	m_endDate.setYear(year);
+            	m_endDate.setYear(year - 1900);
             	m_endDate.setMonth(monthOfYear);
             	m_endDate.setDate(dayOfMonth);
             	m_buttonEndDateTime.setText(m_dateTimeFormat.format(m_endDate));
@@ -135,7 +129,6 @@ public class appointmenteditor extends Activity {
 		String participant = m_editTextParticipant.getText().toString();
 		String location = m_editTextLocation.getText().toString();
 		
-
     	return new Appointment(0, title, description, new Date(), 
 				participant, location,m_startDate, m_endDate,
 				0, 0);
