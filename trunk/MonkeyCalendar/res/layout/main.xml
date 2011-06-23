@@ -7,7 +7,5 @@
     android:isScrollContainer="true"
     >
 	    <Button android:text="Month" android:id="@+id/buttonMonth_" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="onClick" />
-	    <Button android:text="Day" android:id="@+id/buttonDay" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="onClick" />
-	    <Button android:text="New Day Test" android:id="@+id/buttonNewDay" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="onClick" />
 	    <Button android:text="Exit" android:id="@+id/buttonExit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:onClick="onClick" />
 </LinearLayout>

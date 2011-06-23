@@ -23,6 +23,7 @@ public class day extends Activity {
 	private ArrayList<Appointment> m_arrayOfAppointments;
 	private AppointmentDBHelper m_appointmentDBHelper;
 	private Date m_selectedDay;
+	private TextView m_textViewTitle;
 	
 	LinearLayout m_listLayout;
 	/** Called when the activity is first created. */
@@ -36,6 +37,8 @@ public class day extends Activity {
         m_arrayOfAppointments = new ArrayList<Appointment>();
         
         m_listLayout = (LinearLayout)findViewById(R.id.linearLayoutDay);
+        
+        m_textViewTitle = (TextView)findViewById(R.id.textViewSeletedDay);
         
         Intent intent = getIntent();
 
@@ -70,15 +73,15 @@ public class day extends Activity {
     {
     	TextView textViewToAdd;
     	Date timeOfSelected = (Date)m_selectedDay.clone();
-    	
+    	m_textViewTitle.setText("" + (m_selectedDay.getYear() + 1900) + "/" + (m_selectedDay.getMonth() + 1) + "/" + m_selectedDay.getDate());
     	clear();
-    	addNewMemo();
+    	addNewAppointment();
     	
-    	m_arrayOfAppointments = m_appointmentDBHelper.getAppointmentsOfSelectedDate(timeOfSelected);
+    	m_arrayOfAppointments = m_appointmentDBHelper.getAppointments(timeOfSelected, timeOfSelected);
     	
     	for(Appointment appo : m_arrayOfAppointments)
     	{
-    		int indexOfCurrentAppointment = appo.getIndex();
+    		final int indexOfCurrentAppointment = appo.getIndex();
     		textViewToAdd = new TextView(this);
         	textViewToAdd.setPadding(10, 10, 10, 10);
         	textViewToAdd.setText(appo.getTitle());
@@ -88,7 +91,10 @@ public class day extends Activity {
     			@Override
     			public void onClick(View v) {
     				// TODO Show appointment content
-    				// indexOfCurrentAppointment
+    				Intent intent = new Intent(day.this, appointmenteditor.class);
+					intent.putExtra("isNew", false);
+					intent.putExtra("indexOfCurrent", indexOfCurrentAppointment);
+					startActivity(intent);
     			}
     		});
         	
@@ -98,7 +104,7 @@ public class day extends Activity {
     	}
     }
 
-	private void addNewMemo() {
+	private void addNewAppointment() {
 		TextView textViewToAdd;
 		textViewToAdd = new TextView(this);
     	textViewToAdd.setPadding(10, 10, 10, 10);
@@ -111,6 +117,7 @@ public class day extends Activity {
 				// Show add appointment activity
 				SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Intent intent = new Intent(day.this, appointmenteditor.class);
+				intent.putExtra("isNew", true);
 				intent.putExtra("SelectedDay", dateTimeFormat.format(m_selectedDay));
 				startActivity(intent);
 			}

@@ -93,6 +93,13 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		db.close();
 	}	
 
+	public void updateAppointment(Appointment app)
+	{
+		updateAppointment(app.getIndex(), app.getTitle(), app.getDescription(), 
+				app.getParticipants(), app.getLocation(), 
+				app.getStart(), app.getEnd(), app.getRepeat());
+	}
+	
 	public void updateAppointment(int index, String title, String description, String participant, String location,
 			Date starttime, Date finishtime, int repeat)
 	{
@@ -185,7 +192,24 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		int hour = nTime / 100;
 		int min = nTime - (hour * 100);
 		
-		return new Date(year - 1900, month, day, hour, min);
+		return new Date(year - 1900, month - 1, day, hour, min);
+	}
+	
+	private static boolean isValidDate(int currentItemStartDate, int currentItemEndDate, int selecetedStartDate, int selectedEndDate)
+	{
+		if( currentItemStartDate >= selecetedStartDate && currentItemStartDate <= selectedEndDate )
+			return true;
+		
+		if( currentItemEndDate >= selecetedStartDate && currentItemEndDate <= selectedEndDate )
+			return true;
+
+		if( selecetedStartDate >= currentItemStartDate && selecetedStartDate <= currentItemEndDate )
+			return true;
+		
+		if( selectedEndDate >= currentItemStartDate && selectedEndDate <= currentItemEndDate )
+			return true;
+		
+		return false;
 	}
 	
 	public ArrayList<Appointment> getAppointments(Date selectedStart, Date selectedEnd)
@@ -193,11 +217,11 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
 		int selectedStartInt = ((selectedStart.getYear() + 1900) * 10000) 
-		 					+ (selectedStart.getMonth() * 100)
+		 					+ ( (1 + selectedStart.getMonth()) * 100)
 							+ (selectedStart.getDate());
 		
 		int selectedEndInt = ((selectedEnd.getYear() + 1900) * 10000) 
-							+ (selectedEnd.getMonth() * 100)
+							+ ( (1 + selectedEnd.getMonth()) * 100)
 							+ (selectedEnd.getDate());
 		
 		SQLiteDatabase db = getReadableDatabase();
@@ -205,7 +229,7 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     					new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE,
 									PARTICIPANT, LOCATION, START_DATE, START_TIME, 
 									END_DATE, END_TIME, REPEAT}
-									, START_DATE + " BETWEEN " + selectedStartInt + " AND " + selectedEndInt
+									, null
 									, null, null, null, null);
 
 		while(cursor.moveToNext())
@@ -217,16 +241,23 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     		String lastUpdate = cursor.getString(3);
     		String participant = cursor.getString(4);
     		String location = cursor.getString(5);
+
+    		// Search factors
     		Integer startDate = cursor.getInt(6);
     		Integer startTime = cursor.getInt(7);
     		Integer endDate = cursor.getInt(8);
     		Integer endTime = cursor.getInt(9);
     		Integer repeat = cursor.getInt(10);
-    		    		   		    		
+    		
+    		if(!isValidDate(startDate, endDate, selectedStartInt, selectedEndInt))
+    			continue;
+    		
+    		// TODO To generate items have repeat
+    		
     		Date start = getDateFromInteger(startDate, startTime);
     		Date end = getDateFromInteger(endDate, endTime);
     		
-    		try{   		
+    		try{
     			app = 
     				new Appointment(index, title, description
     							, dateFormat.parse(lastUpdate)
@@ -247,48 +278,43 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		return arrayOfAppointment;
 	}
 	
-	public ArrayList<Appointment> getAppointmentsOfSelectedDate(Date selectedDate)
+	public Appointment getAppointment(int selectedIndex)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
-		int selectedDateInt = ((selectedDate.getYear() + 1900) * 10000) 
-		 					+ (selectedDate.getMonth() * 100)
-							+ (selectedDate.getDate());
-		
 		SQLiteDatabase db = getReadableDatabase();
-		/*
     	Cursor cursor = db.query(TABLE_NAME, 
     					new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE,
 									PARTICIPANT, LOCATION, START_DATE, START_TIME, 
-									END_DATE, END_TIME, REPEAT}, null
-									, new String[] {START_DATE + " == " + selectedDateInt}, null, null, null); */
-    	Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + START_DATE + " = '" + selectedDateInt + "'",null);
+									END_DATE, END_TIME, REPEAT}
+									, "" + INDEX + "=" + selectedIndex
+									, null, null, null, null);
+    	Appointment app = null;
+
 		while(cursor.moveToNext())
     	{
-    		Appointment app = null;
     		int index = cursor.getInt(0);
     		String title = cursor.getString(1);
     		String description = cursor.getString(2);
     		String lastUpdate = cursor.getString(3);
     		String participant = cursor.getString(4);
     		String location = cursor.getString(5);
+
+    		// Search factors
     		Integer startDate = cursor.getInt(6);
     		Integer startTime = cursor.getInt(7);
     		Integer endDate = cursor.getInt(8);
     		Integer endTime = cursor.getInt(9);
     		Integer repeat = cursor.getInt(10);
-    		    		   		    		
+    		
     		Date start = getDateFromInteger(startDate, startTime);
     		Date end = getDateFromInteger(endDate, endTime);
     		
-    		try{   		
+    		try{
     			app = 
     				new Appointment(index, title, description
     							, dateFormat.parse(lastUpdate)
     							, participant, location, start, end
-    							, repeat, arrayOfAppointment.size());
-    			
-    			arrayOfAppointment.add(app);
+    							, repeat, 0);
     		}
     		catch(Exception ex)
     		{
@@ -299,6 +325,6 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		
 		db.close();
 				
-		return arrayOfAppointment;
+		return app;
 	}
 }

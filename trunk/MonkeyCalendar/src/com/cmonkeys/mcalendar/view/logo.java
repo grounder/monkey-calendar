@@ -21,7 +21,7 @@ public class logo extends Activity {
                 finish();
             }
         };
-        handler.sendEmptyMessageDelayed(0, 3000);
+        handler.sendEmptyMessageDelayed(0, 1000);
     }
 	
 }

@@ -1,6 +1,7 @@
 package com.cmonkeys.mcalendar.view;
 
 //import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 //import java.util.Date;
@@ -15,6 +16,7 @@ import com.cmonkeys.mcalendar.view.mkCalendar.mkCalendarColorParam;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,22 +32,59 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class mkCalendarType1 extends Activity {
+public class mkCalendarMain extends Activity {
 	// Buttons to change the current date
 	private TextView m_arrayOfTextViews[];
 	private Button m_arrayOfButtons[];
 	
-	private Date m_currentDate;
-	private Date m_selectedDate;
+	class myMkCalendar extends mkCalendar
+	{
+		int m_lastSelection ;
+		
+		public myMkCalendar(Context context, LinearLayout layout) 
+		{
+			super(context, layout);
+			m_context = context;
+		}
+		
+		Context m_context;
+		
+		@Override
+		public void myClickEvent(int yyyy, int MM, int dd) 
+		{
+			int selected = yyyy * 10000 + MM * 100 + dd;
+			
+			if(m_lastSelection == selected)
+			{
+				SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date seletedDate = new Date(yyyy - 1900, MM, dd, 0,0);
+				Intent intent = new Intent(m_context, day.class);
+				intent.putExtra("SelectedDay", dateTimeFormat.format(seletedDate));
+				m_context.startActivity(intent);
+			}
+			
+			m_lastSelection = selected;
+			
+			m_calendar.redraw( ) ;
+			m_calendar.applyHoliday( ) ;
+			// 선택된 날짜는 배경 이미지를 변경
+			// m_calendar.setSelectedDay( mkCalendarType1.this.getResources( ).getDrawable( R.drawable.icon ) ) ;
+	        // 선택된 날짜는 글씨를 변경
+			m_calendar.setSelectedDayTextColor( 0xff009999 ) ;
+			super.myClickEvent(yyyy, MM, dd);
+		}
+		
+	}
+	
+	private myMkCalendar m_calendar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
     	super.onCreate(savedInstanceState);
-        setContentView(R.layout.mkcalendartype1);
+        setContentView(R.layout.mkcalendarmain);
         
-        // set today
-        m_currentDate = new Date();
+        startActivity(new Intent(this, logo.class));
         
         // Appointment initialize
         loadAppointmentList();
@@ -71,7 +110,7 @@ public class mkCalendarType1 extends Activity {
         m_arrayOfButtons[3] = (Button)findViewById( R.id.buttonNextMonth ) ;
         
         // Allocate new calendar object
-        mkCalendar cal = new mkCalendar( this, lv ) ;
+        m_calendar = new myMkCalendar( this, lv ) ;
         
         // Set colors of the calendar
         mkCalendarColorParam cParam = new mkCalendarColorParam( ) ;
@@ -84,7 +123,7 @@ public class mkCalendarType1 extends Activity {
         cParam.m_topTextColor = 0xffffffff ;
         cParam.m_topSundayTextColor = 0xffffffff ;
         cParam.m_topSaturdatTextColor = 0xffffffff ;
-        cal.setColorParam( cParam ) ;
+        m_calendar.setColorParam( cParam ) ;
         
         /// Set a background of the calendar
         //Drawable img = getResources( ).getDrawable( R.drawable.logo ) ;
@@ -94,19 +133,19 @@ public class mkCalendarType1 extends Activity {
         int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 320.0f, getResources().getDisplayMetrics());
         int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 324.0f, getResources().getDisplayMetrics());
         
-        cal.setCalendarSize(width, height) ;
+        m_calendar.setCalendarSize(width, height) ;
         
         // Set the top cells' height to 35
-        cal.setTopCellSize( 35 ) ;
+        m_calendar.setTopCellSize( 35 ) ;
         
         // Set the buttons to change month
-        cal.setControl( m_arrayOfButtons ) ;
+        m_calendar.setControl( m_arrayOfButtons ) ;
         
         // set the textView to show year, month, and day
-        cal.setViewTarget( m_arrayOfTextViews ) ;
+        m_calendar.setViewTarget( m_arrayOfTextViews ) ;
         
         // Init the calendar
-        cal.initCalendar( ) ;
+        m_calendar.initCalendar();
     }
     
     @Override
@@ -297,7 +336,7 @@ public class mkCalendarType1 extends Activity {
     	final EditText editTextDescription = (EditText)editLayout.findViewById(R.id.editTextMemoEditDescription);
     	final int currentIndex = index;
     	final Article currentArticle = m_arrayOfMemos.get(currentIndex);
-    	final mkCalendarType1 currentView = this;
+    	final mkCalendarMain currentView = this;
     	
     	bld.setTitle("Edit");
     	editTextTitle.setText(m_arrayOfMemos.get(index).getTitle());
@@ -340,7 +379,7 @@ public class mkCalendarType1 extends Activity {
     	final LinearLayout editLayout = (LinearLayout)View.inflate(this, R.layout.memoedit, null);
     	final EditText editTextTitle = (EditText)editLayout.findViewById(R.id.editTextMemoEditTitle);
     	final EditText editTextDescription = (EditText)editLayout.findViewById(R.id.editTextMemoEditDescription);
-    	final mkCalendarType1 currentView = this;
+    	final mkCalendarMain currentView = this;
     	
     	bld.setTitle("New");
     	editTextTitle.setText("");
