@@ -2,6 +2,7 @@ package com.cmonkeys.mcalendar.view;
 
 //import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 //import java.util.Date;
 
 import com.cmonkeys.db.Appointment;
@@ -17,13 +18,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-//import android.database.Cursor;
-//import android.graphics.drawable.Drawable;
-//import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,8 +35,8 @@ public class mkCalendarType1 extends Activity {
 	private TextView m_arrayOfTextViews[];
 	private Button m_arrayOfButtons[];
 	
-	//private Date m_currentDate;
-	//private Date m_selectedDate;
+	private Date m_currentDate;
+	private Date m_selectedDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) 
@@ -45,18 +44,17 @@ public class mkCalendarType1 extends Activity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.mkcalendartype1);
         
-        // Appointment initialize
-        m_appointementHelper = new AppointmentDBHelper(this);
+        // set today
+        m_currentDate = new Date();
         
+        // Appointment initialize
         loadAppointmentList();
         
         // Memo initialize
-        m_memoHelper = new MemoDBHelper(this);
-        
         loadMemoList();
         updateMemoList();        
         
-        /// 달력을 띄울 대상 레이아웃
+        // Target layout to add a calendar
         LinearLayout lv = (LinearLayout)findViewById( R.id.linearLayoutCalendar ) ;
         
         /// 년 월 일 표시할 텍스트뷰
@@ -72,10 +70,10 @@ public class mkCalendarType1 extends Activity {
         m_arrayOfButtons[2] = (Button)findViewById( R.id.buttonPrevMonth ) ;
         m_arrayOfButtons[3] = (Button)findViewById( R.id.buttonNextMonth ) ;
         
-        /// 달력객체 생성
+        // Allocate new calendar object
         mkCalendar cal = new mkCalendar( this, lv ) ;
         
-        /// 색상 설정할 객체 생성
+        // Set colors of the calendar
         mkCalendarColorParam cParam = new mkCalendarColorParam( ) ;
         
         cParam.m_cellColor = 0x00000000 ;
@@ -86,13 +84,10 @@ public class mkCalendarType1 extends Activity {
         cParam.m_topTextColor = 0xffffffff ;
         cParam.m_topSundayTextColor = 0xffffffff ;
         cParam.m_topSaturdatTextColor = 0xffffffff ;
-        
-        /// 셋팅한 값으로 색상값 셋~
         cal.setColorParam( cParam ) ;
         
-        /// 배경으로 사용할 이미지 얻기
+        /// Set a background of the calendar
         //Drawable img = getResources( ).getDrawable( R.drawable.logo ) ;
-        // 배경 이미지 셋~
         //cal.setBackground( img ) ;
                             
         // Set the size of the calendar
@@ -110,17 +105,105 @@ public class mkCalendarType1 extends Activity {
         // set the textView to show year, month, and day
         cal.setViewTarget( m_arrayOfTextViews ) ;
         
+        // Init the calendar
         cal.initCalendar( ) ;
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+    	// Options menu configure
+    	super.onCreateOptionsMenu(menu);
+    	
+    	menu.add(0,1,0,getResources().getString(R.string.Add_memo).toString());
+    	menu.add(0,2,0,getResources().getString(R.string.Show_week_view).toString());
+    	menu.add(0,3,0,getResources().getString(R.string.Set_preference).toString());
+    	menu.add(0,4,0,getResources().getString(R.string.MsgBio).toString());
+    	menu.add(0,5,0,getResources().getString(R.string.MsgWeather).toString());
+    	menu.add(0,6,0,getResources().getString(R.string.MsgFortune).toString());
+    	
+    	return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+    	Intent intent;
+    	// Set the options action
+    	switch(item.getItemId())
+    	{
+    	case 1:	// Add memo
+    		showNewMemoEditor();
+    		return true;
+    	case 2:	// Show week view
+    		intent = new Intent(this, week.class);
+    		startActivity(intent);
+    		return true;
+    	case 3:	// Set preference
+    		intent = new Intent(this, Preference.class);
+    		startActivity(intent);
+    		return true;
+    	case 4: // Bio
+    		 showBiorythm();
+    		return true;
+    	case 5: // Weather
+    		showWeather();
+    		return true;
+    	case 6: // Fortune
+    		showFortune();
+    		return true;
+    	}
+    	return false;
+    }
+    
+	private void showBiorythm() {
+		// Forward to biorythm web page
+		SharedPreferences pref = getSharedPreferences("fun",0);
+		Date now = new Date();
+        
+        int Year = pref.getInt("Year",now.getYear()) + 1900;
+        int Month = pref.getInt("Month",now.getMonth());
+        int Day = pref.getInt("Date",now.getDate());
+
+		Uri uri = Uri.parse(getResources().getString(R.string.UriBio1) + Year +
+							getResources().getString(R.string.UriBio2) + Month + 
+							getResources().getString(R.string.UriBio3) + Day);
+		 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		 startActivity(intent);
+	}
+
+	private void showWeather() {
+		// Forward to weather web page
+		Uri uri = Uri.parse(getResources().getString(R.string.UriWeather));
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
+	}
+    
+	private void showFortune() {
+		SharedPreferences pref = getSharedPreferences("fun",0);
+		Date now = new Date();
+		int iAnimal = pref.getInt("Year",now.getYear()) + 1900; 
+		iAnimal = iAnimal %12;
+		
+		String sAnimal = getResources().getStringArray(R.array.Ddi)[iAnimal];
+
+		// Forward to weather web page
+		Uri uri = Uri.parse(getResources().getString(R.string.UriFor) + sAnimal);
+		 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		 startActivity(intent);
+	}
 
     ///////////////////////////////////////////////////////////////////////////
     // Appointment functions
     ArrayList<Appointment> m_arrayOfAppointments;
-    AppointmentDBHelper m_appointementHelper;
     
     private void loadAppointmentList()
     {
-		
+    	AppointmentDBHelper appointementHelper = new AppointmentDBHelper(this);
+    	
+    	//m_arrayOfAppointments = appointementHelper.getAppointments(selectedStart, selectedEnd);
+    	
+    	appointementHelper.close();
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -130,13 +213,15 @@ public class mkCalendarType1 extends Activity {
     // Just for displaying
     ArrayList<Article> m_arrayOfMemos;
     
-    // Memo DB helper to handle memo DB
-	MemoDBHelper m_memoHelper;
-	
 	// Load memos from DB, save all latest memos to m_arrayOfMemos
     private void loadMemoList()
     {
-    	m_arrayOfMemos = m_memoHelper.getAllMemos();
+    	// Memo DB helper to handle memo DB
+    	MemoDBHelper memoHelper = new MemoDBHelper(this);
+    	
+    	m_arrayOfMemos = memoHelper.getAllMemos();
+    	
+    	memoHelper.close();
     }
 
     // Clear memo list, it doesn't mean clear DB 
@@ -172,109 +257,16 @@ public class mkCalendarType1 extends Activity {
     		
     	}
     	
-    	addNewMemoButton(layout);
-		addWeatherButton(layout);
-		addBiorythmButton(layout);
-		addFortuneButton(layout);
-		
+    	if(m_arrayOfMemos.size() == 0)
+    	{
+    		TextView tvMemoTitle = new TextView(this);
+    		tvMemoTitle.setPadding(10, 10, 10, 10);
+    		tvMemoTitle.setText(getResources().getString(R.string.No_memo).toString());
+    		tvMemoTitle.setTextSize(20);
+    		layout.addView(tvMemoTitle);
+    	}
     }
 
-    private void addNewMemoButton(LinearLayout layout) {
-		TextView tvNewMemo = new TextView(this);
-    	tvNewMemo.setPadding(10, 10, 10, 10);
-    	tvNewMemo.setText(getResources().getString(R.string.Add_memo));
-    	
-    	tvNewMemo.setClickable(true);
-    	tvNewMemo.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				showNewMemoEditor();
-			}
-		});
-    	tvNewMemo.setTextSize(22);
-    	tvNewMemo.setTextColor(0xff00ffff);
-    	tvNewMemo.setGravity(Gravity.CENTER);
-		layout.addView(tvNewMemo);
-	}
-    
-	private void addBiorythmButton(LinearLayout layout) {
-		TextView tvNewMemo = new TextView(this);
-    	tvNewMemo.setPadding(10, 10, 10, 10);
-    	tvNewMemo.setText(getResources().getString(R.string.MsgBio));
-    	
-    	tvNewMemo.setClickable(true);
-    	tvNewMemo.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// Forward to biorythm web page
-				SharedPreferences pref = getSharedPreferences("fun",0);
-                
-	            int Year = pref.getInt("Year",1983);
-	            int Month = pref.getInt("Month",4);
-	            int Day = pref.getInt("Day",19);
-
-				Uri uri = Uri.parse(getResources().getString(R.string.UriBio1) + Year +
-									getResources().getString(R.string.UriBio2) + Month + 
-									getResources().getString(R.string.UriBio3) + Day);
-				 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				 startActivity(intent);
-			}
-		});
-    	tvNewMemo.setTextSize(22);
-    	tvNewMemo.setTextColor(0xffffff00);
-    	tvNewMemo.setGravity(Gravity.CENTER);
-		layout.addView(tvNewMemo);
-	}
-
-	private void addWeatherButton(LinearLayout layout) {
-		TextView tvNewMemo = new TextView(this);
-    	
-    	tvNewMemo.setPadding(10, 10, 10, 10);
-    	tvNewMemo.setText(getResources().getString(R.string.MsgWeather));
-    	
-    	tvNewMemo.setClickable(true);
-    	tvNewMemo.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// Forward to weather web page
-				Uri uri = Uri.parse(getResources().getString(R.string.UriWeather));
-				 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				 startActivity(intent);
-			}
-		});
-    	tvNewMemo.setTextSize(22);
-    	tvNewMemo.setTextColor(0xffffff00);
-    	tvNewMemo.setGravity(Gravity.CENTER);
-		layout.addView(tvNewMemo);
-	}
-    
-	private void addFortuneButton(LinearLayout layout) {
-		TextView tvFortuneButton = new TextView(this);
-		    	
-    	tvFortuneButton.setPadding(10, 10, 10, 10);
-    	tvFortuneButton.setText(getResources().getString(R.string.MsgFortune));
-    	
-    	tvFortuneButton.setClickable(true);
-    	tvFortuneButton.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				SharedPreferences pref = getSharedPreferences("fun",0);
-				int iAnimal = pref.getInt("Year",1983)%12;
-				
-				String sAnimal = getResources().getStringArray(R.array.Ddi)[iAnimal - 1];
-				
-				// Forward to weather web page
-				Uri uri = Uri.parse(getResources().getString(R.string.UriFor) + sAnimal);
-				 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				 startActivity(intent);
-			}
-		});
-    	tvFortuneButton.setTextSize(22);
-    	tvFortuneButton.setTextColor(0xffffff00);
-    	tvFortuneButton.setGravity(Gravity.CENTER);
-		layout.addView(tvFortuneButton);
-	}
-	
     // Show selected memo 
     private void showSelectedMemo(int index)
     {
@@ -286,7 +278,7 @@ public class mkCalendarType1 extends Activity {
     	bld.setPositiveButton("Edit", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Show memo editor
+				// Show memo editor
     			showSelectedMemoEditor(curIndex);
 			}});
     	bld.setNegativeButton("Close", new DialogInterface.OnClickListener(){ 
@@ -305,17 +297,20 @@ public class mkCalendarType1 extends Activity {
     	final EditText editTextDescription = (EditText)editLayout.findViewById(R.id.editTextMemoEditDescription);
     	final int currentIndex = index;
     	final Article currentArticle = m_arrayOfMemos.get(currentIndex);
+    	final mkCalendarType1 currentView = this;
     	
     	bld.setTitle("Edit");
     	editTextTitle.setText(m_arrayOfMemos.get(index).getTitle());
     	editTextDescription.setText(m_arrayOfMemos.get(index).getDescription());
-    	bld.setView(editLayout);    	
+    	bld.setView(editLayout);
     	
     	bld.setPositiveButton("Remove", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// Remove this memo
-    			m_memoHelper.deleteMemo(currentArticle.getIndex());
+    			MemoDBHelper memoHelper = new MemoDBHelper(currentView); 
+    			memoHelper.deleteMemo(currentArticle.getIndex());
+    			memoHelper.close();
     			updateMemoList();
 			}});
     	bld.setNegativeButton("Close", new DialogInterface.OnClickListener(){ 
@@ -330,7 +325,9 @@ public class mkCalendarType1 extends Activity {
     			    			
     			if( oldTitle != newTitle || oldDescription != newDescription )
     			{
-    				m_memoHelper.updateMemo(indexToUpdate, newTitle, newDescription);
+    				MemoDBHelper memoHelper = new MemoDBHelper(currentView); 
+    				memoHelper.updateMemo(indexToUpdate, newTitle, newDescription);
+        			memoHelper.close();
     			}
 				updateMemoList();
 			}});
@@ -343,6 +340,7 @@ public class mkCalendarType1 extends Activity {
     	final LinearLayout editLayout = (LinearLayout)View.inflate(this, R.layout.memoedit, null);
     	final EditText editTextTitle = (EditText)editLayout.findViewById(R.id.editTextMemoEditTitle);
     	final EditText editTextDescription = (EditText)editLayout.findViewById(R.id.editTextMemoEditDescription);
+    	final mkCalendarType1 currentView = this;
     	
     	bld.setTitle("New");
     	editTextTitle.setText("");
@@ -352,7 +350,9 @@ public class mkCalendarType1 extends Activity {
     	bld.setPositiveButton("Save", new DialogInterface.OnClickListener(){ 
     		@Override
 			public void onClick(DialogInterface dialog, int which) {
-    			m_memoHelper.insertMemo(editTextTitle.getText().toString(), editTextDescription.getText().toString());
+    			MemoDBHelper memoHelper = new MemoDBHelper(currentView); 
+				memoHelper.insertMemo(editTextTitle.getText().toString(), editTextDescription.getText().toString());
+    			memoHelper.close();
     			updateMemoList();
 			}});
     	bld.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){ 

@@ -15,7 +15,7 @@ public class fun extends Activity {
 	/** Called when the activity is first created. */
     TextView textYear;
     TextView textMonth;
-    TextView textDate;    
+    TextView textDate;
     
     public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -26,7 +26,7 @@ public class fun extends Activity {
             textDate = (TextView)findViewById(R.id.date);
 
             SharedPreferences pref = getSharedPreferences("fun",0);
-                        
+
             int Year = pref.getInt("Year",2011);
             textYear.setText("" + Year);
             int Month = pref.getInt("Month",06);

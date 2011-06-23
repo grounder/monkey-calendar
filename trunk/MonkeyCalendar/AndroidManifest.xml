@@ -29,5 +29,6 @@
 		<activity android:name=".view.day" android:label="Day" android:screenOrientation="portrait"></activity>
 		<activity android:name=".view.appointmenteditor" android:label="Appointment" android:screenOrientation="portrait"></activity>
 		<activity android:name=".view.logo" android:theme="@android:style/Theme.NoTitleBar" android:screenOrientation="portrait" ></activity>
+		<activity android:label="Preference" android:name=".view.Preference" android:screenOrientation="portrait"></activity>
     </application>
 </manifest>
