@@ -4,9 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.cmonkeys.mcalendar.view.memolist;
-
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,26 +11,26 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class MemoDBHelper extends SQLiteOpenHelper {
-
-	static final String m_nameOfTable = "memo";
-	static final String m_nameOfIndex = "_id";
-	static final String m_nameOfTitle = "title";
-	static final String m_nameOfDescription = "description";
-	static final String m_nameOfLastUpdate = "lastUpdate";
+	static final String DB_NAME = "MKCal.db";
+	static final String TABLE_NAME = "memo";
+	static final String INDEX = "_id";
+	static final String TITLE = "title";
+	static final String DESCRIPTION = "description";
+	static final String LAST_UPDATE = "lastUpdate";
 	
 	public MemoDBHelper(Context context) {
-		super(context,"MKCal.db", null, 1);
+		super(context,DB_NAME, null, 1);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE " + m_nameOfTable + "(" + m_nameOfIndex + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ m_nameOfTitle + " TEXT, description TEXT, " + m_nameOfLastUpdate + " TEXT);");
+		db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + INDEX + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ TITLE + " TEXT, " + DESCRIPTION +" TEXT, " + LAST_UPDATE + " TEXT);");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + m_nameOfTable);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 		onCreate(db);
 	}
 
@@ -50,24 +47,28 @@ public class MemoDBHelper extends SQLiteOpenHelper {
     	ContentValues row;
     	Date now = new Date();
     	
+    	// title is neccasary
+    	if(title == "") return;
+    	
     	db = getWritableDatabase();
     	
+    	// Create memo article
     	row = new ContentValues();
-    	row.put(m_nameOfTitle, title);
-    	row.put(m_nameOfDescription, description);
-    	row.put(m_nameOfLastUpdate, dateFormat.format(now));
+    	row.put(TITLE, title);
+    	row.put(DESCRIPTION, description);
+    	row.put(LAST_UPDATE, dateFormat.format(now));
     		     
-    	db.insert(m_nameOfTable, null, row);
+    	db.insert(TABLE_NAME, null, row);
     	
-    	close();
+    	db.close();
     }
 	
 	public void deleteMemo(int index)
 	{
 		SQLiteDatabase db;
 		db = getWritableDatabase();
-		db.delete(m_nameOfTable, m_nameOfIndex + "=" + index, null);
-		close();
+		db.delete(TABLE_NAME, INDEX + "=" + index, null);
+		db.close();
 	}
 	
 	public void updateMemo(int index, String title, String description)
@@ -75,27 +76,13 @@ public class MemoDBHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db;
 		ContentValues args = new ContentValues();
 		
-		
-		args.put(m_nameOfTitle, title);
-		args.put(m_nameOfDescription, description);
+		args.put(TITLE, title);
+		args.put(DESCRIPTION, description);
 		
 		db = getWritableDatabase();
-		db.update(m_nameOfTable, args, m_nameOfIndex + "=" + index, null);
+		db.update(TABLE_NAME, args, INDEX + "=" + index, null);
  
-		close();
-	}
-	
-	public Cursor getCursor()
-	{
-		SQLiteDatabase db;
-    	Cursor cursor = null;
-
-    	db = getReadableDatabase();
-    		cursor = db.query(m_nameOfTable, 
-    			new String[] {m_nameOfIndex, m_nameOfTitle, m_nameOfDescription, m_nameOfLastUpdate}, 
-    			null, null, null, null, null);
-    	    	
-    	return cursor;
+		db.close();
 	}
 	
 	public ArrayList<Article> getAllMemos()
@@ -107,9 +94,9 @@ public class MemoDBHelper extends SQLiteOpenHelper {
     	Cursor cursor = null;
 
     	db = getReadableDatabase();
-		cursor = db.query(m_nameOfTable, 
-			new String[] {m_nameOfIndex, m_nameOfTitle, m_nameOfDescription, m_nameOfLastUpdate}, 
-			null, null, null, null, null);
+		cursor = db.query(TABLE_NAME, 
+			new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE}, 
+			null, null, LAST_UPDATE + " DESC", null, null);
 		
 		while(cursor.moveToNext())
     	{
@@ -118,7 +105,8 @@ public class MemoDBHelper extends SQLiteOpenHelper {
     		String title = cursor.getString(1);
     		String description = cursor.getString(2);
     		String lastUpdate = cursor.getString(3);
-    		try{   		
+    		
+    		try{
     			art = new Article(index, title, description, dateFormat.parse(lastUpdate), arrayOfMemos.size());
     			arrayOfMemos.add(art);
     		}
@@ -129,6 +117,7 @@ public class MemoDBHelper extends SQLiteOpenHelper {
     		}
     	}
 		
+		cursor.close();
 		db.close();
 		
 		return arrayOfMemos;

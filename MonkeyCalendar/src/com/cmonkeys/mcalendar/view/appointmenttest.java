@@ -1,19 +1,16 @@
 package com.cmonkeys.mcalendar.view;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.cmonkeys.db.Appointment;
 import com.cmonkeys.db.AppointmentDBHelper;
 import com.cmonkeys.db.Article;
-import com.cmonkeys.db.MemoDBHelper;
 import com.cmonkeys.mcalendar.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,8 +27,6 @@ public class appointmenttest extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.appointmenttest);      
-        
-        m_AppointmentHelper = new AppointmentDBHelper(this);
         
         loadAppointmentList();
         updateAppointmentList();
@@ -105,28 +100,28 @@ public class appointmenttest extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
     			
     			Date StartTime = new Date();
-    			Date FinishTime = new Date();
+    			Date EndTime = new Date();
     	    	
     			//String type input date convert to Date type 
-    	    	StartTime.setYear(Integer.parseInt(editTextStartYear.getText().toString()));
+    	    	StartTime.setYear(Integer.parseInt(editTextStartYear.getText().toString()) - 1900);
     	    	StartTime.setMonth(Integer.parseInt(editTextStartMonth.getText().toString()));
     	    	StartTime.setDate(Integer.parseInt(editTextStartDate.getText().toString()));
     	    	StartTime.setHours(Integer.parseInt(editTextStartHour.getText().toString()));
     	    	StartTime.setMinutes(Integer.parseInt(editTextStartMinute.getText().toString()));
     	    	StartTime.setSeconds(00);
     	    	
-    	    	FinishTime.setYear(Integer.parseInt(editTextFinishYear.getText().toString()));
-    	    	FinishTime.setMonth(Integer.parseInt(editTextFinishMonth.getText().toString()));
-    	    	FinishTime.setDate(Integer.parseInt(editTextFinishDate.getText().toString()));
-    	    	FinishTime.setHours(Integer.parseInt(editTextFinishHour.getText().toString()));
-    	    	FinishTime.setMinutes(Integer.parseInt(editTextFinishMinute.getText().toString()));
-    	    	FinishTime.setSeconds(00);
+    	    	EndTime.setYear(Integer.parseInt(editTextFinishYear.getText().toString()) - 1900);
+    	    	EndTime.setMonth(Integer.parseInt(editTextFinishMonth.getText().toString()));
+    	    	EndTime.setDate(Integer.parseInt(editTextFinishDate.getText().toString()));
+    	    	EndTime.setHours(Integer.parseInt(editTextFinishHour.getText().toString()));
+    	    	EndTime.setMinutes(Integer.parseInt(editTextFinishMinute.getText().toString()));
+    	    	EndTime.setSeconds(00);
     			
     			m_AppointmentHelper.insertAppointment(editTextTitle.getText().toString(), 
     					editTextDescription.getText().toString(),
     					editTextParticipant.getText().toString(),
     					editTextLocation.getText().toString(),
-    					StartTime, FinishTime, 0);
+    					StartTime, EndTime, 0);
     			
     			updateAppointmentList();
 			}});
@@ -164,6 +159,8 @@ public class appointmenttest extends Activity {
     
     private void loadAppointmentList()
     {
+    	m_AppointmentHelper = new AppointmentDBHelper(this);
     	m_arrayOfAppointment = m_AppointmentHelper.getAllAppointments();
+    	m_AppointmentHelper.close();
     }
 }

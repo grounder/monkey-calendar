@@ -24,7 +24,7 @@ public class main extends Activity {
     public void onClick(View v) {
     	Intent intent;
     	switch (v.getId()) {
-    	case R.id.buttonMonth:
+    	case R.id.buttonMonth_:
     		intent = new Intent(main.this, mkCalendarType1.class);
     		startActivity(intent);
     		break;    		
@@ -40,10 +40,6 @@ public class main extends Activity {
     		intent = new Intent(main.this, daystest.class);
     		startActivity(intent);
     		break;
-    	case R.id.buttonMemo:
-    		intent = new Intent(main.this, memolist.class);
-    		startActivity(intent);
-    		break;
     	case R.id.buttonFun:
     		intent = new Intent(main.this, fun.class);
     		startActivity(intent);
@@ -57,6 +53,7 @@ public class main extends Activity {
     		intent = new Intent(main.this, day.class);
     		intent.putExtra("SelectedDay", dateTimeFormat.format(new Date()));
     		startActivity(intent);
+    		break;
     	case R.id.buttonExit:
     		finish();
     		System.exit(0);

@@ -2,8 +2,11 @@ package com.cmonkeys.mcalendar.view;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import com.cmonkeys.db.Appointment;
+import com.cmonkeys.db.AppointmentDBHelper;
 import com.cmonkeys.mcalendar.view.appointmenteditor;
 import com.cmonkeys.mcalendar.R;
 
@@ -17,7 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class day extends Activity {
-
+	private ArrayList<Appointment> m_arrayOfAppointments;
+	private AppointmentDBHelper m_appointmentDBHelper;
 	private Date m_selectedDay;
 	
 	LinearLayout m_listLayout;
@@ -27,6 +31,10 @@ public class day extends Activity {
     	SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.day);
+        
+        m_appointmentDBHelper = new AppointmentDBHelper(this);
+        m_arrayOfAppointments = new ArrayList<Appointment>();
+        
         m_listLayout = (LinearLayout)findViewById(R.id.linearLayoutDay);
         
         Intent intent = getIntent();
@@ -52,10 +60,47 @@ public class day extends Activity {
     	}
     }
     
+    private void clear()
+    {
+    	m_listLayout.removeAllViews();
+    	m_arrayOfAppointments.clear();
+    }
+    
     private void update()
     {
-    	TextView textViewToAdd = new TextView(this);
+    	TextView textViewToAdd;
+    	Date timeOfSelected = (Date)m_selectedDay.clone();
     	
+    	clear();
+    	addNewMemo();
+    	
+    	m_arrayOfAppointments = m_appointmentDBHelper.getAppointmentsOfSelectedDate(timeOfSelected);
+    	
+    	for(Appointment appo : m_arrayOfAppointments)
+    	{
+    		int indexOfCurrentAppointment = appo.getIndex();
+    		textViewToAdd = new TextView(this);
+        	textViewToAdd.setPadding(10, 10, 10, 10);
+        	textViewToAdd.setText(appo.getTitle());
+        	
+        	textViewToAdd.setClickable(true);
+        	textViewToAdd.setOnClickListener(new OnClickListener(){
+    			@Override
+    			public void onClick(View v) {
+    				// TODO Show appointment content
+    				// indexOfCurrentAppointment
+    			}
+    		});
+        	
+        	textViewToAdd.setTextSize(22);
+        	textViewToAdd.setTextColor(0xffffffff);
+        	m_listLayout.addView(textViewToAdd);
+    	}
+    }
+
+	private void addNewMemo() {
+		TextView textViewToAdd;
+		textViewToAdd = new TextView(this);
     	textViewToAdd.setPadding(10, 10, 10, 10);
     	textViewToAdd.setText(getResources().getString(R.string.Add_appo));
     	
@@ -74,7 +119,5 @@ public class day extends Activity {
     	textViewToAdd.setTextColor(0xffffff00);
     	textViewToAdd.setGravity(Gravity.CENTER);
     	m_listLayout.addView(textViewToAdd);
-    	
-    	    	
-    }
+	}
 }

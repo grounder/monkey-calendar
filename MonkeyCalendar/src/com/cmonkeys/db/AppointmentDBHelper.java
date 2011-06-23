@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class AppointmentDBHelper extends SQLiteOpenHelper {
-
+	public static final String DB_NAME = "MKCalAppointment.db";
 	public static final String TABLE_NAME = "appointment";
 	public static final String INDEX = "_id";
 	public static final String TITLE = "title";
@@ -25,11 +25,10 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 	public static final String END_DATE = "end_date";
 	public static final String END_TIME = "end_time";
 	public static final String REPEAT = "repeat";
-		
 
 	public AppointmentDBHelper(Context context) 
 	{
-		super(context,"MKCal.db", null, 1);
+		super(context,DB_NAME, null, 1);
 	}
 
 	@Override
@@ -83,7 +82,7 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     		     
     	db.insert(TABLE_NAME, null, row);
     	
-    	close();
+    	db.close();
     }	
 	
 	public void deleteAppointment(int index)
@@ -91,7 +90,7 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db;
 		db = getWritableDatabase();
 		db.delete(TABLE_NAME, INDEX + "=" + index, null);
-		close();
+		db.close();
 	}	
 
 	public void updateAppointment(int index, String title, String description, String participant, String location,
@@ -126,7 +125,55 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 
 	public ArrayList<Appointment> getAllAppointments()
 	{
-		return getAppointments(new Date(1950,1,1,0,0), new Date(2050,12,31,24,0));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
+		
+		SQLiteDatabase db = getReadableDatabase();
+    	Cursor cursor = db.query(TABLE_NAME, 
+    					new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE,
+									PARTICIPANT, LOCATION, START_DATE, START_TIME, 
+									END_DATE, END_TIME, REPEAT}
+									, null
+									, null, null, null, null);
+
+		while(cursor.moveToNext())
+    	{
+    		Appointment app = null;
+    		int index = cursor.getInt(0);
+    		String title = cursor.getString(1);
+    		String description = cursor.getString(2);
+    		String lastUpdate = cursor.getString(3);
+    		String participant = cursor.getString(4);
+    		String location = cursor.getString(5);
+    		Integer startDate = cursor.getInt(6);
+    		Integer startTime = cursor.getInt(7);
+    		Integer endDate = cursor.getInt(8);
+    		Integer endTime = cursor.getInt(9);
+    		Integer repeat = cursor.getInt(10);
+    		    		   		    		
+    		Date start = getDateFromInteger(startDate, startTime);
+    		Date end = getDateFromInteger(endDate, endTime);
+    		
+    		try{   		
+    			app = 
+    				new Appointment(index, title, description
+    							, dateFormat.parse(lastUpdate)
+    							, participant, location, start, end
+    							, repeat, arrayOfAppointment.size());
+    			
+    			arrayOfAppointment.add(app);
+    		}
+    		catch(Exception ex)
+    		{
+    			// ignore occurred exception
+    			continue;
+    		}
+    	}
+		
+		cursor.close();
+		db.close();
+				
+		return arrayOfAppointment;
 	}
 	
 	private Date getDateFromInteger(int nDate, int nTime)
@@ -138,17 +185,18 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		int hour = nTime / 100;
 		int min = nTime - (hour * 100);
 		
-		return new Date(year, month, day, hour, min);
+		return new Date(year - 1900, month, day, hour, min);
 	}
 	
 	public ArrayList<Appointment> getAppointments(Date selectedStart, Date selectedEnd)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
-		int selectedStartInt = (selectedStart.getYear() * 10000) 
+		int selectedStartInt = ((selectedStart.getYear() + 1900) * 10000) 
 		 					+ (selectedStart.getMonth() * 100)
 							+ (selectedStart.getDate());
-		int selectedEndInt = (selectedEnd.getYear() * 10000) 
+		
+		int selectedEndInt = ((selectedEnd.getYear() + 1900) * 10000) 
 							+ (selectedEnd.getMonth() * 100)
 							+ (selectedEnd.getDate());
 		
@@ -160,6 +208,61 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 									, START_DATE + " BETWEEN " + selectedStartInt + " AND " + selectedEndInt
 									, null, null, null, null);
 
+		while(cursor.moveToNext())
+    	{
+    		Appointment app = null;
+    		int index = cursor.getInt(0);
+    		String title = cursor.getString(1);
+    		String description = cursor.getString(2);
+    		String lastUpdate = cursor.getString(3);
+    		String participant = cursor.getString(4);
+    		String location = cursor.getString(5);
+    		Integer startDate = cursor.getInt(6);
+    		Integer startTime = cursor.getInt(7);
+    		Integer endDate = cursor.getInt(8);
+    		Integer endTime = cursor.getInt(9);
+    		Integer repeat = cursor.getInt(10);
+    		    		   		    		
+    		Date start = getDateFromInteger(startDate, startTime);
+    		Date end = getDateFromInteger(endDate, endTime);
+    		
+    		try{   		
+    			app = 
+    				new Appointment(index, title, description
+    							, dateFormat.parse(lastUpdate)
+    							, participant, location, start, end
+    							, repeat, arrayOfAppointment.size());
+    			
+    			arrayOfAppointment.add(app);
+    		}
+    		catch(Exception ex)
+    		{
+    			// ignore occurred exception
+    			continue;
+    		}
+    	}
+		
+		db.close();
+				
+		return arrayOfAppointment;
+	}
+	
+	public ArrayList<Appointment> getAppointmentsOfSelectedDate(Date selectedDate)
+	{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
+		int selectedDateInt = ((selectedDate.getYear() + 1900) * 10000) 
+		 					+ (selectedDate.getMonth() * 100)
+							+ (selectedDate.getDate());
+		
+		SQLiteDatabase db = getReadableDatabase();
+		/*
+    	Cursor cursor = db.query(TABLE_NAME, 
+    					new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE,
+									PARTICIPANT, LOCATION, START_DATE, START_TIME, 
+									END_DATE, END_TIME, REPEAT}, null
+									, new String[] {START_DATE + " == " + selectedDateInt}, null, null, null); */
+    	Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + START_DATE + " = '" + selectedDateInt + "'",null);
 		while(cursor.moveToNext())
     	{
     		Appointment app = null;
