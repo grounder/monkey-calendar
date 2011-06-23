@@ -4,21 +4,6 @@
     <string name="app_name">Monkey Calendar</string>
     <!-- Month -->
     <string name="Month">Month</string>
-        
-    
-    <!-- Memo & Appointment common string -->
-    <string name="LastUpdate">Last Update :</string>
-    <string name="Title">Title</string>
-    <string name="Description">Description</string>
-    
-    <string name="Add_memo">Add memo</string>
-    <string name="Add_appo">Add appointment</string>
-    
-    <!-- Memo string -->
-    <string name="MemoList">Memo List</string>
-    <string name="NextWeek">Next week</string>
-    <string name="PrevWeek">Previous week</string>
-    
     <string-array name="Month">
         <item>January</item>
     	<item>February</item>
@@ -33,7 +18,10 @@
     	<item>November</item>
     	<item>December</item>
     </string-array>
-    <string-array name="Week">
+	
+	<!-- Week -->
+	<string name="Week">Week</string>
+	<string-array name="Week">
     	<item>Sunday</item>
 	    <item>Monday</item>
 	    <item>Tuesday</item>
@@ -42,7 +30,6 @@
 	    <item>Friday</item>
 	    <item>Saturday</item>
     </string-array>
-    
     <string name="W1">Sunday</string>
     <string name="W2">Monday</string>
     <string name="W3">Tuesday</string>
@@ -51,6 +38,27 @@
     <string name="W6">Friday</string>
     <string name="W7">Saturday</string>
     
+    <string name="Show_week_view">Week view</string>
+    
+    <!-- Memo & Appointment common string -->
+    <string name="LastUpdate">Last Update :</string>
+    <string name="Title">Title</string>
+    <string name="Description">Description</string>
+    
+    <string name="No_memo">No memos</string>
+    <string name="Add_memo">Add memo</string>
+    <string name="Add_appo">Add appointment</string>
+    
+    <!-- Memo string -->
+    <string name="MemoList">Memo List</string>
+    <string name="NextWeek">Next week</string>
+    <string name="PrevWeek">Previous week</string>
+    
+    <!-- Fun stuff strings -->
+    <string name="name">Name</string>
+    <string name="No_name">No name</string>
+    <string name="Birthday">Birthday</string>
+    <string name="Set_preference">Preference</string>
     <string name="MsgWeather">Weather</string>
     <string name="UriWeather">http://m.weather.naver.com/m/crntWetr.nhn</string>
     

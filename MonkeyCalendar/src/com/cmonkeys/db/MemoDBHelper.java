@@ -93,11 +93,18 @@ public class MemoDBHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db;
     	Cursor cursor = null;
 
-    	db = getReadableDatabase();
-		cursor = db.query(TABLE_NAME, 
-			new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE}, 
-			null, null, LAST_UPDATE + " DESC", null, null);
-		
+    	try{
+	    	db = getReadableDatabase();
+	    	
+			cursor = db.query(TABLE_NAME, 
+				new String[] {INDEX, TITLE, DESCRIPTION, LAST_UPDATE}, 
+				null, null, null, null, LAST_UPDATE + " DESC");
+    	}
+    	catch(Exception ex)
+    	{
+    		return null;
+    	}
+    	
 		while(cursor.moveToNext())
     	{
     		Article art = null;

@@ -28,27 +28,11 @@ public class main extends Activity {
     		intent = new Intent(main.this, mkCalendarType1.class);
     		startActivity(intent);
     		break;    		
-    	case R.id.buttonWeek:
-    		intent = new Intent(main.this, week.class);
-    		startActivity(intent);
-    		break;
-    	case R.id.buttonAppointment:
-    		intent = new Intent(main.this, appointmenttest.class);
-    		startActivity(intent);
-    		break;
     	case R.id.buttonDay:
     		intent = new Intent(main.this, daystest.class);
     		startActivity(intent);
     		break;
-    	case R.id.buttonFun:
-    		intent = new Intent(main.this, fun.class);
-    		startActivity(intent);
-    		break;
-    	case R.id.buttonImportDB:
-    		//DaysDBHelper db = new DaysDBHelper(this);
-    		//db.importEmbededData(this);
-    		//DaysImportDBHelper db = new DaysImportDBHelper(this);
-    		//db.close();
+    	case R.id.buttonNewDay:
     		SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     		intent = new Intent(main.this, day.class);
     		intent.putExtra("SelectedDay", dateTimeFormat.format(new Date()));
