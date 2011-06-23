@@ -54,6 +54,13 @@
     <string name="NextWeek">Next week</string>
     <string name="PrevWeek">Previous week</string>
     
+    <!-- Appointment strings -->
+    <string name="RepeatAppointment">Repeat</string>
+    <string name="RepeatNo">No</string>
+    <string name="RepeatYearly">Yearly</string>
+    <string name="RepeatMonthly">Monthly</string>
+    <string name="RepeatDaily">Daily</string>
+    
     <!-- Fun stuff strings -->
     <string name="name">Name</string>
     <string name="No_name">No name</string>

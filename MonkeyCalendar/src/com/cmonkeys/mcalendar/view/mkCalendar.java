@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,7 +40,6 @@ public class mkCalendar extends Activity
     int m_startPos ;				/// 요일을 찍기 시작 할 위치
     int m_lastDay ;					/// 그 달의 마지막날
     int m_selDay ;					/// 현재 선택된 날짜
-    
 	////////////////////////////////////////    	
     
     float m_displayScale ;			/// 화면 사이즈에 따른 텍스트 크기 보정값 저장용
@@ -489,8 +489,8 @@ public class mkCalendar extends Activity
 				@Override
 				public void onClick(View v) 
 				{
-					
-					if( m_cellTextBtn[k].getText( ).toString( ).length() > 0 )
+					int length = m_cellTextBtn[k].getText( ).toString( ).length();
+					if( length > 0 )
 					{
 						m_Calendar.set( Calendar.DATE, Integer.parseInt( m_cellTextBtn[k].getText( ).toString( ) ) ) ;
 						if( m_dayTv != null )
