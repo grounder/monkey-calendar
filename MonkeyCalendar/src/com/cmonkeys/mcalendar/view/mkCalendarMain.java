@@ -45,6 +45,10 @@ public class mkCalendarMain extends Activity {
 		{
 			super(context, layout);
 			m_context = context;
+			Date now = new Date();
+			
+			// Set today when it's run first
+			m_lastSelection = (now.getYear() + 1900) * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
 		}
 		
 		Context m_context;
@@ -52,12 +56,12 @@ public class mkCalendarMain extends Activity {
 		@Override
 		public void myClickEvent(int yyyy, int MM, int dd) 
 		{
-			int selected = yyyy * 10000 + MM * 100 + dd;
+			int selected = yyyy * 10000 + (MM + 1) * 100 + dd;
 			
 			if(m_lastSelection == selected)
 			{
 				SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date seletedDate = new Date(yyyy - 1900, MM, dd, 0,0);
+				Date seletedDate = new Date(yyyy - 1900, MM + 1, dd, 0,0);
 				Intent intent = new Intent(m_context, day.class);
 				intent.putExtra("SelectedDay", dateTimeFormat.format(seletedDate));
 				m_context.startActivity(intent);
@@ -96,7 +100,7 @@ public class mkCalendarMain extends Activity {
         // Target layout to add a calendar
         LinearLayout lv = (LinearLayout)findViewById( R.id.linearLayoutCalendar ) ;
         
-        /// 년 월 일 표시할 텍스트뷰
+        /// TextViews to show year, month, and day.
         m_arrayOfTextViews = new TextView[3] ;
         m_arrayOfTextViews[0] = (TextView)findViewById( R.id.textViewYear ) ;
         m_arrayOfTextViews[1] = (TextView)findViewById( R.id.textViewMonth ) ;
@@ -176,6 +180,8 @@ public class mkCalendarMain extends Activity {
     		return true;
     	case 2:	// Show week view
     		intent = new Intent(this, week.class);
+    		int selectedDate = m_calendar.m_lastSelection;
+    		intent.putExtra("SelectedDay", selectedDate);
     		startActivity(intent);
     		return true;
     	case 3:	// Set preference
