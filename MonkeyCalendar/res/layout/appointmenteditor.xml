@@ -84,12 +84,12 @@
 
 	    	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
 				<RadioGroup android:id="@+id/radioGroupRepeat" android:layout_width="wrap_content" 
-						android:layout_height="wrap_content" android:orientation="horizontal">
+						android:layout_height="wrap_content" android:orientation="vertical">
 			        <RadioButton android:id="@+id/radioNoRepeat" android:text="@string/RepeatNo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" android:onClick="onClick"></RadioButton>
 			        <RadioButton android:id="@+id/radioYearly" android:text="@string/RepeatYearly" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="onClick"></RadioButton>
 			        <RadioButton android:id="@+id/radioMonthly" android:text="@string/RepeatMonthly" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="onClick"></RadioButton>
 			        <RadioButton android:id="@+id/radioWeekly" android:text="@string/RepeatWeekly" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="onClick"></RadioButton>
-			        
+			        <!--  <RadioButton android:id="@+id/radioDaily" android:text="@string/RepeatDaily" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="onClick"></RadioButton>  -->
 		    	</RadioGroup>
 	    	</LinearLayout>
 			
