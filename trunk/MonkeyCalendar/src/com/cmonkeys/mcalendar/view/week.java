@@ -197,6 +197,9 @@ public class week extends Activity {
     		
     		for(Appointment app : apps)
     		{
+    			Calendar calCurrentAppointment = Calendar.getInstance();
+				calCurrentAppointment.set(app.getStart().getYear() + 1900, app.getStart().getMonth()  , app.getStart().getDate());
+				
     			// check
         		switch(app.getRepeat())
     			{
@@ -225,15 +228,26 @@ public class week extends Activity {
                 		currentApp++;
     				}
     				break;
-    			case 3: // TODO Weekly
-    				/*
-    				int ddd = app.getStart().getDay();
-    				if(ddd == currentDay)
-    				{
-    					m_cellTextBtn[ i + m_startPos ].setBackgroundColor(0xff0022aa);
-    					hasApp = true;
-    				}
-    				*/
+    			case 3: // Weekly
+    				int currentDateInt = (m_calendar.get(Calendar.MONTH) + 1) * 100 + m_calendar.get(Calendar.DATE);
+    				
+					int startDateInt = (app.getStart().getMonth() + 1) * 100 + app.getStart().getDate();
+					int endDateInt = (app.getEnd().getMonth() + 1) * 100 + app.getEnd().getDate();
+					
+					if( startDateInt > currentDateInt || 
+							currentDateInt > endDateInt)
+						continue;
+					
+					int currentAppointmentDay = calCurrentAppointment.get(Calendar.DAY_OF_WEEK); 
+					int currentDay = m_calendar.get(Calendar.DAY_OF_WEEK);
+					
+					// if the day of week is same than add
+					if(currentAppointmentDay == currentDay)
+					{
+						if(currentApp != 0) titlesOfDay += ", ";
+                		titlesOfDay += app.getTitle();
+                		currentApp++;
+					}					
     				break;
     			}
     		}

@@ -446,7 +446,7 @@ public class mkCalendar extends Activity
 	{
 		/// 달력을 하나 복사해서 작업한다.
 		Calendar cal = (Calendar) m_Calendar.clone( ) ;
-		
+				
 		/// 날짜를 겟~
 		m_selDay = cal.get( Calendar.DATE ) ;
 		
@@ -478,14 +478,15 @@ public class mkCalendar extends Activity
 		Date dateToSetEnd = new Date(cal.get(Calendar.YEAR) - 1900 ,cal.get(Calendar.MONTH) ,m_lastDay,0,0);
 		
 		ArrayList<Appointment> apps = helper.getAppointments(dateToSet, dateToSetEnd);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
 		
+		cal.set(Calendar.DATE, 1);		
+				
 		/// 시작위치부터는 1부터 해서 달의 마지막날까지 숫자로 채움
 		for( int i = 0 ; i < m_lastDay ; i++ )
 		{
 			int currentMonth = cal.get(Calendar.MONTH);
 			int currentDate = cal.get(Calendar.DAY_OF_MONTH);
-			int currentDay = cal.get(Calendar.DAY_OF_WEEK);
+			
 			
 			boolean hasApp = false;
 			m_cellTextBtn[ i + m_startPos ].setBackgroundColor(0xff000000);
@@ -496,13 +497,14 @@ public class mkCalendar extends Activity
 				if(hasApp)
 					break;
 				
-				Calendar calCurrent = Calendar.getInstance();
-				calCurrent.set(app.getStart().getYear(), app.getStart().getMonth(), app.getStart().getDate());
+				Calendar calCurrentAppointment = Calendar.getInstance();
+				calCurrentAppointment.set(app.getStart().getYear() + 1900, app.getStart().getMonth()  , app.getStart().getDate());
+				//int test = calCurrent.get(Calendar.YEAR) * 10000 + (calCurrent.get(Calendar.MONTH) + 1) * 100 + calCurrent.get(Calendar.DATE); 
 				
 				switch(app.getRepeat())
 				{
 				case 0: // No repeat
-					if(app.getEnd().getDate() == (i + 1))
+					if(app.getStart().getDate() == (i + 1))
 					{
 						m_cellTextBtn[ i + m_startPos ].setBackgroundColor(m_colorParam.m_hasAppointment);
 						hasApp = true;
@@ -523,9 +525,20 @@ public class mkCalendar extends Activity
 						hasApp = true;
 					}
 					break;
-				case 3: 
-					// TODO Weekly
-					if(calCurrent.get(Calendar.DAY_OF_WEEK) == currentDay)
+				case 3: // Weekly
+					int currentDateInt = (currentMonth + 1) * 100 + currentDate;
+					int startDateInt = (app.getStart().getMonth() + 1) * 100 + app.getStart().getDate();
+					int endDateInt = (app.getEnd().getMonth() + 1) * 100 + app.getEnd().getDate();
+					
+					if( startDateInt > currentDateInt || 
+							currentDateInt > endDateInt)
+						continue;
+					
+					int currentAppointmentDay = calCurrentAppointment.get(Calendar.DAY_OF_WEEK); 
+					int currentDay = cal.get(Calendar.DAY_OF_WEEK);
+					
+					// if the day of week is same than add
+					if(currentAppointmentDay == currentDay)
 					{
 						m_cellTextBtn[ i + m_startPos ].setBackgroundColor(m_colorParam.m_hasAppointment);
 						hasApp = true;
