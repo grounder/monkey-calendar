@@ -7,6 +7,8 @@ import java.util.Date;
 
 import com.cmonkeys.db.Appointment;
 import com.cmonkeys.db.AppointmentDBHelper;
+import com.cmonkeys.db.Days;
+import com.cmonkeys.db.DaysDBHelper;
 import com.cmonkeys.mcalendar.view.appointmenteditor;
 import com.cmonkeys.mcalendar.R;
 
@@ -51,15 +53,23 @@ public class day extends Activity {
 		update();
     }
     
+    @Override
+    public void onResume()
+    {
+    	update();
+    	super.onResume();
+    }
+    
     public void onClick(View v) {
     	switch (v.getId()) {
+    	/*
     	case R.id.buttonAddAppointment:
     		
     		break;
     	case R.id.buttonExitAppointment:
     		
-    		finish();
-    		break;
+    		
+    		break;*/
     	}
     }
     
@@ -73,24 +83,62 @@ public class day extends Activity {
     {
     	TextView textViewToAdd;
     	Date timeOfSelected = (Date)m_selectedDay.clone();
-    	m_textViewTitle.setText("" + (m_selectedDay.getYear() + 1900) + "/" + (m_selectedDay.getMonth() + 1) + "/" + m_selectedDay.getDate());
+    	String strDate = "" + (m_selectedDay.getYear() + 1900) + "/" + (m_selectedDay.getMonth() + 1) + "/" + m_selectedDay.getDate() + " (";
+    	int currentDateInt = (m_selectedDay.getYear() + 1900) * 10000 + (m_selectedDay.getMonth() + 1) * 100 + m_selectedDay.getDate();
+    	DaysDBHelper helper = new DaysDBHelper(this);
+    	Days days = helper.getADay(currentDateInt);
+    	strDate += days.getLunarDateAsString() + ") " + days.getTitle();
+    	helper.close();
+    	
+    	m_textViewTitle.setText(strDate);
+    	if(days.getIsHoliday())
+    		m_textViewTitle.setTextColor(0xffff0000);
+    	else
+    		m_textViewTitle.setTextColor(0xffffffff);
     	clear();
     	addNewAppointment();
     	
     	m_arrayOfAppointments = m_appointmentDBHelper.getAppointments(timeOfSelected, timeOfSelected);
     	
-    	for(Appointment appo : m_arrayOfAppointments)
+    	for(Appointment app : m_arrayOfAppointments)
     	{
-    		final int indexOfCurrentAppointment = appo.getIndex();
+    		// check
+    		switch(app.getRepeat())
+			{
+			case 0: // No repeat
+				if(app.getEnd().getDate() != m_selectedDay.getDate())
+					continue;
+				break;
+			case 1: // Yearly
+				if( (app.getStart().getMonth() != m_selectedDay.getMonth()) || 
+					(app.getStart().getDate() != m_selectedDay.getDate()) )
+					continue;
+				break;
+			case 2: // Monthly
+				if(app.getStart().getDate() != m_selectedDay.getDate())
+					continue;
+				break;
+			case 3: // TODO Weekly
+				/*
+				int ddd = app.getStart().getDay();
+				if(ddd == currentDay)
+				{
+					m_cellTextBtn[ i + m_startPos ].setBackgroundColor(0xff0022aa);
+					hasApp = true;
+				}
+				*/
+				break;
+			}
+    		
+    		final int indexOfCurrentAppointment = app.getIndex();
     		textViewToAdd = new TextView(this);
         	textViewToAdd.setPadding(10, 10, 10, 10);
-        	textViewToAdd.setText(appo.getTitle());
+        	textViewToAdd.setText(app.getTitle());
         	
         	textViewToAdd.setClickable(true);
         	textViewToAdd.setOnClickListener(new OnClickListener(){
     			@Override
     			public void onClick(View v) {
-    				// TODO Show appointment content
     				Intent intent = new Intent(day.this, appointmenteditor.class);
 					intent.putExtra("isNew", false);
 					intent.putExtra("indexOfCurrent", indexOfCurrentAppointment);
@@ -100,6 +148,9 @@ public class day extends Activity {
         	
         	textViewToAdd.setTextSize(22);
         	textViewToAdd.setTextColor(0xffffffff);
+        	
+        	
+        	
         	m_listLayout.addView(textViewToAdd);
     	}
     }

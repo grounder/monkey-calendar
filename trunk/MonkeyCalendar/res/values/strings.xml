@@ -63,6 +63,9 @@
     <string name="Add_memo">Add memo</string>
     <string name="Add_appo">Add appointment</string>
     
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    
     <!-- Memo string -->
     <string name="MemoList">Memo List</string>
     <string name="NextWeek">Next week</string>
@@ -73,7 +76,16 @@
     <string name="RepeatNo">No</string>
     <string name="RepeatYearly">Yearly</string>
     <string name="RepeatMonthly">Monthly</string>
+    <string name="RepeatWeekly">Weekly</string>
     <string name="RepeatDaily">Daily</string>
+    
+    <string name="MsgClearTitle">Remove all</string>
+    <string name="MsgClear">Do you really want to clear all appointment?</string>
+    
+    <string name="ClearAllAppointments">Clear all appointments</string>
+    
+    <!-- Days strings -->
+    <string name="DaysImport">Import holiday DB to local</string>
     
     <!-- Fun stuff strings -->
     <string name="name">Name</string>

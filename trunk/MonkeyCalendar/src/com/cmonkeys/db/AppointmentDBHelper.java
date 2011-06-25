@@ -212,6 +212,46 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		return false;
 	}
 	
+	public boolean isOverlappedAppointment(Appointment newApp)
+	{
+		ArrayList<Appointment> arrayOfAppointment = new ArrayList<Appointment>();
+		int selectedStartInt = ((newApp.getStart().getYear() + 1900) * 10000) 
+		 					+ ( (1 + newApp.getStart().getMonth()) * 100)
+							+ (newApp.getStart().getDate());
+		
+		int selectedEndInt = ((newApp.getEnd().getYear() + 1900) * 10000) 
+							+ ( (1 + newApp.getEnd().getMonth()) * 100)
+							+ (newApp.getEnd().getDate());
+		
+		SQLiteDatabase db = getReadableDatabase();
+    	Cursor cursor = db.query(TABLE_NAME, 
+    					new String[] {START_DATE, START_TIME, 
+									END_DATE, END_TIME}
+									, null
+									, null, null, null, null);
+    	
+    	boolean isFound = false;
+
+		while(cursor.moveToNext())
+    	{
+    		// Search factors
+    		Integer startDate = cursor.getInt(0);
+    		Integer endDate = cursor.getInt(2);    		
+    		
+    		// if the item is not repeated, just add as a valid item
+			if(!isValidDate(startDate, endDate, selectedStartInt, selectedEndInt))
+			{
+				isFound = true;
+				break;
+			}
+    	}
+		
+		db.close();
+		arrayOfAppointment.clear();
+		
+		return isFound;
+	}
+	
 	public ArrayList<Appointment> getAppointments(Date selectedStart, Date selectedEnd)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -249,11 +289,10 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     		Integer endTime = cursor.getInt(9);
     		Integer repeat = cursor.getInt(10);
     		
-    		if(!isValidDate(startDate, endDate, selectedStartInt, selectedEndInt))
+    		// if the item is not repeated, just add as a valid item
+			if(!isValidDate(startDate, endDate, selectedStartInt, selectedEndInt))
     			continue;
-    		
-    		// TODO To generate items have repeat
-    		
+			
     		Date start = getDateFromInteger(startDate, startTime);
     		Date end = getDateFromInteger(endDate, endTime);
     		
@@ -271,6 +310,7 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
     			// ignore occurred exception
     			continue;
     		}
+
     	}
 		
 		db.close();
@@ -326,5 +366,12 @@ public class AppointmentDBHelper extends SQLiteOpenHelper {
 		db.close();
 				
 		return app;
+	}
+	
+	public void clearAllAppointment()
+	{
+		SQLiteDatabase db = getWritableDatabase();
+		db.delete(TABLE_NAME, "", null);		
+		db.close();
 	}
 }

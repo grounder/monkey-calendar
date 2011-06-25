@@ -2,15 +2,22 @@ package com.cmonkeys.mcalendar.view;
 
 import java.util.Date;
 
+import com.cmonkeys.db.AppointmentDBHelper;
+import com.cmonkeys.db.DaysDBHelper;
 import com.cmonkeys.mcalendar.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Preference extends Activity {
 	private DatePicker m_datePicker;
@@ -78,4 +85,35 @@ public class Preference extends Activity {
         m_editTextName.setText(Name);
         m_editTextName.addTextChangedListener(m_textChangeWatcher);
     }
+	
+	public void onClick(View v)
+	{
+		switch (v.getId()) {
+		case R.id.buttonImportHolodays:
+			Toast.makeText(this, "Wait until done", Toast.LENGTH_LONG).show();
+			DaysDBHelper helper = new DaysDBHelper(this);
+			helper.importEmbededData(this);
+			helper.close();
+			Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+			break;
+    	case R.id.buttonClearAllAppointmet:
+    		final Context context = this;
+    		AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+			dlg.setTitle(getResources().getString(R.string.MsgClearTitle));
+			dlg.setMessage(getResources().getString(R.string.MsgClear));
+			dlg.setPositiveButton(getResources().getString(R.string.Yes), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// Clear all appointment
+					AppointmentDBHelper helper = new AppointmentDBHelper(context);
+		    		helper.clearAllAppointment();
+		    		helper.close();					
+				}
+			});
+			dlg.setNegativeButton(getResources().getString(R.string.No), null);
+			dlg.show();
+    		
+    		break;
+    	}
+	}
 }

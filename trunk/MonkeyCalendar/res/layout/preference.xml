@@ -10,4 +10,6 @@
     </EditText>
     <TextView android:text="@string/Birthday" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
     <DatePicker android:id="@+id/datePickerUserProfile" android:layout_width="fill_parent" android:layout_height="wrap_content"></DatePicker>
+    <Button android:id="@+id/buttonImportHolodays" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/DaysImport" android:onClick="onClick" />
+    <Button android:id="@+id/buttonClearAllAppointmet" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/ClearAllAppointments" android:onClick="onClick" />
 </LinearLayout>
