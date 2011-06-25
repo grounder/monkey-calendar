@@ -17,11 +17,7 @@
 		</activity>
 		
         <activity android:label="@string/app_name" android:name=".view.main" android:screenOrientation="portrait"></activity>
-		<activity android:label="Memo list" android:name=".view.memolist" android:screenOrientation="portrait"></activity>
 		<activity android:label="Month" android:name=".view.month" android:screenOrientation="portrait"></activity>
-		<activity android:name=".view.fun" android:label="Fun" android:screenOrientation="portrait"></activity>
-		<activity android:name=".view.appointmenttest" android:label="Appointment Test" android:screenOrientation="portrait"></activity>
-		<activity android:name=".view.daystest" android:label="Days test" android:screenOrientation="portrait"></activity>
 		<activity android:name=".view.week" android:label="Week" android:screenOrientation="portrait"></activity>
 		<activity android:name=".view.day" android:label="Day" android:screenOrientation="portrait"></activity>
 		<activity android:name=".view.appointmenteditor" android:label="Appointment" android:screenOrientation="portrait"></activity>

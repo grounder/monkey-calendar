@@ -6,9 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import com.cmonkeys.db.Appointment;
+import com.cmonkeys.db.AppointmentDBHelper;
+import com.cmonkeys.db.Days;
+import com.cmonkeys.db.DaysDBHelper;
+
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -53,18 +57,20 @@ public class mkCalendar extends Activity
     
     static public class mkCalendarColorParam
     {
-    	int m_lineColor 			= 0xff000000 ;	/// 경계선 색
-        int m_cellColor 			= 0xffffffff ;	/// 칸의 배경색
-        int m_topCellColor 			= 0xffcccccc ;	/// 요일 배경색
-        int m_textColor 			= 0xff000000 ;	/// 글씨색
-        int m_sundayTextColor 		= 0xffff0000 ;	/// 일요일 글씨색
-        int m_saturdayTextColor 	= 0xff0000ff ;	/// 토요일 글씨색
-        int m_topTextColor 			= 0xff000000 ; 	/// 요일 글씨색
-        int m_topSundayTextColor 	= 0xffff0000 ; 	/// 요일 일요일 글씨색
-        int m_topSaturdatTextColor 	= 0xff0000ff ; 	/// 요일 토요일 글씨색
+    	int m_lineColor 			= 0xff000000 ;	// 경계선 색
+        int m_cellColor 			= 0xffffffff ;	// 칸의 배경색
+        int m_topCellColor 			= 0xffcccccc ;	// 요일 배경색
+        int m_textColor 			= 0xff000000 ;	// 글씨색
+        int m_sundayTextColor 		= 0xffff0000 ;	// 일요일 글씨색
+        int m_saturdayTextColor 	= 0xff0000ff ;	// 토요일 글씨색
+        int m_topTextColor 			= 0xff000000 ; 	// 요일 글씨색
+        int m_topSundayTextColor 	= 0xffff0000 ; 	// 요일 일요일 글씨색
+        int m_topSaturdatTextColor 	= 0xff0000ff ; 	// 요일 토요일 글씨색
         
-        int m_todayCellColor		= 0x999999ff ;	/// 선택날짜의 배경색
-        int m_todayTextColor		= 0xffffffff ;  /// 선택날짜의 글씨색
+        int m_todayCellColor		= 0x999999ff ;	// 선택날짜의 배경색
+        int m_todayTextColor		= 0xffffffff ;  // 선택날짜의 글씨색
+        
+        int m_hasAppointment		= 0xff0022aa ;  // 약속이 있는 날뒷배경
     }
     
     mkCalendarColorParam m_colorParam ;
@@ -240,21 +246,23 @@ public class mkCalendar extends Activity
 	}
 	
 	/// 공휴일 리스트를 루프돌면서 해당 날짜를 일요일과 같은 색으로 변경
-	public void applyHoliday( )
+	public void applyHoliday()
 	{
 		/// 현재 달력의 월을 구함
-		Integer iMonth = m_Calendar.get( Calendar.MONTH ) + 1 ;
+		int month = m_Calendar.get( Calendar.MONTH ) + 1 ;
 		
-		/// 휴일로 저장된 모든 날짜 루프 줄줄 돌음
+		// 휴일로 저장된 모든 날짜 루프 줄줄 돌음
 		for( int k = 0 ; k < m_holiDay.size( ) ; k++ )
 		{
 			int holiday = m_holiDay.get( k ) ;	/// 월과 일을 구한다음 
-			if( holiday / 100 == iMonth )		/// 월이 동일할 경우
+			if( holiday / 100 == month )		/// 월이 동일할 경우
 			{
 				/// 해당 날짜를 휴일 컬러로 변경
-				m_cellTextBtn[ holiday % 100 + m_startPos ].setTextColor( m_colorParam.m_sundayTextColor ) ;
+				m_cellTextBtn[ holiday % 100 + m_startPos ].setTextColor( m_colorParam.m_sundayTextColor );
 			}
 		}
+		
+		
 	}
 	
 	
@@ -433,24 +441,24 @@ public class mkCalendar extends Activity
 		}
 	}
 	
-	/// 달력을 구성하는 년 월 일을 셋팅하기
+	// 달력을 구성하는 년 월 일을 셋팅하기
 	public void setContentext( )
 	{
 		/// 달력을 하나 복사해서 작업한다.
-		Calendar iCal = (Calendar) m_Calendar.clone( ) ;
+		Calendar cal = (Calendar) m_Calendar.clone( ) ;
 		
 		/// 날짜를 겟~
-		m_selDay = iCal.get( Calendar.DATE ) ;
+		m_selDay = cal.get( Calendar.DATE ) ;
 		
 		/// 날짜를 1로 셋팅하여 달의 1일이 무슨 요일인지 구함
-		iCal.set( Calendar.DATE, 1 ) ;
-		m_startPos = 7 + iCal.get( Calendar.DAY_OF_WEEK ) - Calendar.SUNDAY ;
+		cal.set( Calendar.DATE, 1 ) ;
+		m_startPos = 7 + cal.get( Calendar.DAY_OF_WEEK ) - Calendar.SUNDAY ;
 		
 		/// 1달 더해서 다음달 1일로 만들었다가 1일을 빼면 달의 마지막날이 구해짐
-		iCal.add( Calendar.MONTH, 1 ) ;
-		iCal.add( Calendar.DATE, -1 ) ;
+		cal.add( Calendar.MONTH, 1 ) ;
+		cal.add( Calendar.DATE, -1 ) ;
 		
-        m_lastDay = iCal.get( Calendar.DAY_OF_MONTH ) ;         /// 해달 달의 마지막날 겟~   
+        m_lastDay = cal.get( Calendar.DAY_OF_MONTH ) ;         /// 해달 달의 마지막날 겟~   
         
         /// 0부터 6번칸까지는 월화수목금토일~ 로 채워넣음
 		for( int k = 0 ; k < 7 ; k++ )
@@ -462,19 +470,109 @@ public class mkCalendar extends Activity
 		for( int i = 7 ; i < m_startPos ; i++ )
 		{
 			m_cellTextBtn[ i ].setText( "" ) ;
+			m_cellTextBtn[ i ].setBackgroundColor(0xff000000);
 		}
 
+		AppointmentDBHelper helper = new AppointmentDBHelper(m_context);
+		Date dateToSet = new Date(cal.get(Calendar.YEAR) - 1900 ,cal.get(Calendar.MONTH) ,1,0,0);
+		Date dateToSetEnd = new Date(cal.get(Calendar.YEAR) - 1900 ,cal.get(Calendar.MONTH) ,m_lastDay,0,0);
+		
+		ArrayList<Appointment> apps = helper.getAppointments(dateToSet, dateToSetEnd);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		
 		/// 시작위치부터는 1부터 해서 달의 마지막날까지 숫자로 채움
 		for( int i = 0 ; i < m_lastDay ; i++ )
 		{
+			int currentMonth = cal.get(Calendar.MONTH);
+			int currentDate = cal.get(Calendar.DAY_OF_MONTH);
+			int currentDay = cal.get(Calendar.DAY_OF_WEEK);
+			
+			boolean hasApp = false;
+			m_cellTextBtn[ i + m_startPos ].setBackgroundColor(0xff000000);
+			
+			for(Appointment app : apps)
+			{
+				// If already changed 
+				if(hasApp)
+					break;
+				
+				Calendar calCurrent = Calendar.getInstance();
+				calCurrent.set(app.getStart().getYear(), app.getStart().getMonth(), app.getStart().getDate());
+				
+				switch(app.getRepeat())
+				{
+				case 0: // No repeat
+					if(app.getEnd().getDate() == (i + 1))
+					{
+						m_cellTextBtn[ i + m_startPos ].setBackgroundColor(m_colorParam.m_hasAppointment);
+						hasApp = true;
+					}
+					break;
+				case 1: // Yearly
+					if( (app.getStart().getMonth() == currentMonth) && 
+						(app.getStart().getDate() == currentDate) )
+					{
+						m_cellTextBtn[ i + m_startPos ].setBackgroundColor(m_colorParam.m_hasAppointment);
+						hasApp = true;
+					}
+					break;
+				case 2: // Monthly
+					if(app.getStart().getDate() == currentDate)
+					{
+						m_cellTextBtn[ i + m_startPos ].setBackgroundColor(m_colorParam.m_hasAppointment);
+						hasApp = true;
+					}
+					break;
+				case 3: 
+					// TODO Weekly
+					if(calCurrent.get(Calendar.DAY_OF_WEEK) == currentDay)
+					{
+						m_cellTextBtn[ i + m_startPos ].setBackgroundColor(m_colorParam.m_hasAppointment);
+						hasApp = true;
+					}
+					
+					break;
+				}
+			}
+			
+			cal.add(Calendar.DAY_OF_MONTH, 1);
 			m_cellTextBtn[ i + m_startPos ].setText( ( i + 1 ) + "" ) ;
 		}
+		apps.clear();
+		helper.close();
 		
 		/// 마지막날부터 끝까지는 공백으로 채움
 		for( int i = m_startPos + m_lastDay ; i < 49 ; i++ )
 		{
 			m_cellTextBtn[ i ].setText( "" ) ;
+			m_cellTextBtn[ i ].setBackgroundColor(0xff000000);
 		}
+		
+		// Set holiday
+		setLayoutParams() ;
+		resetHolidays();
+	}
+	
+	public void resetHolidays()
+	{
+		int year = m_Calendar.get( Calendar.YEAR );
+		int month = m_Calendar.get( Calendar.MONTH ) + 1;
+		int currentStartDate = year * 10000 + month * 100;
+		int currentEndDate = year * 10000 + (month + 1) * 100;
+		
+		DaysDBHelper helper = new DaysDBHelper(m_context);
+		ArrayList<Days> arrayOfThisMonth = helper.getDays(currentStartDate, currentEndDate);
+		helper.close();
+		
+		m_holiDay.clear();
+		
+		for( Days currentDay : arrayOfThisMonth)
+		{
+			if(currentDay.getIsHoliday())
+				addHoliday(currentDay.getSolarDate() - (year * 10000) - 1);
+		}
+		
+		applyHoliday();
 	}
 	
 	/// 각 버튼들에 setOnClickListener 주기
@@ -521,7 +619,7 @@ public class mkCalendar extends Activity
 
 	} 
 	
-	/// 년도와 월을 앞~ 뒤~로
+	// 년도와 월을 앞~ 뒤~로
 	public void preYear( )
 	{
 		m_Calendar.add( Calendar.YEAR, -1 ) ;
@@ -547,7 +645,7 @@ public class mkCalendar extends Activity
 		printView( ) ;
 	}    	
 	
-	/// 텍스트뷰를 넣어주면 각각 뿌려줌 (빈게 들어있으면 안뿌림)
+	// 텍스트뷰를 넣어주면 각각 뿌려줌 (빈게 들어있으면 안뿌림)
 	public void setViewTarget( TextView [] tv ) 
 	{
 		m_yearTv = tv[0] ;
@@ -555,7 +653,7 @@ public class mkCalendar extends Activity
         m_dayTv = tv[2] ;
 	}
         
-	/// 버튼을 넣어주면 알아서 옵션 넣어줌 (역시나 빈게 있으면 이벤트 안넣음)
+	// 버튼을 넣어주면 알아서 옵션 넣어줌 (역시나 빈게 있으면 이벤트 안넣음)
 	public void setControl( Button [] btn )
 	{
 		m_preYearBtn = btn[0] ;
@@ -601,16 +699,16 @@ public class mkCalendar extends Activity
 			} ) ;
 	}
 	
-	/// 원하는 포멧대로 날짜를 구해줌 
-	/// 예) 
-	/// String today = getData( "yyyy-MM-dd" )이런식?
+	// 원하는 포멧대로 날짜를 구해줌 
+	// 예) 
+	// String today = getData( "yyyy-MM-dd" )이런식?
 	public String getData( String format )
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat( format, Locale.US ) ;
 		return sdf.format( new Date( m_Calendar.getTimeInMillis( ) ) ) ;
 	}
 	
-	/// 달력에서 날짜를 클릭하면 이 함수를 부른다.
+	// 달력에서 날짜를 클릭하면 이 함수를 부른다.
 	public void myClickEvent( int yyyy, int MM, int dd )
 	{
 		Log.d( "yyyy", "" + yyyy ) ;

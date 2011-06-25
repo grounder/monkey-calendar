@@ -3,12 +3,15 @@ package com.cmonkeys.mcalendar.view;
 //import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 //import java.util.Date;
 
 import com.cmonkeys.db.Appointment;
 import com.cmonkeys.db.AppointmentDBHelper;
 import com.cmonkeys.db.Article;
+import com.cmonkeys.db.Days;
+import com.cmonkeys.db.DaysDBHelper;
 import com.cmonkeys.db.MemoDBHelper;
 import com.cmonkeys.mcalendar.R;
 import com.cmonkeys.mcalendar.view.mkCalendar;
@@ -44,14 +47,14 @@ public class mkCalendarMain extends Activity {
 		public myMkCalendar(Context context, LinearLayout layout) 
 		{
 			super(context, layout);
-			m_context = context;
+			//m_context = context;
 			Date now = new Date();
 			
 			// Set today when it's run first
 			m_lastSelection = (now.getYear() + 1900) * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
 		}
 		
-		Context m_context;
+		//Context m_context;
 		
 		@Override
 		public void myClickEvent(int yyyy, int MM, int dd) 
@@ -61,7 +64,7 @@ public class mkCalendarMain extends Activity {
 			if(m_lastSelection == selected)
 			{
 				SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date seletedDate = new Date(yyyy - 1900, MM + 1, dd, 0,0);
+				Date seletedDate = new Date(yyyy - 1900, MM , dd, 0,0);
 				Intent intent = new Intent(m_context, day.class);
 				intent.putExtra("SelectedDay", dateTimeFormat.format(seletedDate));
 				m_context.startActivity(intent);
@@ -70,13 +73,14 @@ public class mkCalendarMain extends Activity {
 			m_lastSelection = selected;
 			
 			m_calendar.redraw( ) ;
-			m_calendar.applyHoliday( ) ;
+			
 			// 선택된 날짜는 배경 이미지를 변경
 			// m_calendar.setSelectedDay( mkCalendarType1.this.getResources( ).getDrawable( R.drawable.icon ) ) ;
 	        // 선택된 날짜는 글씨를 변경
 			m_calendar.setSelectedDayTextColor( 0xff009999 ) ;
 			super.myClickEvent(yyyy, MM, dd);
 		}
+		
 		
 	}
 	
@@ -127,6 +131,7 @@ public class mkCalendarMain extends Activity {
         cParam.m_topTextColor = 0xffffffff ;
         cParam.m_topSundayTextColor = 0xffffffff ;
         cParam.m_topSaturdatTextColor = 0xffffffff ;
+        
         m_calendar.setColorParam( cParam ) ;
         
         /// Set a background of the calendar
@@ -150,6 +155,14 @@ public class mkCalendarMain extends Activity {
         
         // Init the calendar
         m_calendar.initCalendar();
+        m_calendar.resetHolidays();
+    }
+    
+    @Override
+    public void onResume()
+    {
+    	m_calendar.setContentext();
+    	super.onResume();
     }
     
     @Override

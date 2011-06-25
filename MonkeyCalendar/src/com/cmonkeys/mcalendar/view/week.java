@@ -7,6 +7,8 @@ import java.util.Date;
 
 import com.cmonkeys.db.Appointment;
 import com.cmonkeys.db.AppointmentDBHelper;
+import com.cmonkeys.db.Days;
+import com.cmonkeys.db.DaysDBHelper;
 import com.cmonkeys.mcalendar.R;
 
 import android.app.Activity;
@@ -97,6 +99,13 @@ public class week extends Activity {
         update();
     }
     
+    @Override
+    public void onResume()
+    {
+    	update();
+    	super.onResume();
+    }
+    
     public void onClick(View v) {
     	switch (v.getId()) {
     	case R.id.textViewWeekPrev:
@@ -147,35 +156,96 @@ public class week extends Activity {
     		break;
     	}
     	
+    	Calendar calForHoliday = (Calendar)m_calendar.clone();
+		int currentStartDate = calForHoliday.get( Calendar.YEAR ) * 10000 + (calForHoliday.get( Calendar.MONTH ) + 1)* 100 + calForHoliday.get(Calendar.DAY_OF_MONTH);
+		calForHoliday.add(Calendar.DATE, 6);
+		int currentEndDate = calForHoliday.get( Calendar.YEAR ) * 10000 + (calForHoliday.get( Calendar.MONTH ) + 1) * 100 + calForHoliday.get(Calendar.DAY_OF_MONTH);
+		
+		DaysDBHelper helperForDays = new DaysDBHelper(this);
+		ArrayList<Days> arrayOfThisMonth = helperForDays.getDays(currentStartDate, currentEndDate);
+		helperForDays.close();
+		AppointmentDBHelper helper = new AppointmentDBHelper(this);
+		Calendar untilDate = (Calendar)m_calendar.clone();
+		untilDate.add(Calendar.DATE, 6);
+		
+		Date firstOfThisWeek = new Date(m_calendar.get(Calendar.YEAR) - 1900 ,m_calendar.get(Calendar.MONTH),m_calendar.get(Calendar.DATE) ,0,0);
+		Date endOfThisWeek = new Date(untilDate.get(Calendar.YEAR) - 1900 ,untilDate.get(Calendar.MONTH),untilDate.get(Calendar.DATE) ,0,0);
+		ArrayList<Appointment> apps = helper.getAppointments(firstOfThisWeek, endOfThisWeek);
+		
     	for(int week = 0; week < 7; week++)
     	{
-    		AppointmentDBHelper helper = new AppointmentDBHelper(this);
-    		Date current = new Date(m_calendar.get(Calendar.YEAR) - 1900 ,m_calendar.get(Calendar.MONTH),m_calendar.get(Calendar.DATE) ,0,0);
-    		ArrayList<Appointment> apps = helper.getAppointments(current, current);
+    		////////////////////////////////////////////////////////////////////////////
+    		//  - Common stuffs
+    		// Add date string to the item's date label
     		String strDate = "" + getResources().getStringArray(R.array.MonthShort)[m_calendar.get(Calendar.MONTH)] + "." + m_calendar.get(Calendar.DATE);
     		m_textViewDates[week].setText(strDate);
-    		// TODO show holidays
-    		m_textViewDateTitles[week].setText("");
+    		
+    		if(arrayOfThisMonth.get(week).getIsHoliday())
+    			m_textViewDates[week].setTextColor(0xffff0000);
+    		else 
+    			m_textViewDates[week].setTextColor(0xffffffff);
+    		
+    		m_textViewDateTitles[week].setText(arrayOfThisMonth.get(week).getTitle());
     		m_textViewAppointments[week].setText("(" + apps.size() + ")");
     		
     		String titlesOfDay = "";
+    		// - Until here
+    		/////////////////////////////////////////////////////////////////////////////
     		
-    		if(apps.size() > 0)
+    		Date today = new Date(m_calendar.get(Calendar.YEAR) - 1900 ,m_calendar.get(Calendar.MONTH),m_calendar.get(Calendar.DATE) ,0,0);
+    		int currentApp = 0;
+    		
+    		for(Appointment app : apps)
     		{
-    			for(int currentApp = 0; currentApp < apps.size(); currentApp++)
-        		{
-        			if(currentApp != 0) titlesOfDay += ", ";
-        			titlesOfDay += apps.get(currentApp).getTitle();
-        		}	
+    			// check
+        		switch(app.getRepeat())
+    			{
+    			case 0: // No repeat
+    				if(app.getEnd().getDate() == today.getDate())
+    				{
+    					if(currentApp != 0) titlesOfDay += ", ";
+            			titlesOfDay += app.getTitle();
+            			currentApp++;
+    				}
+    				break;
+    			case 1: // Yearly
+    				if( (app.getStart().getMonth() == today.getMonth()) && 
+    					(app.getStart().getDate() == today.getDate()) )
+    				{
+    					if(currentApp != 0) titlesOfDay += ", ";
+            			titlesOfDay += app.getTitle();
+            			currentApp++;
+    				}
+    				break;
+    			case 2: // Monthly
+    				if(app.getStart().getDate() == today.getDate())
+    				{
+      					if(currentApp != 0) titlesOfDay += ", ";
+                		titlesOfDay += app.getTitle();
+                		currentApp++;
+    				}
+    				break;
+    			case 3: // TODO Weekly
+    				/*
+    				int ddd = app.getStart().getDay();
+    				if(ddd == currentDay)
+    				{
+    					m_cellTextBtn[ i + m_startPos ].setBackgroundColor(0xff0022aa);
+    					hasApp = true;
+    				}
+    				*/
+    				break;
+    			}
     		}
-    		else 
+    		
+    		if(titlesOfDay.length() < 2)
     			titlesOfDay = "No appointment";
-    		
+
     		m_textViewAppointmentsTitle[week].setText(titlesOfDay);
-    		
-    		helper.close();
     		m_calendar.add(Calendar.DATE, 1);
     	}
+    	
+    	helper.close();
     	
     	m_calendar.add(Calendar.DATE, -6);
     }

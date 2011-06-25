@@ -11,20 +11,24 @@ import com.cmonkeys.mcalendar.R;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 
 import android.app.DatePickerDialog;
 
 
 public class appointmenteditor extends Activity implements RadioGroup.OnCheckedChangeListener{
+	private Context m_context;
 	private EditText m_editTextTitle;
 	private EditText m_editTextDescription;
 	private EditText m_editTextParticipant;
@@ -33,7 +37,6 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
 	private Button m_buttonStartTime;
 	private Button m_buttonEndDate;
 	private Button m_buttonEndTime;
-	private RadioGroup m_radioGroupRepeat;
 	
 	private Date m_startDate;
 	private Date m_endDate;
@@ -48,6 +51,7 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.appointmenteditor);
+        m_context = this;
 
         m_editTextTitle = (EditText)findViewById(R.id.editTextAppointmentEditTitle);
         m_editTextDescription = (EditText)findViewById(R.id.editTextAppointmentEditDescription);
@@ -59,15 +63,15 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
         m_buttonEndDate = (Button)findViewById(R.id.buttonEndDate);
         m_buttonEndTime = (Button)findViewById(R.id.buttonEndTime);
         
-        m_radioGroupRepeat = (RadioGroup)findViewById(R.id.radioGroupRepeat);
-        
         m_editTextTitle.requestFocus();
         
         m_startDate = new Date();
         m_endDate = new Date();
-        
+                      
         Intent intent = getIntent();
-        m_isNewAppointement = intent.getBooleanExtra("isNew", true); 
+        m_isNewAppointement = intent.getBooleanExtra("isNew", true);
+        
+        ((RadioButton)findViewById(R.id.radioDaily)).setVisibility(RadioButton.INVISIBLE);
 
     	try {
     		if(m_isNewAppointement)
@@ -77,7 +81,6 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
 	    		m_startDate = m_dateFormat.parse(intent.getStringExtra("SelectedDay"));
 	    		m_buttonStartDate.setText(m_dateFormat.format(m_startDate));
 	    		m_buttonStartTime.setText(m_timeFormat.format(now));
-	    		m_endDate = (Date)m_startDate.clone();
 	    		
 	    		m_buttonEndDate.setText(m_dateFormat.format(m_endDate));
 	    		m_buttonEndTime.setText(m_timeFormat.format(now));
@@ -100,7 +103,21 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
 	    			m_startDate = currentAppointment.getStart();
 	    			m_endDate = currentAppointment.getEnd();
 	    			
-	    			m_radioGroupRepeat.check(currentAppointment.getRepeat());
+	    			switch(currentAppointment.getRepeat())
+	    			{
+	    			case 0:
+	    				((RadioButton)findViewById(R.id.radioNoRepeat)).setChecked(true);
+	    				break;
+	    			case 1:
+	    				((RadioButton)findViewById(R.id.radioYearly)).setChecked(true);
+	    				break;
+	    			case 2:
+	    				((RadioButton)findViewById(R.id.radioMonthly)).setChecked(true);
+	    				break;
+	    			case 3:
+	    				((RadioButton)findViewById(R.id.radioDaily)).setChecked(true);
+	    				break;
+	    			}
 	    			
 		    		m_buttonStartDate.setText(m_dateFormat.format(m_startDate));
 		    		m_buttonStartTime.setText(m_timeFormat.format(m_startDate));
@@ -117,9 +134,27 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
     
     public void onClick(View v) {
     	switch (v.getId()) {
+    	case R.id.radioNoRepeat:
+    		//m_buttonEndDate.setVisibility(Button.VISIBLE);
+    		break;
+    	case R.id.radioYearly:
+    		//m_buttonEndDate.setVisibility(Button.INVISIBLE);
+    		break;
+    	case R.id.radioMonthly:
+    		//m_buttonEndDate.setVisibility(Button.INVISIBLE);
+    		break;
+    	case R.id.radioDaily:
+    		//m_buttonEndDate.setVisibility(Button.INVISIBLE);
+    		break;
     	case R.id.buttonSaveAppointment:
-    		saveAppointment();
-    		finish();
+    		String title = m_editTextTitle.getText().toString(); 
+    		if(title.length() > 2)
+    		{
+	    		saveAppointment();
+	    		finish();
+    		}
+    		else
+    			Toast.makeText(m_context, "Please input title", Toast.LENGTH_SHORT).show();
     		break;
     	case R.id.buttonCancelAndCloseAppointment:  
     		finish();
@@ -158,9 +193,18 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
             new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker view, int year, 
                                       int monthOfYear, int dayOfMonth) {
+                	
                     m_startDate.setYear(year - 1900);
                     m_startDate.setMonth(monthOfYear);
                     m_startDate.setDate(dayOfMonth);
+                    
+                    if(m_startDate.getTime() > m_endDate.getTime())
+                    {
+                    	m_endDate = (Date)m_startDate.clone();
+                    	m_buttonEndDate.setText(m_dateFormat.format(m_endDate));
+                    	m_buttonEndTime.setText(m_timeFormat.format(m_endDate));
+                    }
+                    
                     m_buttonStartDate.setText(m_dateFormat.format(m_startDate));
                 }
             };
@@ -171,6 +215,14 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
 			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 				m_startDate.setHours(hourOfDay);
 				m_startDate.setMinutes(minute);
+				
+				if(m_startDate.getTime() > m_endDate.getTime())
+                {
+                	m_endDate = (Date)m_startDate.clone();
+                	m_buttonEndDate.setText(m_dateFormat.format(m_endDate));
+                	m_buttonEndTime.setText(m_timeFormat.format(m_endDate));
+                }
+				
 				m_buttonStartTime.setText(m_timeFormat.format(m_startDate));
 			}
 		};
@@ -179,9 +231,23 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
         new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, 
                                   int monthOfYear, int dayOfMonth) {
-            	m_endDate.setYear(year - 1900);
-            	m_endDate.setMonth(monthOfYear);
-            	m_endDate.setDate(dayOfMonth);
+            	Date tempDate = (Date)m_endDate.clone();
+            	
+            	tempDate.setYear(year - 1900);
+            	tempDate.setMonth(monthOfYear);
+            	tempDate.setDate(dayOfMonth);
+            	
+            	if(tempDate.getTime() < m_startDate.getTime())
+            	{
+            		Toast.makeText(m_context, "The date is not valid", Toast.LENGTH_SHORT).show();
+            	}
+            	else
+            	{
+            		m_endDate.setYear(year - 1900);
+                	m_endDate.setMonth(monthOfYear);
+                	m_endDate.setDate(dayOfMonth);
+            	}
+            	
             	m_buttonEndDate.setText(m_dateFormat.format(m_endDate));
             }
         };
@@ -190,9 +256,44 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
     	new TimePickerDialog.OnTimeSetListener() {
 			@Override
 			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-				m_endDate.setHours(hourOfDay);
-				m_endDate.setMinutes(minute);
-				m_buttonEndTime.setText(m_timeFormat.format(m_endDate));
+				if( ((RadioButton)findViewById(R.id.radioNoRepeat)).isChecked())
+				{
+					Date tempDate = (Date)m_endDate.clone();
+					
+					tempDate.setHours(hourOfDay);
+					tempDate.setMinutes(minute);
+					
+					if(tempDate.getTime() < m_startDate.getTime())
+	            	{
+	            		Toast.makeText(m_context, "The time is not valid", Toast.LENGTH_SHORT).show();
+	            	}
+	            	else
+	            	{
+	            		m_endDate.setHours(hourOfDay);
+	    				m_endDate.setMinutes(minute);
+	            	}
+					
+					m_buttonEndTime.setText(m_timeFormat.format(m_endDate));
+				}				
+				else
+				{
+					Date tempDate = (Date)m_startDate.clone();
+					
+					tempDate.setHours(hourOfDay);
+					tempDate.setMinutes(minute);
+					
+					if(tempDate.getTime() < m_startDate.getTime())
+	            	{
+	            		Toast.makeText(m_context, "The time is not valid", Toast.LENGTH_SHORT).show();
+	            	}
+	            	else
+	            	{
+	            		m_endDate.setHours(hourOfDay);
+	    				m_endDate.setMinutes(minute);
+	            	}
+					
+					m_buttonEndTime.setText(m_timeFormat.format(m_endDate));
+				}
 			}
 		};
 	@Override
@@ -209,18 +310,32 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
 		String participant = m_editTextParticipant.getText().toString();
 		String location = m_editTextLocation.getText().toString();
 		
+		int repeat = 0;
+		
+		if( ((RadioButton)findViewById(R.id.radioYearly)).isChecked() )
+			repeat = 1;
+		else if( ((RadioButton)findViewById(R.id.radioMonthly)).isChecked() )
+			repeat = 2;
+		else if( ((RadioButton)findViewById(R.id.radioDaily)).isChecked() )
+			repeat = 3;
+		
     	return new Appointment(index, title, description, new Date(), 
 				participant, location,m_startDate, m_endDate,
-				0, 0);
+				repeat, 0);
     }
     
     private void saveAppointment()
     {
-		AppointmentDBHelper dbHelper = new AppointmentDBHelper(this);
+    	AppointmentDBHelper dbHelper = new AppointmentDBHelper(this);
+    	Appointment newApp = getAppointment();
+    	
+    	if(dbHelper.isOverlappedAppointment(newApp))
+    		Toast.makeText(m_context, "Overlapped appointment found", Toast.LENGTH_SHORT).show();
+    	
 		if(m_isNewAppointement)
-			dbHelper.insertAppointment(getAppointment());
+			dbHelper.insertAppointment(newApp);
 		else if(m_indexOfCurrentAppointment >= 0)
-			dbHelper.updateAppointment(getAppointment());
+			dbHelper.updateAppointment(newApp);
 
 		dbHelper.close();
     }
