@@ -3,6 +3,7 @@ package com.cmonkeys.mcalendar.view;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.cmonkeys.db.Appointment;
@@ -102,6 +103,9 @@ public class day extends Activity {
     	
     	for(Appointment app : m_arrayOfAppointments)
     	{
+    		Calendar calCurrentAppointment = Calendar.getInstance();
+			calCurrentAppointment.set(app.getStart().getYear() + 1900, app.getStart().getMonth()  , app.getStart().getDate());
+			
     		// check
     		switch(app.getRepeat())
 			{
@@ -118,15 +122,22 @@ public class day extends Activity {
 				if(app.getStart().getDate() != m_selectedDay.getDate())
 					continue;
 				break;
-			case 3: // TODO Weekly
-				/*
-				int ddd = app.getStart().getDay();
-				if(ddd == currentDay)
-				{
-					m_cellTextBtn[ i + m_startPos ].setBackgroundColor(0xff0022aa);
-					hasApp = true;
-				}
-				*/
+			case 3: // Weekly
+				int startDateInt = (app.getStart().getMonth() + 1) * 100 + app.getStart().getDate();
+				int endDateInt = (app.getEnd().getMonth() + 1) * 100 + app.getEnd().getDate();
+				currentDateInt = (m_selectedDay.getMonth() + 1)* 100 + m_selectedDay.getDate();
+				
+				if( startDateInt > currentDateInt || 
+						currentDateInt > endDateInt)
+					continue;
+				
+				int currentAppointmentDay = calCurrentAppointment.get(Calendar.DAY_OF_WEEK); 
+				int currentDay = timeOfSelected.getDay() + 1;
+				
+				// if the day of week is same than add
+				if(currentAppointmentDay != currentDay)
+					continue;
+				
 				break;
 			}
     		
