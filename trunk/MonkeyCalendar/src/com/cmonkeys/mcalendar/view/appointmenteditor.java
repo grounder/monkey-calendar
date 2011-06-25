@@ -71,8 +71,6 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
         Intent intent = getIntent();
         m_isNewAppointement = intent.getBooleanExtra("isNew", true);
         
-        ((RadioButton)findViewById(R.id.radioDaily)).setVisibility(RadioButton.INVISIBLE);
-
     	try {
     		if(m_isNewAppointement)
     		{
@@ -115,7 +113,7 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
 	    				((RadioButton)findViewById(R.id.radioMonthly)).setChecked(true);
 	    				break;
 	    			case 3:
-	    				((RadioButton)findViewById(R.id.radioDaily)).setChecked(true);
+	    				((RadioButton)findViewById(R.id.radioWeekly)).setChecked(true);
 	    				break;
 	    			}
 	    			
@@ -143,7 +141,7 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
     	case R.id.radioMonthly:
     		//m_buttonEndDate.setVisibility(Button.INVISIBLE);
     		break;
-    	case R.id.radioDaily:
+    	case R.id.radioWeekly:
     		//m_buttonEndDate.setVisibility(Button.INVISIBLE);
     		break;
     	case R.id.buttonSaveAppointment:
@@ -316,7 +314,7 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
 			repeat = 1;
 		else if( ((RadioButton)findViewById(R.id.radioMonthly)).isChecked() )
 			repeat = 2;
-		else if( ((RadioButton)findViewById(R.id.radioDaily)).isChecked() )
+		else if( ((RadioButton)findViewById(R.id.radioWeekly)).isChecked() )
 			repeat = 3;
 		
     	return new Appointment(index, title, description, new Date(), 
