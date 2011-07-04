@@ -88,14 +88,17 @@ public class day extends Activity {
     	int currentDateInt = (m_selectedDay.getYear() + 1900) * 10000 + (m_selectedDay.getMonth() + 1) * 100 + m_selectedDay.getDate();
     	DaysDBHelper helper = new DaysDBHelper(this);
     	Days days = helper.getADay(currentDateInt);
-    	strDate += days.getLunarDateAsString() + ") " + days.getTitle();
-    	helper.close();
-    	
-    	m_textViewTitle.setText(strDate);
-    	if(days.getIsHoliday())
-    		m_textViewTitle.setTextColor(0xffff0000);
-    	else
-    		m_textViewTitle.setTextColor(0xffffffff);
+    	if(days != null)
+    	{
+    		strDate += days.getLunarDateAsString() + ") " + days.getTitle();
+	    	helper.close();
+	    	
+	    	m_textViewTitle.setText(strDate);
+	    	if(days.getIsHoliday())
+	    		m_textViewTitle.setTextColor(0xffff0000);
+	    	else
+	    		m_textViewTitle.setTextColor(0xffffffff);
+    	}
     	clear();
     	addNewAppointment();
     	

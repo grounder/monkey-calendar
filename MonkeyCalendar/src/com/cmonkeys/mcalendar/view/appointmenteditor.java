@@ -77,11 +77,17 @@ public class appointmenteditor extends Activity implements RadioGroup.OnCheckedC
     			Date now = new Date();
     			
 	    		m_startDate = m_dateFormat.parse(intent.getStringExtra("SelectedDay"));
+	    		m_startDate.setHours(now.getHours());
+	    		m_startDate.setMinutes(now.getMinutes());
 	    		m_buttonStartDate.setText(m_dateFormat.format(m_startDate));
-	    		m_buttonStartTime.setText(m_timeFormat.format(now));
+	    		m_buttonStartTime.setText(m_timeFormat.format(m_startDate));
 	    		
+	    		m_endDate = m_dateFormat.parse(intent.getStringExtra("SelectedDay"));
+	    		m_endDate.setHours(now.getHours());
+	    		m_endDate.setMinutes(now.getMinutes());
 	    		m_buttonEndDate.setText(m_dateFormat.format(m_endDate));
-	    		m_buttonEndTime.setText(m_timeFormat.format(now));
+	    		m_buttonEndTime.setText(m_timeFormat.format(m_endDate));
+	    		
 	    		m_indexOfCurrentAppointment = -1;
 	    		
     		}
