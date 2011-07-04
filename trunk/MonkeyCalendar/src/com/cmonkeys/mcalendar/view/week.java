@@ -180,12 +180,15 @@ public class week extends Activity {
     		String strDate = "" + getResources().getStringArray(R.array.MonthShort)[m_calendar.get(Calendar.MONTH)] + "." + m_calendar.get(Calendar.DATE);
     		m_textViewDates[week].setText(strDate);
     		
-    		if(arrayOfThisMonth.get(week).getIsHoliday())
-    			m_textViewDates[week].setTextColor(0xffff0000);
-    		else 
-    			m_textViewDates[week].setTextColor(0xffffffff);
-    		
-    		m_textViewDateTitles[week].setText(arrayOfThisMonth.get(week).getTitle());
+    		if(arrayOfThisMonth.size() == 7)
+    		{
+	    		if(arrayOfThisMonth.get(week).getIsHoliday())
+	    			m_textViewDates[week].setTextColor(0xffff0000);
+	    		else 
+	    			m_textViewDates[week].setTextColor(0xffffffff);
+	    		
+	    		m_textViewDateTitles[week].setText(arrayOfThisMonth.get(week).getTitle());
+    		}
     		m_textViewAppointments[week].setText("(" + apps.size() + ")");
     		
     		String titlesOfDay = "";
